@@ -10,7 +10,7 @@ import numpy as np
 from Utils.TimeLogger import log
 from DataHandler import negSamp, transpose, DataHandler, transToLsts
 from Utils.attention import AdditiveAttention,MultiHeadSelfAttention
-class Recommender:
+class Recommender0:
 	def __init__(self, sess, handler):
 		self.sess = sess
 		self.handler = handler
@@ -97,105 +97,37 @@ class Recommender:
 	def ours(self):
 		all_emb0=list()
 		all_emb1=list()
-		user_vector,item_vector=list(),list()
-		uEmbed=NNs.defineParam('uEmbed', [args.graphNum, args.user, args.latdim], reg=True)
-		iEmbed=NNs.defineParam('iEmbed', [args.graphNum, args.item, args.latdim], reg=True)	
-		uhyper = NNs.defineParam('uhyper', [args.graphNum, args.latdim, args.hyperNum], reg=True)
-		ihyper = NNs.defineParam('ihyper', [args.graphNum, args.latdim, args.hyperNum], reg=True)
-		uuHyper = (uEmbed @ uhyper)
-		iiHyper = (iEmbed @ ihyper)
-		for k in range(args.graphNum):
-			# all_emb.append(tf.concat([uEmbed[k],iEmbed[k]],axis=0))
-			# embs=[all_emb[k]]
-			# all_emb0.append(uEmbed)
-			# all_emb1.append(iEmbed)
-			embs0=[uEmbed[k]]
-			embs1=[iEmbed[k]]
-			for i in range(args.gnn_layer):
-				embs=tf.concat([embs0[-1],embs1[-1]],axis=0)
-				all_emb = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.subAdj[k]), embs), self.actFunc)
-				hyperULat = self.hyperPropagate(embs0[-1], tf.nn.dropout(uuHyper[k], self.keepRate))
-				hyperILat = self.hyperPropagate(embs1[-1], tf.nn.dropout(iiHyper[k], self.keepRate))
-				a_emb0,a_emb1=tf.split(all_emb, [args.user, args.item], axis=0)
-				embs0.append(a_emb0+embs0[-1]+hyperULat)
-				embs1.append(a_emb1+embs1[-1]+hyperILat)
-				# ulat = self.messagePropagate(uEmbed0[i], self.edgeDropout(self.adj))
-				# ilat = self.messagePropagate(iEmbed0[i], self.edgeDropout(self.tpAdj))
-			# embs = tf.stack(embs,axis=1) # k,u+i,latdim  [[1,1],[1,1],[1,1]]->[[1,1,1],[1,1,1]]
-			# embs = tf.reduce_mean(embs,axis=1)
-			user=tf.add_n(embs0)
-			item=tf.add_n(embs1)
-			# user,item = tf.split(embs, [args.user, args.item], axis=0)
-			user_vector.append(user)
-			item_vector.append(item)
-		# now user_vector is [g,u,latdim]
-		user_vector=tf.stack(user_vector,axis=0)
-		item_vector=tf.stack(item_vector,axis=0)
-		# user_vector is [u,g,latdim]
-		user_vector_tensor=tf.transpose(user_vector, perm=[1, 0, 2])
-		item_vector_tensor=tf.transpose(item_vector, perm=[1, 0, 2])
-		def gru_cell():
-			return tf.contrib.rnn.GRUCell(self.config.num_filters)
-		def dropout():
-			cell = gru_cell()
-			return tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=self.keep_prob)
-		final_user_vector = tf.reduce_sum(user_vector,axis=0)
-		final_item_vector = tf.reduce_sum(item_vector,axis=0)
-		'''
-		self.additive_attention0 = AdditiveAttention(args.query_vector_dim,args.latdim)
-		self.additive_attention1 = AdditiveAttention(args.query_vector_dim,args.latdim)
-		self.multihead_self_attention0 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
-		self.multihead_self_attention1 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
-		multihead_user_vector = self.multihead_self_attention0.attention(user_vector_tensor)
-		final_user_vector = self.additive_attention0.attention(multihead_user_vector)
-		multihead_item_vector = self.multihead_self_attention1.attention(item_vector_tensor)
-		print("m",multihead_user_vector,multihead_item_vector)
-		final_item_vector = self.additive_attention1.attention(multihead_item_vector)
-		'''
-		# ssl
-		'''
+		uEmbed=NNs.defineParam('uEmbed', [args.user, args.latdim], reg=True)
+		iEmbed=NNs.defineParam('iEmbed', [args.item, args.latdim], reg=True)	
 		uhyper = NNs.defineParam('uhyper', [args.latdim, args.hyperNum], reg=True)
 		ihyper = NNs.defineParam('ihyper', [args.latdim, args.hyperNum], reg=True)
-		uuHyper = (uEmbed0 @ uhyper)
-		iiHyper = (iEmbed0 @ ihyper)
-		# normalize
-		# uuHyper = uuHyper / 10
-		# iiHyper = iiHyper / 10
-		# hyperFC = NNs.defineParam('hyperFC', [args.hyperNum, args.hyperNum],)
-		# uuHyper = NNs.defineParam('uuHyper', [args.user, args.hyperNum], reg=True)
-		# iiHyper = NNs.defineParam('iiHyper', [args.item, args.hyperNum], reg=True)
-		ulats = [uEmbed0]
-		ilats = [iEmbed0]
-		gnnULats = []
-		gnnILats = []
-		hyperULats = []
-		hyperILats = []
+		uuHyper = (uEmbed @ uhyper)
+		iiHyper = (iEmbed @ ihyper)
+		all_emb0=uEmbed
+		all_emb1=iEmbed
+		embs0=[all_emb0]
+		embs1=[all_emb1]
 		for i in range(args.gnn_layer):
-			#------------------------------------------------------------------
-			# before
-			ulat = self.messagePropagate(ilats[-1], self.edgeDropout(self.adj))
-			ilat = self.messagePropagate(ulats[-1], self.edgeDropout(self.tpAdj))
-			# update
-			# uilats=tf.concat([ulats[-1],ilats[-1]],axis=0)
-			# uilat=self.messagePropagate(uilats, self.edgeDropout(self.seqAdj))
-			# ulat,ilat=tf.split(uilat, [args.user, args.item], axis=0)
-			#------------------------------------------------------------------
-			hyperULat = self.hyperPropagate(ulats[-1], tf.nn.dropout(uuHyper, self.keepRate))
-			hyperILat = self.hyperPropagate(ilats[-1], tf.nn.dropout(iiHyper, self.keepRate))
-			gnnULats.append(ulat)
-			gnnILats.append(ilat)
-			hyperULats.append(hyperULat)
-			hyperILats.append(hyperILat)
-			ulats.append(ulat + hyperULat + ulats[-1])
-			ilats.append(ilat + hyperILat + ilats[-1])
-		ulat = tf.add_n(ulats)
-		ilat = tf.add_n(ilats)
-		print("ulat,ilat",ulat,ilat)
+			all_emb= tf.concat([embs0[-1],embs1[-1]],axis=0)
+			all_emb = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.adj), all_emb), self.actFunc)
+			all_emb0,all_emb1 = tf.split(all_emb,[args.user,args.item],axis=0)
+			# all_emb0 = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.adj[0:args.user,args.user:]), embs1[i]), self.actFunc)
+			# all_emb1 = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.adj[args.user:,0:args.user]), embs0[i]), self.actFunc)
+			hyperULat = self.hyperPropagate(embs0[-1], tf.nn.dropout(uuHyper, self.keepRate))
+			hyperILat = self.hyperPropagate(embs1[-1], tf.nn.dropout(iiHyper, self.keepRate))
+			embs0.append(all_emb0+embs0[-1]+hyperULat)
+			embs1.append(all_emb1+embs1[-1]+hyperILat)
 		'''
-		pckUlat = tf.nn.embedding_lookup(final_user_vector, self.uids)
-		pckIlat = tf.nn.embedding_lookup(final_item_vector, self.iids)
-		# preds = tf.nn.softmax(tf.reduce_sum(pckUlat * pckIlat, axis=-1) ,axis=-1)# [uids,dim] * [iids,dim] emmm maybe there is a dot multiply
-		preds = tf.reduce_sum(pckUlat * pckIlat, axis=-1)
+		embs0 = tf.stack(embs0,axis=1) # k,u+i,latdim  [[1,1],[1,1],[1,1]]->[[1,1,1],[1,1,1]]
+		embs0 = tf.reduce_mean(embs0,axis=1)
+		embs1 = tf.stack(embs1,axis=1)
+		embs1 = tf.reduce_mean(embs1,axis=1)
+		'''
+		user=tf.add_n(embs0)
+		item=tf.add_n(embs1)
+		pckUlat = tf.nn.embedding_lookup(user, self.uids)
+		pckIlat = tf.nn.embedding_lookup(item, self.iids)
+		preds = tf.reduce_sum(pckUlat * pckIlat, axis=-1) # [uids,dim] * [iids,dim] emmm maybe there is a dot multiply
 		'''
 		def calcSSL(hyperLat, gnnLat):
 			posScore = tf.exp(tf.reduce_sum(hyperLat * gnnLat, axis=1) / args.temp)
@@ -204,40 +136,18 @@ class Recommender:
 			return uLoss
 		'''
 		sslloss = 0	
-		# print(S_final)
-		
-		# print(S_final)
-		'''
-		for i in range(args.graphNum):
-			sampNum = tf.shape(self.suids[i])[0] // 2
-			pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
-			pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
-			S_final = tf.reduce_sum(Activate(pckUlat * pckIlat, self.actFunc),axis=-1) # [uids,dim] * [iids,dim] emmm maybe there is a dot multiply + w1 * iids + w2 * uids 
-			posPred_final = tf.slice(S_final, [0], [sampNum])# begin at 0, size = sampleNum
-			negPred_final = tf.slice(S_final, [sampNum], [-1])# 
-			S_final = posPred_final-negPred_final
-			pckUlat = tf.nn.embedding_lookup(user_vector[i], self.suids[i])
-			pckIlat = tf.nn.embedding_lookup(item_vector[i], self.siids[i])
-			preds_one = tf.reduce_sum(pckUlat * pckIlat, axis=-1)
-			posPred = tf.slice(preds_one, [0], [sampNum])# begin at 0, size = sampleNum
-			negPred = tf.slice(preds_one, [sampNum], [-1])# 
-			sslloss += tf.reduce_sum(S_final * (posPred-negPred)) # [uids,dim] * [iids,dim] emmm maybe there is a dot multiply
-			print(sslloss)
-		'''
 		return preds, 1-sslloss
 
 	def prepareModel(self):
 		self.keepRate = tf.placeholder(dtype=tf.float32, shape=[])
 		NNs.leaky = args.leaky
 		self.actFunc = 'leakyRelu'
-		'''
 		adj = self.handler.trnMat
 		idx, data, shape = transToLsts(adj, norm=True)
 		self.adj = tf.sparse.SparseTensor(idx, data, shape)
 		idx, data, shape = transToLsts(transpose(adj), norm=True)
 		print("idx,data,shape",idx,data,shape)
 		self.tpAdj = tf.sparse.SparseTensor(idx, data, shape)
-		'''
 		self.uids = tf.placeholder(name='uids', dtype=tf.int32, shape=[None])
 		self.iids = tf.placeholder(name='iids', dtype=tf.int32, shape=[None])
 		self.suids=list()
@@ -255,7 +165,6 @@ class Recommender:
 		sampNum = tf.shape(self.uids)[0] // 2
 		posPred = tf.slice(self.preds, [0], [sampNum])# begin at 0, size = sampleNum
 		negPred = tf.slice(self.preds, [sampNum], [-1])# 
-		# self.preLoss = tf.reduce_sum(tf.maximum(0.0, 1.0 - (posPred - negPred))) / args.batch
 		self.preLoss = tf.reduce_sum(tf.maximum(0.0, 1.0 - (posPred - negPred))) / args.batch
 		self.regLoss = args.reg * Regularize() + args.ssl_reg * self.sslloss
 		self.loss = self.preLoss + self.regLoss
@@ -296,8 +205,6 @@ class Recommender:
 	def sampleSslBatch(self, batIds, labelMat):
 		temLabel=list()
 		for k in range(args.graphNum):	
-			# print(labelMat[k][batIds])
-			# print(labelMat[k][batIds][args.user:])
 			temLabel.append(labelMat[k][batIds].toarray())
 		batch = len(batIds)
 		temlen = batch * 2 * args.sslNum
@@ -307,13 +214,12 @@ class Recommender:
 			cur = 0				
 			for i in range(batch):
 				posset = np.reshape(np.argwhere(temLabel[k][i]!=0), [-1])
-				# print(posset)
 				sslNum = min(args.sslNum, len(posset)//2)
 				if sslNum == 0:
 					poslocs = [np.random.choice(args.item)]
 					neglocs = [poslocs[0]]
 				else:
-					all = np.random.choice(posset, sslNum*2) - args.user
+					all = np.random.choice(posset, sslNum*2)
 					poslocs = all[:sslNum]
 					neglocs = all[sslNum:]
 				for j in range(sslNum):

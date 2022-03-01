@@ -6,7 +6,7 @@ import pickle
 # from Utils.TimeLogger import log
 from scipy.sparse import csr_matrix
 import time
-
+import scipy.sparse as sp
 def ok(year):
 	return True
 	if year >= 2016 and year <= 2019:
@@ -121,7 +121,7 @@ def split(interaction, usrnum, itmnum):
 		interaction[usr][tstInt[usr]] = None
 	print('Exception:', exception, np.sum(np.array(tstInt)!=None))
 	return interaction, tstInt
-
+'''
 def trans_sub(interaction, usrnum, itmnum, gragh_num):
 	global minn
 	global maxx
@@ -140,11 +140,73 @@ def trans_sub(interaction, usrnum, itmnum, gragh_num):
 					# print(gragh_no,one_data)
 					rcd[gragh_no][0].append(usr)
 					rcd[gragh_no][1].append(col)
-					rcd[gragh_no][2].append(one_data)
+					rcd[gragh_no][2].append(1.0)
 	intMat=list()
 	for i in range(gragh_num):
-		intMat.append(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum, itmnum)))
+		intMat.append(tran_to_sym(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum, itmnum))))
+		# intMat.append(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum, itmnum)))
 	return intMat
+'''
+def trans_sub(interaction, usrnum, itmnum, gragh_num):
+	global minn
+	global maxx
+	interval = (maxx-minn)/gragh_num
+	rcd = [[list(), list(), list()]]
+	for i in range(gragh_num-1):
+		rcd.append([list(), list(), list()])
+	for usr in range(usrnum):
+		if interaction[usr] == None:
+			continue
+		data = interaction[usr]
+		for col in data:
+			if data[col] != None:
+				for one_data in data[col]:
+					gragh_no=int(((one_data-minn)/interval)-1)
+					# print(gragh_no,one_data)
+					rcd[gragh_no][0].append(usr)
+					rcd[gragh_no][1].append(usrnum+col)
+					rcd[gragh_no][2].append(1.0)
+					rcd[gragh_no][0].append(usrnum+col)
+					rcd[gragh_no][1].append(usr)
+					rcd[gragh_no][2].append(1.0)
+	intMat=list()
+	for i in range(gragh_num):
+		intMat.append(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum+itmnum, usrnum+itmnum)))
+		print(intMat[i])
+		# intMat.append(normalized_adj_single(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum+itmnum, usrnum+itmnum))))
+	return intMat
+
+def tran_to_sym(R):
+	adj_mat = sp.dok_matrix((usrnum + itmnum, usrnum + itmnum), dtype=np.float32)
+	adj_mat = adj_mat.tolil()
+	R = R.tolil()
+	adj_mat[:usrnum, usrnum:] = R
+	adj_mat[usrnum:, :usrnum] = R.T
+	adj_mat = adj_mat.tocsr()
+	return adj_mat#+sp.eye(adj_mat.shape[0])
+
+def tran_to_norm(adj):
+	adj = adj + sp.eye(adj.shape[0])
+	adjNorm=np.reshape(np.array(np.sum(adj, axis=1)), [-1])
+	# tpadjNorm[kk] = np.reshape(np.array(np.sum(tpadj[kk], axis=1)), [-1])
+	for i in range(adj.shape[0]):
+		for j in range(adj.indptr[i], adj.indptr[i+1]):
+			adj.data[j] /= adjNorm[i]
+	return adj
+	
+def normalized_adj_single(adj):
+	rowsum = np.array(adj.sum(1))
+
+	d_inv = np.power(rowsum, -1).flatten()
+	d_inv[np.isinf(d_inv)] = 0.
+	d_mat_inv = sp.diags(d_inv)
+	print(d_mat_inv)
+	print("adj",adj)
+	norm_adj = d_mat_inv.dot(adj)
+	print(norm_adj)
+	# norm_adj = adj.dot(d_mat_inv)
+	print('generate single-normalized adjacency matrix.')
+	return norm_adj.tocsr()
 
 def trans(interaction, usrnum, itmnum):
 	global minn
@@ -159,7 +221,7 @@ def trans(interaction, usrnum, itmnum):
 				for one_data in data[col]:
 					rcd[0].append(usr)
 					rcd[1].append(col)
-					rcd[2].append(one_data)
+					rcd[2].append(1.0)
 	intMat=csr_matrix((rcd[2], (rcd[0], rcd[1])), shape=(usrnum, itmnum))
 	return intMat
 
@@ -181,8 +243,10 @@ print('Datasets Splited')
 trnMat = [trans(trnInt, usrnum, itmnum)]
 trnMat.append(trans_sub(trnInt, usrnum, itmnum, 8))
 print('Train Mat Done')
-with open(prefix+'trn_mat', 'wb') as fs:
+with open(prefix+'trn_mat0', 'wb') as fs:
 	pickle.dump(trnMat, fs)
+'''
 with open(prefix+'tst_int', 'wb') as fs:
 	pickle.dump(tstInt, fs)
+'''
 print('Interaction Data Saved')

@@ -52,7 +52,7 @@ class DataHandler:
 		elif args.data == 'amazon':
 			predir = './Datasets/amazon-book/'
 		self.predir = predir
-		self.trnfile = predir + 'adj_mat'
+		self.trnfile = predir + 'trn_mat0'
 		self.tstfile = predir + 'tst_int'
 
 	def LoadData(self):
@@ -62,7 +62,8 @@ class DataHandler:
 				trnMat = (pickle.load(fs) != 0).astype(np.float32)
 		else:
 			with open(self.trnfile, 'rb') as fs:
-				trnMat = (pickle.load(fs) != 0).astype(np.float32)
+				# print(pickle.load(fs))
+				trnMat = pickle.load(fs)# (pickle.load(fs) != 0).astype(np.float32)
 		# test set
 		with open(self.tstfile, 'rb') as fs:
 			tstInt = np.array(pickle.load(fs))
@@ -73,10 +74,10 @@ class DataHandler:
 		print("tstUsrs",tstUsrs,len(tstUsrs))
 		self.trnMat = trnMat[0]
 		self.subMat = trnMat[1]
-		print("trnMat",trnMat)
+		print("trnMat",trnMat[0],trnMat[1][0],trnMat[1][1])
 		self.tstInt = tstInt
 		self.tstUsrs = tstUsrs
-		args.user, args.item = self.trnMat.shape
+		args.user, args.item = trnMat[0].shape
 		self.prepareGlobalData()
 
 	def prepareGlobalData(self):
@@ -91,32 +92,29 @@ class DataHandler:
 		'''
 		####
 		def tran_to_sym(R):
-			adj_mat = sp.dok_matrix((args.users + args.items, args.users + args.items), dtype=np.float32)
+			adj_mat = sp.dok_matrix((args.user + args.item, args.user + args.item), dtype=np.float32)
 			adj_mat = adj_mat.tolil()
-			R = self.R.tolil()
-			adj_mat[:self.n_users, self.n_users:] = R
-			adj_mat[self.n_users:, :self.n_users] = R.T
+			R = R.tolil()
+			adj_mat[:args.user, args.user:] = R
+			adj_mat[args.user:, :args.user] = R.T
 			adj_mat = adj_mat.tocsr()
 			return (adj_mat+sp.eye(adj_mat.shape[0]))
 			
 
 		adj = self.subMat
+		'''
 		tpadj = list()
 		adjNorm = list()
 		tpadjNorm = list()
-		for kk in range(args.graghNum):
+		for kk in range(args.graphNum):
 			adj[kk] = tran_to_sym((adj[kk] != 0).astype(np.float32))
 			# tpadj.append(tran_to_sym(transpose(adj[kk])))
-			adjNorm[kk] = np.reshape(np.array(np.sum(adj[kk], axis=1)), [-1])
+			adjNorm.append(np.reshape(np.array(np.sum(adj[kk], axis=1)), [-1]))
 			# tpadjNorm[kk] = np.reshape(np.array(np.sum(tpadj[kk], axis=1)), [-1])
 			for i in range(adj[kk].shape[0]):
 				for j in range(adj[kk].indptr[i], adj[kk].indptr[i+1]):
 					adj[kk].data[j] /= adjNorm[kk][i]
-			'''
-			for i in range(tpadj[kk].shape[0]):
-				for j in range(tpadj[kk].indptr[i], tpadj[kk].indptr[i+1]):
-					tpadj[kk].data[j] /= tpadjNorm[kk][i]
-			'''
+		'''
 		self.subadj = adj
 		# self.tpsubAdj = tpadj
 		# print("adj",adj)
