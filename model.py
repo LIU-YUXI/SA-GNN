@@ -207,7 +207,6 @@ class Recommender:
 		# print(S_final)
 		
 		# print(S_final)
-		'''
 		for i in range(args.graphNum):
 			sampNum = tf.shape(self.suids[i])[0] // 2
 			pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
@@ -222,8 +221,6 @@ class Recommender:
 			posPred = tf.slice(preds_one, [0], [sampNum])# begin at 0, size = sampleNum
 			negPred = tf.slice(preds_one, [sampNum], [-1])# 
 			sslloss += tf.reduce_sum(S_final * (posPred-negPred)) # [uids,dim] * [iids,dim] emmm maybe there is a dot multiply
-			print(sslloss)
-		'''
 		return preds, 1-sslloss
 
 	def prepareModel(self):
@@ -314,6 +311,7 @@ class Recommender:
 					neglocs = [poslocs[0]]
 				else:
 					all = np.random.choice(posset, sslNum*2) - args.user
+					# print(all)
 					poslocs = all[:sslNum]
 					neglocs = all[sslNum:]
 				for j in range(sslNum):
