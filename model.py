@@ -73,6 +73,7 @@ class Recommender:
 	# hyperNum*dim + user*dim
 	# 这里多一层有用，dropout没用
 	'''
+	# return user_dim
 	def hyperPropagate(self, lats, adj):
 		lat1 = Activate(tf.transpose(adj) @ lats, self.actFunc)
 		lat2 = tf.transpose(FC(tf.transpose(lat1), args.hyperNum, activation=self.actFunc)) + lat1
@@ -105,40 +106,35 @@ class Recommender:
 		uuHyper = (uEmbed @ uhyper)
 		iiHyper = (iEmbed @ ihyper)
 		for k in range(args.graphNum):
-			# all_emb.append(tf.concat([uEmbed[k],iEmbed[k]],axis=0))
-			# embs=[all_emb[k]]
-			# all_emb0.append(uEmbed)
-			# all_emb1.append(iEmbed)
 			embs0=[uEmbed[k]]
 			embs1=[iEmbed[k]]
 			for i in range(args.gnn_layer):
 				embs=tf.concat([embs0[-1],embs1[-1]],axis=0)
 				all_emb = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.subAdj[k]), embs), self.actFunc)
-				hyperULat = self.hyperPropagate(embs0[-1], tf.nn.dropout(uuHyper[k], self.keepRate))
-				hyperILat = self.hyperPropagate(embs1[-1], tf.nn.dropout(iiHyper[k], self.keepRate))
+				# hyperULat = self.hyperPropagate(embs0[-1], tf.nn.dropout(uuHyper[k], self.keepRate))
+				# hyperILat = self.hyperPropagate(embs1[-1], tf.nn.dropout(iiHyper[k], self.keepRate))
 				a_emb0,a_emb1=tf.split(all_emb, [args.user, args.item], axis=0)
-				embs0.append(a_emb0+embs0[-1]+hyperULat)
-				embs1.append(a_emb1+embs1[-1]+hyperILat)
-				# ulat = self.messagePropagate(uEmbed0[i], self.edgeDropout(self.adj))
-				# ilat = self.messagePropagate(iEmbed0[i], self.edgeDropout(self.tpAdj))
+				embs0.append(a_emb0+embs0[-1]) # +hyperULat
+				embs1.append(a_emb1+embs1[-1]) # +hyperILat
 			# embs = tf.stack(embs,axis=1) # k,u+i,latdim  [[1,1],[1,1],[1,1]]->[[1,1,1],[1,1,1]]
 			# embs = tf.reduce_mean(embs,axis=1)
 			user=tf.add_n(embs0)
 			item=tf.add_n(embs1)
-			# user,item = tf.split(embs, [args.user, args.item], axis=0)
 			user_vector.append(user)
 			item_vector.append(item)
 		# now user_vector is [g,u,latdim]
 		user_vector=tf.stack(user_vector,axis=0)
 		item_vector=tf.stack(item_vector,axis=0)
 		# user_vector is [u,g,latdim]
-		user_vector_tensor=tf.transpose(user_vector, perm=[1, 0, 2])
-		item_vector_tensor=tf.transpose(item_vector, perm=[1, 0, 2])
+		# user_vector_tensor=tf.transpose(user_vector, perm=[1, 0, 2])
+		# item_vector_tensor=tf.transpose(item_vector, perm=[1, 0, 2])
+		'''
 		def gru_cell():
 			return tf.contrib.rnn.GRUCell(self.config.num_filters)
 		def dropout():
 			cell = gru_cell()
 			return tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=self.keep_prob)
+		'''
 		final_user_vector = tf.reduce_sum(user_vector,axis=0)
 		final_item_vector = tf.reduce_sum(item_vector,axis=0)
 		'''
@@ -153,45 +149,6 @@ class Recommender:
 		final_item_vector = self.additive_attention1.attention(multihead_item_vector)
 		'''
 		# ssl
-		'''
-		uhyper = NNs.defineParam('uhyper', [args.latdim, args.hyperNum], reg=True)
-		ihyper = NNs.defineParam('ihyper', [args.latdim, args.hyperNum], reg=True)
-		uuHyper = (uEmbed0 @ uhyper)
-		iiHyper = (iEmbed0 @ ihyper)
-		# normalize
-		# uuHyper = uuHyper / 10
-		# iiHyper = iiHyper / 10
-		# hyperFC = NNs.defineParam('hyperFC', [args.hyperNum, args.hyperNum],)
-		# uuHyper = NNs.defineParam('uuHyper', [args.user, args.hyperNum], reg=True)
-		# iiHyper = NNs.defineParam('iiHyper', [args.item, args.hyperNum], reg=True)
-		ulats = [uEmbed0]
-		ilats = [iEmbed0]
-		gnnULats = []
-		gnnILats = []
-		hyperULats = []
-		hyperILats = []
-		for i in range(args.gnn_layer):
-			#------------------------------------------------------------------
-			# before
-			ulat = self.messagePropagate(ilats[-1], self.edgeDropout(self.adj))
-			ilat = self.messagePropagate(ulats[-1], self.edgeDropout(self.tpAdj))
-			# update
-			# uilats=tf.concat([ulats[-1],ilats[-1]],axis=0)
-			# uilat=self.messagePropagate(uilats, self.edgeDropout(self.seqAdj))
-			# ulat,ilat=tf.split(uilat, [args.user, args.item], axis=0)
-			#------------------------------------------------------------------
-			hyperULat = self.hyperPropagate(ulats[-1], tf.nn.dropout(uuHyper, self.keepRate))
-			hyperILat = self.hyperPropagate(ilats[-1], tf.nn.dropout(iiHyper, self.keepRate))
-			gnnULats.append(ulat)
-			gnnILats.append(ilat)
-			hyperULats.append(hyperULat)
-			hyperILats.append(hyperILat)
-			ulats.append(ulat + hyperULat + ulats[-1])
-			ilats.append(ilat + hyperILat + ilats[-1])
-		ulat = tf.add_n(ulats)
-		ilat = tf.add_n(ilats)
-		print("ulat,ilat",ulat,ilat)
-		'''
 		pckUlat = tf.nn.embedding_lookup(final_user_vector, self.uids)
 		pckIlat = tf.nn.embedding_lookup(final_item_vector, self.iids)
 		# preds = tf.nn.softmax(tf.reduce_sum(pckUlat * pckIlat, axis=-1) ,axis=-1)# [uids,dim] * [iids,dim] emmm maybe there is a dot multiply
