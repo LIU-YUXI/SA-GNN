@@ -52,14 +52,14 @@ class DataHandler:
 		elif args.data == 'amazon':
 			predir = './Datasets/amazon-book/'
 		self.predir = predir
-		self.trnfile = predir + 'trn_mat0'
+		self.trnfile = predir + 'trn_mat'
 		self.tstfile = predir + 'tst_int'
 
 	def LoadData(self):
 		if args.percent > 1e-8:
 			print('noised')
 			with open(self.predir + 'noise_%.2f' % args.percent, 'rb') as fs:
-				trnMat = (pickle.load(fs) != 0).astype(np.float32)
+				trnMat = pickle.load(fs)
 		else:
 			with open(self.trnfile, 'rb') as fs:
 				# print(pickle.load(fs))
@@ -74,7 +74,8 @@ class DataHandler:
 		print("tstUsrs",tstUsrs,len(tstUsrs))
 		self.trnMat = trnMat[0]
 		self.subMat = trnMat[1]
-		print("trnMat",trnMat[0],trnMat[1][0],trnMat[1][1])
+		self.timeMat = trnMat[2]
+		print("trnMat",trnMat[0],trnMat[1][0],trnMat[1][1],trnMat[2])
 		self.tstInt = tstInt
 		self.tstUsrs = tstUsrs
 		args.user, args.item = trnMat[0].shape

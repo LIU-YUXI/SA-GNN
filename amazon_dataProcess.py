@@ -1,18 +1,13 @@
-from mimetypes import init
-from sre_parse import expand_template
 import numpy as np
 import json
 import pickle
-# from Utils.TimeLogger import log
+from Utils.TimeLogger import log
 from scipy.sparse import csr_matrix
 import time
 import scipy.sparse as sp
-def ok(year):
-	return True
-	if year >= 2016 and year <= 2019:
-		return True
-minn = 2022*12
+minn = 1647180684
 maxx = 0
+
 def transTime(date):
 	timeArr = time.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
 	year = timeArr.tm_year*12+timeArr.tm_mon
@@ -20,24 +15,23 @@ def transTime(date):
 	global maxx
 	minn = min(minn, year)
 	maxx = max(maxx, year)
-	if ok(year):
-		return year# time.mktime(timeArr)
-	return None
+	return year# time.mktime(timeArr)
 
 def mapping(infile):
+	global minn
+	global maxx
 	usrId = dict()
 	itmId = dict()
 	usrid, itmid = [0, 0]
 	interaction = list()
-	with open(infile, 'r', encoding='utf-8') as fs:
+	with open(infile, 'r') as fs:
 		for line in fs:
-			arr = line.strip().split()
-			# print(arr)
-			row = int(arr[0])
-			col = int(arr[-1])
-			timeStamp = transTime(arr[1])
-			if timeStamp is None:
-				continue
+			arr = line.strip().split(',')
+			row = arr[0]
+			col = arr[1]
+			timeStamp = int(arr[-1])
+			minn = min(minn, timeStamp)
+			maxx = max(maxx, timeStamp)
 			if row not in usrId:
 				usrId[row] = usrid
 				interaction.append(dict())
@@ -50,16 +44,22 @@ def mapping(infile):
 			if(itm not in interaction[usr]):
 				interaction[usr][itm]=[]
 			interaction[usr][itm].extend([timeStamp])
-			# print(interaction)
 	print(minn, maxx)
 	return interaction, usrid, itmid
 
+# def checkFunc1(cnt):
+# 	return cnt >= 10
+# def checkFunc2(cnt):
+# 	return cnt >= 5
+# def checkFunc3(cnt):
+# 	return cnt >= 5
+
 def checkFunc1(cnt):
-	return cnt >= 10
+	return cnt >= 20
 def checkFunc2(cnt):
-	return cnt >= 5
+	return cnt >= 15
 def checkFunc3(cnt):
-	return cnt >= 5
+	return cnt >= 10
 
 def filter(interaction, usrnum, itmnum, ucheckFunc, icheckFunc, filterItem=True):
 	# get keep set
@@ -121,14 +121,9 @@ def split(interaction, usrnum, itmnum):
 		interaction[usr][tstInt[usr]] = None
 	print('Exception:', exception, np.sum(np.array(tstInt)!=None))
 	return interaction, tstInt
-'''
-def trans_sub(interaction, usrnum, itmnum, gragh_num):
-	global minn
-	global maxx
-	interval = (maxx-minn)/gragh_num
-	rcd = [[list(), list(), list()]]
-	for i in range(gragh_num-1):
-		rcd.append([list(), list(), list()])
+
+def trans(interaction, usrnum, itmnum):
+	r, c, d = [list(), list(), list()]
 	for usr in range(usrnum):
 		if interaction[usr] == None:
 			continue
@@ -136,17 +131,12 @@ def trans_sub(interaction, usrnum, itmnum, gragh_num):
 		for col in data:
 			if data[col] != None:
 				for one_data in data[col]:
-					gragh_no=int(((one_data-minn)/interval)-1)
-					# print(gragh_no,one_data)
-					rcd[gragh_no][0].append(usr)
-					rcd[gragh_no][1].append(col)
-					rcd[gragh_no][2].append(1.0)
-	intMat=list()
-	for i in range(gragh_num):
-		intMat.append(tran_to_sym(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum, itmnum))))
-		# intMat.append(csr_matrix((rcd[i][2], (rcd[i][0], rcd[i][1])), shape=(usrnum, itmnum)))
+					r.append(usr)
+					c.append(col)
+					d.append(1.0)
+	intMat = csr_matrix((d, (r, c)), shape=(usrnum, itmnum))
 	return intMat
-'''
+
 def trans_sub(interaction, usrnum, itmnum, gragh_num):
 	global minn
 	global maxx
@@ -178,80 +168,28 @@ def trans_sub(interaction, usrnum, itmnum, gragh_num):
 		print(intMat[i])
 	return intMat, timeMat.tocsr()
 
-def tran_to_sym(R):
-	adj_mat = sp.dok_matrix((usrnum + itmnum, usrnum + itmnum), dtype=np.float32)
-	adj_mat = adj_mat.tolil()
-	R = R.tolil()
-	adj_mat[:usrnum, usrnum:] = R
-	adj_mat[usrnum:, :usrnum] = R.T
-	adj_mat = adj_mat.tocsr()
-	return adj_mat#+sp.eye(adj_mat.shape[0])
-
-def tran_to_norm(adj):
-	adj = adj + sp.eye(adj.shape[0])
-	adjNorm=np.reshape(np.array(np.sum(adj, axis=1)), [-1])
-	# tpadjNorm[kk] = np.reshape(np.array(np.sum(tpadj[kk], axis=1)), [-1])
-	for i in range(adj.shape[0]):
-		for j in range(adj.indptr[i], adj.indptr[i+1]):
-			adj.data[j] /= adjNorm[i]
-	return adj
-	
-def normalized_adj_single(adj):
-	rowsum = np.array(adj.sum(1))
-
-	d_inv = np.power(rowsum, -1).flatten()
-	d_inv[np.isinf(d_inv)] = 0.
-	d_mat_inv = sp.diags(d_inv)
-	print(d_mat_inv)
-	print("adj",adj)
-	norm_adj = d_mat_inv.dot(adj)
-	print(norm_adj)
-	# norm_adj = adj.dot(d_mat_inv)
-	print('generate single-normalized adjacency matrix.')
-	return norm_adj.tocsr()
-
-def trans(interaction, usrnum, itmnum):
-	global minn
-	global maxx
-	rcd = [list(), list(), list()]
-	for usr in range(usrnum):
-		if interaction[usr] == None:
-			continue
-		data = interaction[usr]
-		for col in data:
-			if data[col] != None:
-				for one_data in data[col]:
-					rcd[0].append(usr)
-					rcd[1].append(col)
-					rcd[2].append(1.0)
-	intMat=csr_matrix((rcd[2], (rcd[0], rcd[1])), shape=(usrnum, itmnum))
-	return intMat
-
 prefix = 'D:/edgedownload/'
-print('Start')
-interaction, usrnum, itmnum = mapping(prefix + 'Gowalla_totalCheckins.txt')
-print('Id Mapped, usr %d, itm %d' % (usrnum, itmnum))
+log('Start')
+interaction, usrnum, itmnum = mapping(prefix + 'amazon_ratings_Books.csv')
+log('Id Mapped, usr %d, itm %d' % (usrnum, itmnum))
 
 checkFuncs = [checkFunc1, checkFunc2, checkFunc3]
 for i in range(3):
-	filterItem = True if i < 1 else False
+	filterItem = True if i < 2 else False
 	interaction, usrnum, itmnum = filter(interaction, usrnum, itmnum, checkFuncs[i], checkFuncs[i], filterItem)
 	print('Filter', i, 'times:', usrnum, itmnum)
-print('Sparse Samples Filtered, usr %d, itm %d' % (usrnum, itmnum))
+log('Sparse Samples Filtered, usr %d, itm %d' % (usrnum, itmnum))
 
 trnInt, tstInt = split(interaction, usrnum, itmnum)
-print('Datasets Splited')
-# print(trnInt)
+log('Datasets Splited')
 trnMat = [trans(trnInt, usrnum, itmnum)]
 subMat,timeMat=trans_sub(trnInt, usrnum, itmnum, 8)
 print(timeMat)
 trnMat.append(subMat)
 trnMat.append(timeMat)
-print('Train Mat Done')
-with open(prefix+'trn_mat_time', 'wb') as fs:
+log('Train Mat Done')
+with open(prefix+'amazon_trn_mat', 'wb') as fs:
 	pickle.dump(trnMat, fs)
-'''
-with open(prefix+'tst_int', 'wb') as fs:
+with open(prefix+'amazon_tst_int', 'wb') as fs:
 	pickle.dump(tstInt, fs)
-'''
-print('Interaction Data Saved')
+log('Interaction Data Saved')

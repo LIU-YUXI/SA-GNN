@@ -13,7 +13,7 @@ def parse_args():
 	parser.add_argument('--rank', default=4, type=int, help='embedding size')
 	parser.add_argument('--memosize', default=2, type=int, help='memory size')
 	parser.add_argument('--sampNum', default=40, type=int, help='batch size for sampling')
-	parser.add_argument('--sslNum', default=10, type=int, help='batch size for ssl')
+	parser.add_argument('--sslNum', default=20, type=int, help='batch size for ssl')
 	parser.add_argument('--query_vector_dim', type=int, default=64, help='number of query vector\'s dimension [default: 64]')
 	parser.add_argument('--num_attention_heads', type=int, default=16, help='number of num attention heads [default: 16]')
 	parser.add_argument('--hyperNum', default=128, type=int, help='number of hyper edges')
@@ -37,6 +37,7 @@ def parse_args():
 	parser.add_argument('--temp', default=1, type=float, help='temperature in ssl loss')
 	parser.add_argument('--ssl_reg', default=1e-4, type=float, help='reg weight for ssl loss')
 	parser.add_argument('--percent', default=0.0, type=float, help='percent of noise for noise robust test')
+	parser.add_argument('--batch_size', default=1024, type=int, help='batch size of a attention')
 	return parser.parse_args()
 args = parse_args()
 args.decay_step = args.trnNum//args.batch

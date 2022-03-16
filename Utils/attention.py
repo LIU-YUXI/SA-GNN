@@ -6,7 +6,7 @@ class AdditiveAttention(object):
         #self.dense  = tf.layers.dense(candidate_vector_dim, query_vector_dim)
         self.query_vector_dim=query_vector_dim
         self.candidate_vector_dim=candidate_vector_dim
-        self.attention_query_vector = tf.random_uniform(shape=[query_vector_dim],minval=-0.1,maxval=0.1)
+        self.attention_query_vector = tf.random_uniform(shape=[query_vector_dim,1],minval=-0.1,maxval=0.1)
         
     def attention(self, candidate_vector):
         """
@@ -18,9 +18,10 @@ class AdditiveAttention(object):
         with tf.name_scope('additive_attention'): 
             dense  = tf.layers.dense(candidate_vector, self.query_vector_dim)
             # batch_size, candidate_size, query_vector_dim
+            print("candidate_vector",candidate_vector)
             temp = tf.tanh(dense)
-            # batch_size, candidate_size 
-            candidate_weights = tf.nn.softmax(tf.matmul( temp, self.attention_query_vector),axis=1)
+            # batch_size, candidate_size
+            candidate_weights = tf.nn.softmax(tf.squeeze(tf.matmul( temp, self.attention_query_vector),axis=2),axis=1)*128
             # batch_size, 1, candidate_size * batch_size, candidate_size, candidate_vector_dim =
             # batch_size, candidate_vector_dim
             target =tf.squeeze( tf.matmul(tf.expand_dims(candidate_weights,1),candidate_vector),1)
@@ -75,7 +76,7 @@ class MultiHeadSelfAttention(object):
             # batch_size,head_num, candidate_num, d_k
             context, attn = ScaledDotProductAttention(self.d_k).attention(q_s, k_s, v_s)#,attn_mask)
             # batch_size,candidate_num,embedding_size
-            context= tf.reshape(tf.transpose(context,perm=[0,2,1,3]).contiguous(),[batch_size, -1, self.num_attention_heads*self.d_v])
+            context= tf.reshape(tf.transpose(context,perm=[0,2,1,3]),[batch_size, -1, self.num_attention_heads*self.d_v])
             return context
 
     
