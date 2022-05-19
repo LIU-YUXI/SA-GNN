@@ -8,19 +8,17 @@ from Utils.TimeLogger import log
 def transpose(mat):
 	coomat = sp.coo_matrix(mat)
 	return csr_matrix(coomat.transpose())
-
 def negSamp_fre(temLabel, sampSize, neg_frequency):
     negset = [None] * sampSize
     cur = 0
     i = 0
     while cur < sampSize:
-        rdmItm = neg_frequency[-i]# np.random.choice(nodeNum)
+        rdmItm = neg_frequency[-i]-1# np.random.choice(nodeNum)
         if rdmItm not in temLabel:
             negset[cur] = rdmItm+1
             cur += 1
         i += 1
     return negset
-
 def negSamp(temLabel, sampSize, nodeNum):
 	negset = [None] * sampSize
 	cur = 0
@@ -64,11 +62,9 @@ class DataHandler:
 		elif args.data == 'amazon':
 			predir = './Datasets/amazon-book/'
 		self.predir = predir
-		self.trnfile = predir + 'trn_mat_time'
+		self.trnfile = predir + 'trn_mat'
 		self.tstfile = predir + 'tst_int'
-		self.trnposfile = predir + 'train_pos'
 		self.neg_sequency_file = predir + 'sort'
-
 	def LoadData(self):
 		if args.percent > 1e-8:
 			print('noised')
@@ -81,8 +77,6 @@ class DataHandler:
 		# test set
 		with open(self.tstfile, 'rb') as fs:
 			tstInt = np.array(pickle.load(fs))
-		with open(self.trnposfile, 'rb') as fs:
-			self.trnPos = np.array(pickle.load(fs))
 		with open(self.neg_sequency_file, 'rb') as fs:
 			self.neg_sequency = pickle.load(fs)
 		print("tstInt",tstInt)
@@ -94,7 +88,6 @@ class DataHandler:
 		self.subMat = trnMat[1]
 		self.timeMat = trnMat[2]
 		print("trnMat",trnMat[0],trnMat[1][0],trnMat[1][1],trnMat[2])
-		print(self.neg_sequency)
 		self.tstInt = tstInt
 		self.tstUsrs = tstUsrs
 		args.user, args.item = trnMat[0].shape

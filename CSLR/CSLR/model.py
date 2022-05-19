@@ -277,7 +277,6 @@ class Recommender:
 		self.optimizer = tf.train.AdamOptimizer(learningRate).minimize(self.loss, global_step=globalStep)
 
 	def sampleTrainBatch(self, batIds, labelMat, timeMat):
-		trnPos = self.handler.trnPos[batIds]
 		temLabel=labelMat[batIds].toarray()
 		batch = len(batIds)
 		temlen = batch * 2 * args.sampNum
@@ -292,9 +291,7 @@ class Recommender:
 				poslocs = [np.random.choice(args.item)]
 				neglocs = [poslocs[0]]
 			else:
-				# poslocs = np.random.choice(posset, sampNum)
-				poslocs = list(np.random.choice(posset, sampNum-1))
-				poslocs.extend([trnPos[i]])
+				poslocs = np.random.choice(posset, sampNum)
 				neglocs = negSamp(temLabel[i], sampNum, args.item)
 			for j in range(sampNum):
 				posloc = poslocs[j]
@@ -419,6 +416,7 @@ class Recommender:
 		cur = 0
 		for i in range(batch):
 			posloc = temTst[i]
+			# rdnNegSet = negSamp(temLabel[i], 99, args.item)
 			rdnNegSet = negSamp_fre(temLabel[i], 99, self.handler.neg_sequency)
 			locset = np.concatenate((rdnNegSet, np.array([posloc])))
 			tstLocs[i] = locset
@@ -432,7 +430,6 @@ class Recommender:
 		epochHit, epochNdcg = [0] * 2
 		epochHit5, epochNdcg5 = [0] * 2
 		epochHit20, epochNdcg20 = [0] * 2
-		epochHit1, epochNdcg1 = [0] * 2
 		ids = self.handler.tstUsrs
 		num = len(ids)
 		tstBat = args.batch
@@ -457,27 +454,23 @@ class Recommender:
 				while(kk<len(preds)):
 					print(preds[kk:kk+10])
 					kk+=10
-			hit, ndcg, hit5, ndcg5, hit20, ndcg20,hit1, ndcg1 = self.calcRes(np.reshape(preds, [ed-st, 100]), temTst, tstLocs)
+			hit, ndcg, hit5, ndcg5, hit20, ndcg20 = self.calcRes(np.reshape(preds, [ed-st, 100]), temTst, tstLocs)
 			epochHit += hit
 			epochNdcg += ndcg
 			epochHit5 += hit5
 			epochNdcg5 += ndcg5
 			epochHit20 += hit20
 			epochNdcg20 += ndcg20
-			epochHit1 += hit1
-			epochNdcg1 += ndcg1
 			log('Steps %d/%d: hit10 = %d, ndcg10 = %d' % (i, steps, hit, ndcg), save=False, oneline=True)
 		ret = dict()
 		ret['HR'] = epochHit / num
 		ret['NDCG'] = epochNdcg / num
-		print("epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20",epochNdcg1/ num,epochHit1/ num,epochNdcg5/ num,epochHit5/ num,epochNdcg20/ num,epochHit20/ num)
+		print("epochNdcg5,epochHit5,epochNdcg20,epochHit20",epochNdcg5/ num,epochHit5/ num,epochNdcg20/ num,epochHit20/ num)
 		return ret
 
 	def calcRes(self, preds, temTst, tstLocs):
 		hit = 0
 		ndcg = 0
-		hit1 = 0
-		ndcg1 = 0
 		hit5=0
 		ndcg5=0
 		hit20=0
@@ -489,10 +482,6 @@ class Recommender:
 			if temTst[j] in shoot:
 				hit += 1
 				ndcg += np.reciprocal(np.log2(shoot.index(temTst[j])+2))
-			shoot = list(map(lambda x: x[1], predvals[:1]))
-			if temTst[j] in shoot:
-				hit1 += 1
-				ndcg1 += np.reciprocal(np.log2(shoot.index(temTst[j])+2))	
 			shoot = list(map(lambda x: x[1], predvals[:5]))
 			if temTst[j] in shoot:
 				hit5 += 1
@@ -501,12 +490,12 @@ class Recommender:
 			if temTst[j] in shoot:
 				hit20 += 1
 				ndcg20 += np.reciprocal(np.log2(shoot.index(temTst[j])+2))	
-		return hit, ndcg, hit5, ndcg5, hit20, ndcg20, hit1, ndcg1
+		return hit, ndcg, hit5, ndcg5, hit20, ndcg20
 	
 	def saveHistory(self):
 		if args.epoch == 0:
 			return
-		with open('History/' + args.save_path + '4.his', 'wb') as fs:# 上次是5
+		with open('History/' + args.save_path + '8.his', 'wb') as fs:# 上次是5
 			pickle.dump(self.metrics, fs)
 
 		saver = tf.train.Saver()
@@ -516,6 +505,6 @@ class Recommender:
 	def loadModel(self):
 		saver = tf.train.Saver()
 		saver.restore(self.sess, 'Models/' + args.load_model)
-		with open('History/' + args.load_model + '4.his', 'rb') as fs:
+		with open('History/' + args.load_model + '8.his', 'rb') as fs:
 			self.metrics = pickle.load(fs)
 		log('Model Loaded')	
