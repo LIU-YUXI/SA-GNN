@@ -38,6 +38,7 @@ def parse_args():
 	parser.add_argument('--ssl_reg', default=1e-4, type=float, help='reg weight for ssl loss')
 	parser.add_argument('--percent', default=0.0, type=float, help='percent of noise for noise robust test')
 	parser.add_argument('--batch_size', default=1024, type=int, help='batch size of a attention')
+	parser.add_argument('--pos_length', default=101, type=int, help='max length of a sequence')
 	return parser.parse_args()
 args = parse_args()
 args.decay_step = args.trnNum//args.batch
