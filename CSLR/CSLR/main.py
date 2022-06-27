@@ -11,7 +11,7 @@ from DataHandler import negSamp, transpose, DataHandler, transToLsts
 import tensorflow as tf
 from tensorflow.core.protobuf import config_pb2
 import pickle
-from model import Recommender
+from model0 import Recommender
 from model_nosub import Recommender0
 if __name__ == '__main__':
 	logger.saveDefault = True

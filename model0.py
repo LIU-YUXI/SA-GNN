@@ -87,7 +87,7 @@ class Recommender:
 	'''
 	def edgeDropout(self, mat):
 		def dropOneMat(mat):
-			print("drop",mat)
+			# print("drop",mat)
 			indices = mat.indices
 			values = mat.values
 			shape = mat.dense_shape
@@ -102,7 +102,7 @@ class Recommender:
 		# embedding
 		uEmbed=NNs.defineParam('uEmbed', [args.graphNum, args.user, args.latdim], reg=True)
 		iEmbed=NNs.defineParam('iEmbed', [args.graphNum, args.item, args.latdim], reg=True)
-		iposEmbed=NNs.defineParam('iposEmbed', [args.item, args.latdim], reg=True)
+		# iposEmbed=NNs.defineParam('iposEmbed', [args.item, args.latdim], reg=True)
 
 		# uEmbed=tf.nn.l2_normalize(uEmbed, dim = -1)
 		# iEmbed=tf.nn.l2_normalize(iEmbed, dim = -1)
@@ -120,8 +120,8 @@ class Recommender:
 				# 上一跳学的特征+这一跳学的
 				# embs0.append(a_emb0+tf.nn.dropout(tf.nn.l2_normalize(embs0[-1]),0.5))
 				# embs1.append(a_emb1+tf.nn.dropout(tf.nn.l2_normalize(embs1[-1]),0.5))
-				embs0.append(a_emb0+tf.nn.l2_normalize(embs0[-1]))
-				embs1.append(a_emb1+tf.nn.l2_normalize(embs1[-1]))
+				embs0.append(a_emb0+embs0[-1])
+				embs1.append(a_emb1+embs1[-1])
 			# 对每一跳学完的特征求和
 			user=tf.add_n(embs0)
 			item=tf.add_n(embs1)

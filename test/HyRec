@@ -1,0 +1,579 @@
+root@container-c9af1195d8-b4c6bf6e:~/HyRec# python run.py --data gowalla --seq_len 50  --n_iter 8
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}
+Done constructing subgraph 1
+393 71 974
+Done constructing subgraph 2
+419 46 646
+Done constructing subgraph 3
+251 50 362
+Done constructing subgraph 4
+388 85 483
+Done constructing subgraph 5
+623 97 824
+Done constructing subgraph 6
+2056 341 3634
+Done constructing subgraph 7
+7190 1167 16282
+Done constructing subgraph 8
+13948 2696 36141
+Done constructing subgraph 9
+23615 5573 69369
+Done constructing subgraph 10
+29864 8463 97238
+Done constructing subgraph 11
+30013 9789 90521
+Done constructing subgraph 12
+38196 15474 184097
+Done constructing subgraph 13
+40400 17636 164362
+Done constructing subgraph 14
+41080 18768 162979
+Done constructing subgraph 15
+42095 19917 170706
+Done constructing subgraph 16
+44455 22758 206085
+Done constructing subgraph 17
+47229 25518 238175
+Done constructing subgraph 18
+47580 27430 258416
+Done constructing subgraph 19
+42606 24489 190473
+(1840946, 50)
+2022-04-05 13:49:21
+Namespace(T=1, batch_size=4096, bpr_batch_size=512, clip=1.0, data='gowalla', dropout=0.5, emsize_size=516, eval_interval=10, graph_dropout=0.6, l2_reg=0.0, lr=0.001, n_hyper=2, n_iter=80, n_iteze=1, num_blocks=2, num_heads=1, pos_fixed=0, seed=1111, seq_len=50, worker=5, worker_bpr=2)
+#Item:  57440
+#User:  50821
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/y:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in .
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /root/HyRec/model.py:135: dense (from tensorflow.python.layers.core) is dll be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/HyRec/model.py:138: calling dropout (from tensorflow.python.ops.nn_rob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/HyRec/model.py:182: to_float (from tensorflow.python.ops.math_ops) d will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+WARNING:tensorflow:From /root/HyRec/base.py:164: conv1d (from tensorflow.python.layers.convolutioed and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv1d instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_ont32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2022-04-05 13:49:44.746594: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supporthat this TensorFlow binary was not compiled to use: AVX2 FMA
+2022-04-05 13:49:44.777735: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequenz
+2022-04-05 13:49:44.785957: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x55b03g computations on platform Host. Devices:
+2022-04-05 13:49:44.786020: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor deined>, <undefined>
+2022-04-05 13:49:45.118689: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found devicees:
+name: Tesla V100-SXM2-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:07:00.0
+totalMemory: 31.75GiB freeMemory: 31.45GiB
+2022-04-05 13:49:45.118745: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visib0
+2022-04-05 13:49:45.119501: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interccutor with strength 1 edge matrix:
+2022-04-05 13:49:45.119515: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0
+2022-04-05 13:49:45.119536: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N
+2022-04-05 13:49:45.119661: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created Tensjob:localhost/replica:0/task:0/device:GPU:0 with 30593 MB memory) -> physical GPU (device: 0, namM2-32GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2022-04-05 13:49:45.122129: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x55b03g computations on platform CUDA. Devices:
+2022-04-05 13:49:45.122147: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor deV100-SXM2-32GB, Compute Capability 7.0
+Total training records:1840946
+Training epoch:0
+  0%|                                          | 0/450 [00:00<?, ?b/s]2022-04-05 13:51:34.935304:ream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+Epoch 0 [286.8 s]  loss=416.6702
+Evaluating Model
+NDCG 0.30747910996943817, 0.36587362176024707, 0.41794010414998467
+Hit 0.4335, 0.6149, 0.8207
+MRR 0.3101992290065535
+Evaluation time:27.200068712234497
+Training epoch:1
+Epoch 1 [185.2 s]  loss=261.2159
+Training epoch:2
+Epoch 2 [225.3 s]  loss=208.4489
+Training epoch:3
+Epoch 3 [225.4 s]  loss=179.9459
+Training epoch:4
+Epoch 4 [225.5 s]  loss=161.6122
+Training epoch:5
+Epoch 5 [225.2 s]  loss=148.0781
+Training epoch:6
+Epoch 6 [205.3 s]  loss=138.6616
+Training epoch:7
+Epoch 7 [350.1 s]  loss=130.3215
+Training epoch:8
+Epoch 8 [354.9 s]  loss=123.8567
+Training epoch:9
+Epoch 9 [386.1 s]  loss=118.7053
+Training epoch:10
+Epoch 10 [384.5 s]  loss=114.1227
+Evaluating Model
+NDCG 0.665128004482376, 0.6944909923952587, 0.7044570126198683
+Hit 0.8425, 0.9318, 0.9704
+MRR 0.6219653709639279
+Evaluation time:1.863725185394287
+Training epoch:11
+Epoch 11 [384.1 s]  loss=110.1220
+Training epoch:12
+Epoch 12 [382.4 s]  loss=106.7034
+Training epoch:13
+Epoch 13 [382.4 s]  loss=103.6264
+Training epoch:14
+Epoch 14 [382.5 s]  loss=100.9396
+Training epoch:15
+Epoch 15 [382.7 s]  loss=98.6156
+Training epoch:16
+Epoch 16 [383.0 s]  loss=96.6826
+Training epoch:17
+Epoch 17 [382.6 s]  loss=94.5472
+Training epoch:18
+Epoch 18 [383.5 s]  loss=92.9286
+Training epoch:19
+Epoch 19 [382.5 s]  loss=90.9738
+Training epoch:20
+Epoch 20 [384.0 s]  loss=89.8539
+Evaluating Model
+NDCG 0.7065608904341644, 0.7291541134646032, 0.7375733346821357
+Hit 0.8685, 0.937, 0.9699
+MRR 0.6651117618373821
+Evaluation time:1.8789384365081787
+Training epoch:21
+Epoch 21 [383.8 s]  loss=88.5445
+Training epoch:22
+Epoch 22 [296.5 s]  loss=87.1420
+Training epoch:23
+Epoch 23 [178.6 s]  loss=85.8369
+Training epoch:24
+Epoch 24 [178.3 s]  loss=84.8390
+Training epoch:25
+Epoch 25 [178.5 s]  loss=83.3414
+Training epoch:26
+Epoch 26 [179.2 s]  loss=82.3733
+Training epoch:27
+Epoch 27 [178.7 s]  loss=81.6704
+Training epoch:28
+Epoch 28 [178.6 s]  loss=80.5685
+Training epoch:29
+Epoch 29 [181.2 s]  loss=79.7831
+Training epoch:30
+Epoch 30 [182.0 s]  loss=79.3271
+Evaluating Model
+NDCG 0.7181686826355644, 0.7392787386190814, 0.7475790576652451
+Hit 0.8727, 0.9369, 0.9696
+MRR 0.6784184852809632
+Evaluation time:1.1213510036468506
+Training epoch:31
+Epoch 31 [181.6 s]  loss=78.0310
+Training epoch:32
+Epoch 32 [181.6 s]  loss=77.3281
+Training epoch:33
+Epoch 33 [181.6 s]  loss=76.8521
+Training epoch:34
+Epoch 34 [181.6 s]  loss=76.2186
+Training epoch:35
+Epoch 35 [179.5 s]  loss=75.5815
+Training epoch:36
+Epoch 36 [219.3 s]  loss=75.2056
+Training epoch:37
+Epoch 37 [248.4 s]  loss=74.1310
+Training epoch:38
+Epoch 38 [355.1 s]  loss=73.5951
+Training epoch:39
+Epoch 39 [356.1 s]  loss=72.7263
+Training epoch:40
+Epoch 40 [356.0 s]  loss=72.4675
+Evaluating Model
+NDCG 0.7251994857346864, 0.745299722543821, 0.7533598741174452
+Hit 0.8775, 0.9386, 0.9701
+MRR 0.685715360386636
+Evaluation time:1.6983532905578613
+Training epoch:41
+Epoch 41 [355.3 s]  loss=72.2279
+Training epoch:42
+Epoch 42 [355.7 s]  loss=71.3950
+Training epoch:43
+Epoch 43 [355.9 s]  loss=71.0013
+Training epoch:44
+Epoch 44 [182.4 s]  loss=70.3081
+Training epoch:45
+Epoch 45 [338.6 s]  loss=69.9541
+Training epoch:46
+Epoch 46 [355.7 s]  loss=69.7396
+Training epoch:47
+Epoch 47 [355.2 s]  loss=69.1840
+Training epoch:48
+Epoch 48 [355.6 s]  loss=68.1389
+Training epoch:49
+Epoch 49 [355.1 s]  loss=68.0904
+Training epoch:50
+Epoch 50 [355.9 s]  loss=68.2037
+Evaluating Model
+NDCG 0.7324156011541908, 0.7525637235471339, 0.7598969693463743
+Hit 0.8789, 0.9402, 0.9689
+MRR 0.694670191136889
+Evaluation time:1.7180366516113281
+Training epoch:51
+Epoch 51 [355.4 s]  loss=67.3824
+Training epoch:52
+Epoch 52 [355.6 s]  loss=67.0882
+Training epoch:53
+Epoch 53 [355.7 s]  loss=66.7762
+Training epoch:54
+Epoch 54 [355.3 s]  loss=66.3293
+Training epoch:55
+Epoch 55 [355.8 s]  loss=65.8522
+Training epoch:56
+Epoch 56 [355.7 s]  loss=65.8829
+Training epoch:57
+Epoch 57 [354.9 s]  loss=65.3426
+Training epoch:58
+Epoch 58 [354.8 s]  loss=64.9491
+Training epoch:59
+Epoch 59 [356.0 s]  loss=64.8069
+Training epoch:60
+Epoch 60 [355.5 s]  loss=64.4842
+Evaluating Model
+NDCG 0.7366870046459367, 0.755975239022466, 0.7639624955919034
+Hit 0.8798, 0.9387, 0.97
+MRR 0.6998408041259376
+Evaluation time:1.7395460605621338
+Training epoch:61
+Epoch 61 [355.4 s]  loss=64.1644
+Training epoch:62
+Epoch 62 [312.1 s]  loss=63.8052
+Training epoch:63
+Epoch 63 [178.7 s]  loss=63.8781
+Training epoch:64
+Epoch 64 [178.6 s]  loss=63.4426
+Training epoch:65
+Epoch 65 [178.7 s]  loss=63.4245
+Training epoch:66
+Epoch 66 [178.6 s]  loss=62.8451
+Training epoch:67
+Epoch 67 [178.6 s]  loss=62.7829
+Training epoch:68
+Epoch 68 [179.9 s]  loss=62.2238
+Training epoch:69
+Epoch 69 [180.6 s]  loss=62.0947
+Training epoch:70
+Epoch 70 [180.4 s]  loss=61.6263
+Evaluating Model
+NDCG 0.7390840312618108, 0.7588550549196118, 0.7668622158207715
+Hit 0.8794, 0.9397, 0.971
+MRR 0.7033676444098637
+Evaluation time:1.1390130519866943
+Training epoch:71
+Epoch 71 [180.4 s]  loss=61.2855
+Training epoch:72
+Epoch 72 [179.3 s]  loss=61.6647
+Training epoch:73
+Epoch 73 [178.7 s]  loss=61.2265
+Training epoch:74
+Epoch 74 [178.6 s]  loss=61.2518
+Training epoch:75
+Epoch 75 [179.3 s]  loss=60.7868
+Training epoch:76
+Epoch 76 [179.0 s]  loss=60.3742
+Training epoch:77
+Epoch 77 [178.7 s]  loss=60.3590
+Training epoch:78
+Epoch 78 [179.7 s]  loss=60.1851
+Training epoch:79
+Epoch 79 [179.9 s]  loss=59.5481
+Evaluating Model
+NDCG 0.742649374032573, 0.7618892319163135, 0.770254334819359
+Hit 0.8795, 0.9379, 0.9706
+MRR 0.7080144115375381
+Evaluation time:1.1113064289093018
+root@container-c9af1195d8-b4c6bf6e:~/HyRec#
+
+root@container-c9af1195d8-b4c6bf6e:~/HyRec# python run.py --data yelp --seq_len 50  --n_iter 80 -
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}
+{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21}
+Done constructing subgraph 1
+28687 20927 114339
+Done constructing subgraph 2
+15344 11147 30381
+Done constructing subgraph 3
+15320 11292 30254
+Done constructing subgraph 4
+15809 11947 32304
+Done constructing subgraph 5
+15732 11904 31241
+Done constructing subgraph 6
+14647 10983 27332
+Done constructing subgraph 7
+14584 10748 27176
+Done constructing subgraph 8
+14301 10474 26217
+Done constructing subgraph 9
+13908 10738 26101
+Done constructing subgraph 10
+14794 11234 28761
+Done constructing subgraph 11
+13882 10598 25886
+Done constructing subgraph 12
+14990 11473 28624
+Done constructing subgraph 13
+14242 10565 26122
+Done constructing subgraph 14
+14540 11039 26745
+Done constructing subgraph 15
+14041 10868 26050
+Done constructing subgraph 16
+14490 10914 27029
+Done constructing subgraph 17
+14410 10867 27141
+Done constructing subgraph 18
+13329 9963 23576
+Done constructing subgraph 19
+12796 9483 22600
+Done constructing subgraph 20
+11896 8851 20826
+Done constructing subgraph 21
+6252 4697 8639
+(603038, 50)
+2022-04-05 17:21:26
+Namespace(T=1, batch_size=4096, bpr_batch_size=512, clip=1.0, data='yelp', dropout=0.5, emsize=10ze=516, eval_interval=10, graph_dropout=0.6, l2_reg=0.0, lr=0.001, n_hyper=2, n_iter=80, n_iter_b1, num_blocks=2, num_heads=1, pos_fixed=0, seed=1111, seq_len=50, worker=5, worker_bpr=2)
+#Item:  46069
+#User:  34306
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/y:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in .
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /root/HyRec/model.py:135: dense (from tensorflow.python.layers.core) is dll be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/HyRec/model.py:138: calling dropout (from tensorflow.python.ops.nn_rob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/HyRec/model.py:182: to_float (from tensorflow.python.ops.math_ops) d will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+WARNING:tensorflow:From /root/HyRec/base.py:164: conv1d (from tensorflow.python.layers.convolutioed and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv1d instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_ont32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+2022-04-05 17:21:42.210401: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supporthat this TensorFlow binary was not compiled to use: AVX2 FMA
+2022-04-05 17:21:42.245540: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequenz
+2022-04-05 17:21:42.252324: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5555eg computations on platform Host. Devices:
+2022-04-05 17:21:42.252346: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor deined>, <undefined>
+2022-04-05 17:21:42.594326: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found devicees:
+name: Tesla V100-SXM2-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:07:00.0
+totalMemory: 31.75GiB freeMemory: 14.64GiB
+2022-04-05 17:21:42.594428: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visib0
+2022-04-05 17:21:42.595335: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interccutor with strength 1 edge matrix:
+2022-04-05 17:21:42.595379: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0
+2022-04-05 17:21:42.595385: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N
+2022-04-05 17:21:42.595510: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created Tensjob:localhost/replica:0/task:0/device:GPU:0 with 14247 MB memory) -> physical GPU (device: 0, namM2-32GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2022-04-05 17:21:42.597471: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5555eg computations on platform CUDA. Devices:
+2022-04-05 17:21:42.597490: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor deV100-SXM2-32GB, Compute Capability 7.0
+Total training records:603038
+Training epoch:0
+  0%|                                          | 0/148 [00:00<?, ?b/s]2022-04-05 17:22:03.698933:ream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+Epoch 0 [99.4 s]  loss=177.4426
+Evaluating Model
+NDCG 0.096011992122002, 0.13139898124779076, 0.16831024696929708
+Hit 0.1557, 0.2658, 0.4126
+MRR 0.11394624694867207
+Evaluation time:5.6865222454071045
+Training epoch:1
+Epoch 1 [78.9 s]  loss=146.5993
+Training epoch:2
+Epoch 2 [78.9 s]  loss=121.6483
+Training epoch:3
+Epoch 3 [78.2 s]  loss=111.3349
+Training epoch:4
+Epoch 4 [78.8 s]  loss=101.6640
+Training epoch:5
+Epoch 5 [78.4 s]  loss=89.6694
+Training epoch:6
+Epoch 6 [78.3 s]  loss=81.2483
+Training epoch:7
+Epoch 7 [78.3 s]  loss=76.1068
+Training epoch:8
+Epoch 8 [78.4 s]  loss=71.8317
+Training epoch:9
+Epoch 9 [78.3 s]  loss=68.7576
+Training epoch:10
+Epoch 10 [78.6 s]  loss=66.1299
+Evaluating Model
+NDCG 0.4146837752720012, 0.4711343411221382, 0.5030525916425965
+Hit 0.5943, 0.7685, 0.8932
+MRR 0.39036884374113656
+Evaluation time:1.0283143520355225
+Training epoch:11
+Epoch 11 [78.5 s]  loss=63.9090
+Training epoch:12
+Epoch 12 [78.5 s]  loss=62.1089
+Training epoch:13
+Epoch 13 [78.7 s]  loss=60.4004
+Training epoch:14
+Epoch 14 [78.5 s]  loss=58.7554
+Training epoch:15
+Epoch 15 [78.7 s]  loss=57.7026
+Training epoch:16
+Epoch 16 [78.1 s]  loss=56.4299
+Training epoch:17
+Epoch 17 [78.5 s]  loss=55.5418
+Training epoch:18
+Epoch 18 [78.6 s]  loss=54.3811
+Training epoch:19
+Epoch 19 [78.7 s]  loss=53.6252
+Training epoch:20
+Epoch 20 [78.3 s]  loss=52.5637
+Evaluating Model
+NDCG 0.49521222286705463, 0.5425973767618067, 0.5634613851486157
+Hit 0.6786, 0.824, 0.9054
+MRR 0.462111801312854
+Evaluation time:1.074669361114502
+Training epoch:21
+Epoch 21 [78.3 s]  loss=51.9882
+Training epoch:22
+Epoch 22 [78.3 s]  loss=50.8280
+Training epoch:23
+Epoch 23 [78.1 s]  loss=50.4749
+Training epoch:24
+Epoch 24 [78.4 s]  loss=49.6727
+Training epoch:25
+Epoch 25 [78.5 s]  loss=49.0126
+Training epoch:26
+Epoch 26 [78.0 s]  loss=48.5731
+Training epoch:27
+Epoch 27 [78.4 s]  loss=47.9920
+Training epoch:28
+Epoch 28 [78.6 s]  loss=47.1680
+Training epoch:29
+Epoch 29 [78.3 s]  loss=46.7716
+Training epoch:30
+Epoch 30 [78.5 s]  loss=46.5819
+Evaluating Model
+NDCG 0.512745490481884, 0.5570753247426342, 0.5767684099645699
+Hit 0.6927, 0.8287, 0.9053
+MRR 0.47918166911697274
+Evaluation time:1.0576918125152588
+Training epoch:31
+Epoch 31 [78.1 s]  loss=46.1309
+Training epoch:32
+Epoch 32 [78.5 s]  loss=45.2502
+Training epoch:33
+Epoch 33 [78.4 s]  loss=44.9596
+Training epoch:34
+Epoch 34 [78.3 s]  loss=44.8799
+Training epoch:35
+Epoch 35 [78.0 s]  loss=44.2738
+Training epoch:36
+Epoch 36 [78.3 s]  loss=43.7888
+Training epoch:37
+Epoch 37 [78.8 s]  loss=43.3945
+Training epoch:38
+Epoch 38 [78.5 s]  loss=43.3603
+Training epoch:39
+Epoch 39 [78.3 s]  loss=42.8407
+Training epoch:40
+Epoch 40 [78.4 s]  loss=42.6925
+Evaluating Model
+NDCG 0.5351970089108892, 0.5766322207974973, 0.594570829015526
+Hit 0.7156, 0.8429, 0.9128
+MRR 0.4994300903797236
+Evaluation time:1.067122459411621
+Training epoch:41
+Epoch 41 [78.4 s]  loss=42.4144
+Training epoch:42
+Epoch 42 [78.0 s]  loss=42.2089
+Training epoch:43
+Epoch 43 [78.4 s]  loss=42.0222
+Training epoch:44
+Epoch 44 [78.4 s]  loss=41.5992
+Training epoch:45
+Epoch 45 [78.2 s]  loss=41.1656
+Training epoch:46
+Epoch 46 [78.7 s]  loss=40.8616
+Training epoch:47
+Epoch 47 [78.4 s]  loss=40.9061
+Training epoch:48
+Epoch 48 [78.4 s]  loss=40.2769
+Training epoch:49
+Epoch 49 [78.4 s]  loss=40.2299
+Training epoch:50
+Epoch 50 [78.1 s]  loss=40.1060
+Evaluating Model
+NDCG 0.5488635579359664, 0.5864620165864713, 0.6029204666825485
+Hit 0.7293, 0.8444, 0.9088
+MRR 0.5111950001005818
+Evaluation time:1.0507888793945312
+Training epoch:51
+Epoch 51 [78.5 s]  loss=39.7272
+Training epoch:52
+Epoch 52 [78.2 s]  loss=39.5897
+Training epoch:53
+Epoch 53 [78.2 s]  loss=39.2404
+Training epoch:54
+Epoch 54 [78.5 s]  loss=39.3773
+Training epoch:55
+Epoch 55 [77.9 s]  loss=38.7835
+Training epoch:56
+Epoch 56 [78.7 s]  loss=38.8191
+Training epoch:57
+Epoch 57 [78.6 s]  loss=38.4640
+Training epoch:58
+Epoch 58 [78.3 s]  loss=38.3560
+Training epoch:59
+Epoch 59 [78.5 s]  loss=38.2446
+Training epoch:60
+Epoch 60 [78.2 s]  loss=38.1494
+Evaluating Model
+NDCG 0.5608277584569298, 0.5978953007930721, 0.61417232899618
+Hit 0.7331, 0.8464, 0.9101
+MRR 0.525475513898061
+Evaluation time:1.0265438556671143
+Training epoch:61
+Epoch 61 [78.4 s]  loss=37.8451
+Training epoch:62
+Epoch 62 [78.5 s]  loss=37.6535
+Training epoch:63
+Epoch 63 [78.7 s]  loss=37.6149
+Training epoch:64
+Epoch 64 [78.3 s]  loss=37.3633
+Training epoch:65
+Epoch 65 [78.5 s]  loss=37.2962
+Training epoch:66
+Epoch 66 [78.6 s]  loss=36.9211
+Training epoch:67
+Epoch 67 [78.2 s]  loss=36.8476
+Training epoch:68
+Epoch 68 [78.3 s]  loss=36.6379
+Training epoch:69
+Epoch 69 [78.3 s]  loss=36.5356
+Training epoch:70
+Epoch 70 [78.5 s]  loss=36.2630
+Evaluating Model
+NDCG 0.5645239864834477, 0.6014707590416946, 0.6165188144223015
+Hit 0.7369, 0.8496, 0.9086
+MRR 0.5287080856298502
+Evaluation time:1.0682024955749512
+Training epoch:71
+Epoch 71 [78.6 s]  loss=36.1235
+Training epoch:72
+Epoch 72 [77.8 s]  loss=36.3647
+Training epoch:73
+Epoch 73 [78.6 s]  loss=35.9633
+Training epoch:74
+Epoch 74 [78.4 s]  loss=35.8971
+Training epoch:75
+Epoch 75 [78.2 s]  loss=35.8986
+Training epoch:76
+Epoch 76 [78.1 s]  loss=35.7431
+Training epoch:77
+Epoch 77 [78.4 s]  loss=35.4637
+Training epoch:78
+Epoch 78 [78.2 s]  loss=35.6231
+Training epoch:79
+Epoch 79 [78.8 s]  loss=35.4087
+Evaluating Model
+NDCG 0.5513302117251178, 0.5896518859435076, 0.6053899337407167
+Hit 0.7251, 0.8426, 0.9043
+MRR 0.5158104049034229
+Evaluation time:1.0883944034576416
+root@container-c9af1195d8-b4c6bf6e:~/HyRec#

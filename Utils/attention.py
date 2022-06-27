@@ -21,7 +21,7 @@ class AdditiveAttention(object):
             print("candidate_vector",candidate_vector)
             temp = tf.tanh(dense)
             # batch_size, candidate_size
-            candidate_weights = tf.nn.softmax(tf.squeeze(tf.matmul( temp, self.attention_query_vector),axis=2),axis=1)*128
+            candidate_weights = tf.nn.softmax(tf.squeeze(tf.matmul( temp, self.attention_query_vector),axis=2),axis=1) * 128
             # batch_size, 1, candidate_size * batch_size, candidate_size, candidate_vector_dim =
             # batch_size, candidate_vector_dim
             target =tf.squeeze( tf.matmul(tf.expand_dims(candidate_weights,1),candidate_vector),1)

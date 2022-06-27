@@ -1,0 +1,3050 @@
+     ┌────────────────────────────────────────────────────────────────────┐
+     │                        • MobaXterm 20.3 •                          │
+     │            (SSH client, X-server and networking tools)             │
+     │                                                                    │
+     │ ➤ SSH session to root@region-3.autodl.com                          │
+     │   • SSH compression : ✔                                            │
+     │   • SSH-browser     : ✔                                            │
+     │   • X11-forwarding  : ✘  (disabled or not supported by server)     │
+     │   • DISPLAY         : 192.168.1.107:0.0                            │
+     │                                                                    │
+     │ ➤ For more info, ctrl+click on help or visit our website           │
+     └────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 5.4.0-96-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+Last login: Tue Jun  7 18:14:31 2022 from 127.0.0.1
++--------------------------------------------------AutoDL------------------------------------------                                                   --------------+
+目录说明:
+╔═════════════════╦══════╦════╦════════════════════════════════════════════════════════════════════                                                   ═════╗
+║目录             ║名称  ║速度║说明                                                                                                                        ║
+╠═════════════════╬══════╬════╬════════════════════════════════════════════════════════════════════                                                   ═════╣
+║/                ║系统盘║快  ║实例关机数据不会丢失，可存放代码等。会随保存镜像一起保存。                                                                  ║
+║/root/autodl-tmp ║数据盘║快  ║实例关机数据不会丢失，可存放读写IO要求高的数据。但不会随保存镜像一起                                                   保存 ║
+╚═════════════════╩══════╩════╩════════════════════════════════════════════════════════════════════                                                   ═════╝
+CPU ：7 核心
+内存：16 GB
+GPU ：NVIDIA TITAN Xp, 1
+存储：
+  系统盘/               ：15% 2.9G/20G
+  数据盘/root/autodl-tmp：0% 0/50G
++--------------------------------------------------------------------------------------------------                                                   --------------+
+*注意:
+1.系统盘较小请将大的数据存放于数据盘或网盘中，重置系统时数据盘和网盘中的数据不受影响
+2.清理系统盘请参考：https://www.autodl.com/docs/qa/
+root@container-327e11a8ac-4a1523bb:~# cd ./CLSR
+root@container-327e11a8ac-4a1523bb:~/CLSR# CUDA_VISIBLE_DEVICES=0 python main.py --data gowalla --reg 1e-2          --temp  0.1 --ssl_re              g 1e-4 --save_path gowalla --batch 512 --epoch 150
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From main.py:15: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+2022-06-12 10:48:19.107496: Start
+tstInt [None None None ... None None None]
+tstStat [False False False ... False False False] 50821
+tstUsrs [    7     8    21 ... 50804 50805 50812] 10000
+trnMat   (0, 1) 28.0
+  (0, 2)        2.0
+  (0, 3)        1.0
+  (0, 4)        1.0
+  (0, 5)        1.0
+  (0, 6)        14.0
+  (0, 7)        2.0
+  (0, 8)        2.0
+  (0, 9)        1.0
+  (0, 10)       1.0
+  (0, 11)       1.0
+  (0, 12)       1.0
+  (0, 13)       1.0
+  (0, 14)       1.0
+  (0, 15)       1.0
+  (0, 16)       2.0
+  (0, 17)       1.0
+  (0, 18)       1.0
+  (0, 19)       1.0
+  (0, 20)       1.0
+  (0, 21)       1.0
+  (0, 22)       1.0
+  (0, 23)       1.0
+  (0, 24)       1.0
+  (0, 25)       1.0
+  :     :
+  (50818, 23821)        1.0
+  (50818, 29714)        1.0
+  (50818, 35622)        1.0
+  (50818, 43630)        1.0
+  (50818, 43633)        1.0
+  (50818, 46220)        1.0
+  (50818, 46221)        1.0
+  (50818, 46222)        2.0
+  (50818, 46223)        1.0
+  (50818, 46224)        1.0
+  (50818, 46225)        1.0
+  (50818, 46226)        1.0
+  (50818, 46227)        1.0
+  (50818, 46553)        1.0
+  (50818, 50352)        1.0
+  (50818, 54931)        1.0
+  (50818, 55993)        1.0
+  (50819, 22327)        1.0
+  (50819, 29134)        1.0
+  (50819, 52671)        2.0
+  (50819, 54088)        1.0
+  (50820, 21819)        1.0
+  (50820, 21941)        16.0
+  (50820, 21947)        1.0
+  (50820, 30477)        1.0   (9, 50874)        1.0
+  (9, 51528)    1.0
+  (48, 50873)   1.0
+  (48, 51030)   1.0
+  (48, 51303)   1.0
+  (48, 53520)   1.0
+  (48, 54006)   1.0
+  (48, 54007)   1.0
+  (48, 54008)   1.0
+  (48, 54009)   1.0
+  (48, 54010)   1.0
+  (48, 54011)   1.0
+  (48, 54012)   1.0
+  (48, 54013)   2.0
+  (73, 50873)   1.0
+  (73, 50881)   2.0
+  (73, 55017)   1.0
+  (78, 55162)   3.0
+  (78, 55186)   1.0
+  (110, 50933)  1.0
+  (110, 51029)  1.0
+  (110, 51030)  1.0
+  (110, 51286)  1.0
+  (110, 52475)  1.0
+  (110, 52476)  1.0
+  :     :
+  (88947, 40374)        1.0
+  (89107, 3156) 1.0
+  (89324, 2639) 2.0
+  (89342, 4886) 2.0
+  (89446, 1877) 1.0
+  (89560, 3378) 1.0
+  (89750, 4886) 2.0
+  (90073, 3321) 1.0
+  (90073, 4886) 1.0
+  (90105, 38240)        1.0
+  (90791, 15519)        2.0
+  (91224, 15908)        1.0
+  (91323, 2954) 1.0
+  (91404, 3156) 1.0
+  (91404, 3184) 1.0
+  (91693, 2954) 1.0
+  (92541, 3156) 3.0
+  (92541, 3195) 1.0
+  (93146, 3365) 1.0
+  (94518, 40374)        1.0
+  (94736, 5592) 2.0
+  (94806, 3422) 1.0
+  (94983, 38240)        1.0
+  (95806, 3422) 1.0
+  (95806, 15987)        1.0   (18, 52475)       1.0
+  (18, 52476)   1.0
+  (78, 50929)   1.0
+  (78, 55149)   1.0
+  (78, 55171)   1.0
+  (78, 55185)   1.0
+  (90, 54260)   1.0
+  (90, 54262)   1.0
+  (90, 55952)   2.0
+  (110, 51028)  1.0
+  (110, 51031)  1.0
+  (110, 51035)  1.0
+  (110, 51303)  1.0
+  (110, 51312)  1.0
+  (110, 52490)  1.0
+  (110, 53023)  1.0
+  (110, 54006)  1.0
+  (110, 54011)  1.0
+  (110, 54012)  1.0
+  (110, 55844)  1.0
+  (110, 55941)  2.0
+  (110, 57052)  1.0
+  (110, 57700)  1.0
+  (110, 57704)  1.0
+  (110, 57807)  1.0
+  :     :
+  (88749, 3360) 1.0
+  (88749, 12984)        1.0
+  (89217, 3378) 1.0
+  (89654, 17810)        1.0
+  (89993, 3360) 2.0
+  (89994, 3360) 1.0
+  (90091, 2954) 1.0
+  (90252, 3214) 5.0
+  (90285, 3360) 1.0
+  (90542, 4560) 1.0
+  (90665, 3360) 1.0
+  (91037, 37874)        1.0
+  (91063, 10551)        1.0
+  (91171, 12984)        1.0
+  (91273, 3214) 2.0
+  (91273, 3557) 1.0
+  (91693, 2954) 1.0
+  (92541, 3156) 1.0
+  (93146, 3365) 1.0
+  (93967, 3565) 1.0
+  (94572, 3214) 2.0
+  (95239, 3319) 1.0
+  (95423, 3360) 1.0
+  (95434, 3360) 2.0
+  (96764, 4417) 1.0   (0, 1)    8
+  (0, 2)        9
+  (0, 3)        10
+  (0, 4)        10
+  (0, 5)        10
+  (0, 6)        8
+  (0, 7)        8
+  (0, 8)        10
+  (0, 9)        10
+  (0, 10)       10
+  (0, 11)       10
+  (0, 12)       10
+  (0, 13)       10
+  (0, 14)       10
+  (0, 15)       10
+  (0, 16)       10
+  (0, 17)       10
+  (0, 18)       10
+  (0, 19)       10
+  (0, 20)       10
+  (0, 21)       10
+  (0, 22)       10
+  (0, 23)       10
+  (0, 24)       10
+  (0, 25)       10
+  :     :
+  (50818, 55993)        10
+  (50818, 35622)        10
+  (50818, 23821)        10
+  (50818, 23820)        10
+  (50818, 46553)        10
+  (50818, 43630)        10
+  (50818, 43633)        10
+  (50818, 54931)        10
+  (50818, 46226)        10
+  (50818, 50352)        10
+  (50818, 46227)        10
+  (50818, 46221)        10
+  (50818, 46223)        10
+  (50818, 46222)        10
+  (50818, 46220)        10
+  (50818, 46224)        10
+  (50818, 46225)        10
+  (50819, 54088)        10
+  (50819, 52671)        10
+  (50819, 22327)        10
+  (50819, 29134)        10
+  (50820, 21941)        10
+  (50820, 21947)        10
+  (50820, 21819)        10
+  (50820, 30477)        10
+[29224 57406 57337 ...    61    62  8944]
+2022-06-12 10:48:19.410345: Load Data
+WARNING:tensorflow:From main.py:23: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+USER 50821 ITEM 57440
+WARNING:tensorflow:From /root/CLSR/model.py:242: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/NNLayers.py:48: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable in              stead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:95: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and wil              l be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:9: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:19: dense (from tensorflow.python.layers.core) is deprecated and will be removed i              n a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/init_ops.py:1251: calling VarianceScaling.__i              nit__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f8159359e50>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7f8159359e50>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose:0", shape=(50821, 8, 64), dtype=float32)
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f81592fe9d0>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7f81592fe9d0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose_1:0", shape=(57440, 8, 64), dtype=float32)
+WARNING:tensorflow:From /root/CLSR/model.py:287: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.expone              ntial_decay instead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:288: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimi              zer instead.
+
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<loca              ls>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2022-06-12 10:48:38.431218: Model Prepared
+2022-06-12 10:48:42.923992: Variables Inited
+2022-06-12 10:49:36.427726: Epoch 0/150, Train: Loss = 3.8010, preLoss = 1.3346
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0166 0.0166 0.04587531568011769 0.0752 0.0919666576431326 0.2428
+2022-06-12 10:50:30.787048: Epoch 0/150, Test: HR = 0.1355, NDCG = 0.0651
+WARNING:tensorflow:From /root/CLSR/model.py:525: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
+
+2022-06-12 10:50:32.320672: Model Saved: gowalla
+
+2022-06-12 10:51:16.762056: Epoch 1/150, Train: Loss = 6.5570, preLoss = 2.2012
+
+2022-06-12 10:52:01.231962: Epoch 2/150, Train: Loss = 8.6338, preLoss = 2.6166
+
+2022-06-12 10:52:44.680003: Epoch 3/150, Train: Loss = 11.0079, preLoss = 2.9112
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.04 0.04 0.08925933694896414 0.1387 0.1580633105817296 0.3868
+2022-06-12 10:53:40.554366: Epoch 3/150, Test: HR = 0.2323, NDCG = 0.1193
+2022-06-12 10:53:41.829097: Model Saved: gowalla
+
+2022-06-12 10:54:25.967417: Epoch 4/150, Train: Loss = 12.6264, preLoss = 2.8131
+
+2022-06-12 10:55:09.941675: Epoch 5/150, Train: Loss = 13.1874, preLoss = 2.4265
+
+2022-06-12 10:55:54.452247: Epoch 6/150, Train: Loss = 13.0319, preLoss = 2.0995
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.051 0.051 0.11958316142642163 0.187 0.19885561720839542 0.4709
+2022-06-12 10:56:50.032269: Epoch 6/150, Test: HR = 0.3031, NDCG = 0.1568
+2022-06-12 10:56:51.269065: Model Saved: gowalla
+
+2022-06-12 10:57:35.725897: Epoch 7/150, Train: Loss = 12.3568, preLoss = 1.7737
+
+2022-06-12 10:58:20.000672: Epoch 8/150, Train: Loss = 11.4448, preLoss = 1.4998
+
+2022-06-12 10:59:04.173146: Epoch 9/150, Train: Loss = 10.4213, preLoss = 1.2648
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0736 0.0736 0.1536553101933912 0.2335 0.24288732131169977 0.5506
+2022-06-12 10:59:59.782282: Epoch 9/150, Test: HR = 0.3676, NDCG = 0.1968
+2022-06-12 11:00:01.062381: Model Saved: gowalla
+
+2022-06-12 11:00:45.449418: Epoch 10/150, Train: Loss = 9.3181, preLoss = 1.0505
+
+2022-06-12 11:01:30.383561: Epoch 11/150, Train: Loss = 8.2158, preLoss = 0.8471
+
+2022-06-12 11:02:14.221256: Epoch 12/150, Train: Loss = 7.1866, preLoss = 0.7001
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0853 0.0853 0.17232000590208446 0.2591 0.2692862094493085 0.6032
+2022-06-12 11:03:09.515760: Epoch 12/150, Test: HR = 0.4070, NDCG = 0.2199
+2022-06-12 11:03:10.776216: Model Saved: gowalla
+
+2022-06-12 11:03:54.890904: Epoch 13/150, Train: Loss = 6.2476, preLoss = 0.5791
+
+2022-06-12 11:04:38.961010: Epoch 14/150, Train: Loss = 5.4164, preLoss = 0.4942
+
+2022-06-12 11:05:23.283069: Epoch 15/150, Train: Loss = 4.6831, preLoss = 0.4181
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0934 0.0934 0.19627344369973262 0.2976 0.2953633976309006 0.6484
+2022-06-12 11:06:19.658582: Epoch 15/150, Test: HR = 0.4523, NDCG = 0.2460
+2022-06-12 11:06:20.944894: Model Saved: gowalla
+
+2022-06-12 11:07:04.919017: Epoch 16/150, Train: Loss = 4.0462, preLoss = 0.3448
+
+2022-06-12 11:07:48.868403: Epoch 17/150, Train: Loss = 3.5192, preLoss = 0.2991
+
+2022-06-12 11:08:32.791866: Epoch 18/150, Train: Loss = 3.0669, preLoss = 0.2638
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0915 0.0915 0.20239187497905192 0.3149 0.309008746332594 0.6921
+2022-06-12 11:09:27.551473: Epoch 18/150, Test: HR = 0.4830, NDCG = 0.2564
+2022-06-12 11:09:28.894901: Model Saved: gowalla
+
+2022-06-12 11:10:12.716793: Epoch 19/150, Train: Loss = 2.6810, preLoss = 0.2323
+
+2022-06-12 11:10:56.615659: Epoch 20/150, Train: Loss = 2.3565, preLoss = 0.2063
+
+2022-06-12 11:11:40.646600: Epoch 21/150, Train: Loss = 2.0760, preLoss = 0.1843
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0993 0.0993 0.221377015133126 0.343 0.32984776167262664 0.7265
+2022-06-12 11:12:35.402282: Epoch 21/150, Test: HR = 0.5072, NDCG = 0.2745
+2022-06-12 11:12:36.651165: Model Saved: gowalla
+
+2022-06-12 11:13:20.504943: Epoch 22/150, Train: Loss = 1.8404, preLoss = 0.1680
+
+2022-06-12 11:14:05.070964: Epoch 23/150, Train: Loss = 1.6474, preLoss = 0.1584
+
+2022-06-12 11:14:48.993647: Epoch 24/150, Train: Loss = 1.4867, preLoss = 0.1508
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1089 0.1089 0.24146665354017968 0.3725 0.3529173783439382 0.766
+2022-06-12 11:15:44.649784: Epoch 24/150, Test: HR = 0.5475, NDCG = 0.2978
+2022-06-12 11:15:45.922417: Model Saved: gowalla
+
+2022-06-12 11:16:30.343452: Epoch 25/150, Train: Loss = 1.3475, preLoss = 0.1398
+
+2022-06-12 11:17:14.703789: Epoch 26/150, Train: Loss = 1.2367, preLoss = 0.1386
+
+2022-06-12 11:17:58.605031: Epoch 27/150, Train: Loss = 1.1355, preLoss = 0.1300
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1276 0.1276 0.26106375271731014 0.3919 0.37179556692049537 0.7832
+2022-06-12 11:18:53.432454: Epoch 27/150, Test: HR = 0.5649, NDCG = 0.3167
+2022-06-12 11:18:54.766708: Model Saved: gowalla
+
+2022-06-12 11:19:38.356192: Epoch 28/150, Train: Loss = 1.0513, preLoss = 0.1263
+
+2022-06-12 11:20:22.324810: Epoch 29/150, Train: Loss = 0.9778, preLoss = 0.1236
+
+2022-06-12 11:21:06.236047: Epoch 30/150, Train: Loss = 0.9116, preLoss = 0.1176
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1509 0.1509 0.2970902389646076 0.4371 0.4059038825429392 0.8204
+2022-06-12 11:22:01.527653: Epoch 30/150, Test: HR = 0.6067, NDCG = 0.3517
+2022-06-12 11:22:03.067312: Model Saved: gowalla
+
+2022-06-12 11:22:47.134902: Epoch 31/150, Train: Loss = 0.8582, preLoss = 0.1159
+
+2022-06-12 11:23:31.303181: Epoch 32/150, Train: Loss = 0.8088, preLoss = 0.1140
+
+2022-06-12 11:24:15.611459: Epoch 33/150, Train: Loss = 0.7677, preLoss = 0.1137
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1656 0.1656 0.3195018691026112 0.4697 0.42253367558420324 0.8314
+2022-06-12 11:25:10.544175: Epoch 33/150, Test: HR = 0.6358, NDCG = 0.3732
+2022-06-12 11:25:11.881258: Model Saved: gowalla
+
+2022-06-12 11:25:56.198795: Epoch 34/150, Train: Loss = 0.7296, preLoss = 0.1107
+
+2022-06-12 11:26:40.467151: Epoch 35/150, Train: Loss = 0.6970, preLoss = 0.1106
+
+2022-06-12 11:27:24.436062: Epoch 36/150, Train: Loss = 0.6640, preLoss = 0.1075
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1821 0.1821 0.3390981379345717 0.4893 0.44109744337179835 0.8486
+2022-06-12 11:28:19.578334: Epoch 36/150, Test: HR = 0.6510, NDCG = 0.3913
+2022-06-12 11:28:20.976616: Model Saved: gowalla
+
+2022-06-12 11:29:05.025482: Epoch 37/150, Train: Loss = 0.6335, preLoss = 0.1039
+
+2022-06-12 11:29:49.246173: Epoch 38/150, Train: Loss = 0.6087, preLoss = 0.1034
+
+2022-06-12 11:30:33.467820: Epoch 39/150, Train: Loss = 0.5867, preLoss = 0.1032
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1874 0.1874 0.34152005580213196 0.4835 0.44593284912724196 0.8503
+2022-06-12 11:31:28.668143: Epoch 39/150, Test: HR = 0.6489, NDCG = 0.3950
+2022-06-12 11:31:30.132199: Model Saved: gowalla
+
+2022-06-12 11:32:15.339656: Epoch 40/150, Train: Loss = 0.5622, preLoss = 0.0992
+
+2022-06-12 11:33:00.262140: Epoch 41/150, Train: Loss = 0.5428, preLoss = 0.0988
+
+2022-06-12 11:33:44.260011: Epoch 42/150, Train: Loss = 0.5248, preLoss = 0.0973
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1892 0.1892 0.3538146760496978 0.5081 0.4556683484980743 0.8649
+2022-06-12 11:34:39.470035: Epoch 42/150, Test: HR = 0.6723, NDCG = 0.4070
+2022-06-12 11:34:40.929557: Model Saved: gowalla
+
+2022-06-12 11:35:25.120758: Epoch 43/150, Train: Loss = 0.5086, preLoss = 0.0968
+
+2022-06-12 11:36:09.229991: Epoch 44/150, Train: Loss = 0.4929, preLoss = 0.0957
+
+2022-06-12 11:36:53.184508: Epoch 45/150, Train: Loss = 0.4774, preLoss = 0.0936
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2104 0.2104 0.3745856042851528 0.5277 0.47313120089248994 0.8738
+2022-06-12 11:37:48.219741: Epoch 45/150, Test: HR = 0.6820, NDCG = 0.4245
+2022-06-12 11:37:49.679036: Model Saved: gowalla
+
+2022-06-12 11:38:34.513292: Epoch 46/150, Train: Loss = 0.4641, preLoss = 0.0927
+
+2022-06-12 11:39:19.113526: Epoch 47/150, Train: Loss = 0.4530, preLoss = 0.0928
+
+2022-06-12 11:40:02.828863: Epoch 48/150, Train: Loss = 0.4421, preLoss = 0.0922
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.224 0.224 0.3820465316131117 0.5285 0.48305343098032344 0.8795
+2022-06-12 11:40:57.978278: Epoch 48/150, Test: HR = 0.7044, NDCG = 0.4387
+2022-06-12 11:40:59.335652: Model Saved: gowalla
+
+2022-06-12 11:41:43.104419: Epoch 49/150, Train: Loss = 0.4306, preLoss = 0.0903
+
+2022-06-12 11:42:27.190986: Epoch 50/150, Train: Loss = 0.4204, preLoss = 0.0894
+
+2022-06-12 11:43:10.699505: Epoch 51/150, Train: Loss = 0.4128, preLoss = 0.0906
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.222 0.222 0.3891915538346536 0.5469 0.4885120020718737 0.891
+2022-06-12 11:44:06.049120: Epoch 51/150, Test: HR = 0.7213, NDCG = 0.4454
+2022-06-12 11:44:07.551689: Model Saved: gowalla
+
+2022-06-12 11:44:51.682024: Epoch 52/150, Train: Loss = 0.4009, preLoss = 0.0865
+
+2022-06-12 11:45:36.230164: Epoch 53/150, Train: Loss = 0.3952, preLoss = 0.0884
+
+2022-06-12 11:46:20.435677: Epoch 54/150, Train: Loss = 0.3860, preLoss = 0.0862
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.235 0.235 0.3959496911585444 0.5472 0.49557051075703595 0.8919
+2022-06-12 11:47:14.655045: Epoch 54/150, Test: HR = 0.7232, NDCG = 0.4527
+2022-06-12 11:47:15.975482: Model Saved: gowalla
+
+2022-06-12 11:47:59.953527: Epoch 55/150, Train: Loss = 0.3771, preLoss = 0.0841
+
+2022-06-12 11:48:44.113502: Epoch 56/150, Train: Loss = 0.3711, preLoss = 0.0850
+
+2022-06-12 11:49:28.967926: Epoch 57/150, Train: Loss = 0.3632, preLoss = 0.0834
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2374 0.2374 0.4039308302738236 0.5617 0.5007046815300302 0.8959
+2022-06-12 11:50:23.591870: Epoch 57/150, Test: HR = 0.7327, NDCG = 0.4591
+2022-06-12 11:50:25.046519: Model Saved: gowalla
+
+2022-06-12 11:51:09.562080: Epoch 58/150, Train: Loss = 0.3567, preLoss = 0.0827
+
+2022-06-12 11:51:53.645670: Epoch 59/150, Train: Loss = 0.3500, preLoss = 0.0816
+
+2022-06-12 11:52:38.197913: Epoch 60/150, Train: Loss = 0.3444, preLoss = 0.0809
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2341 0.2341 0.40292957622195563 0.5613 0.5007436180136159 0.9002
+2022-06-12 11:53:33.803673: Epoch 60/150, Test: HR = 0.7328, NDCG = 0.4582
+2022-06-12 11:53:35.276583: Model Saved: gowalla
+
+2022-06-12 11:54:19.958711: Epoch 61/150, Train: Loss = 0.3372, preLoss = 0.0783
+
+2022-06-12 11:55:04.812273: Epoch 62/150, Train: Loss = 0.3337, preLoss = 0.0792
+
+2022-06-12 11:55:50.159031: Epoch 63/150, Train: Loss = 0.3287, preLoss = 0.0786
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.243 0.243 0.40497218120848955 0.5587 0.5041265861618074 0.9001
+2022-06-12 11:56:45.239776: Epoch 63/150, Test: HR = 0.7356, NDCG = 0.4624
+2022-06-12 11:56:46.636593: Model Saved: gowalla
+
+2022-06-12 11:57:30.172573: Epoch 64/150, Train: Loss = 0.3247, preLoss = 0.0787
+
+2022-06-12 11:58:13.748402: Epoch 65/150, Train: Loss = 0.3187, preLoss = 0.0766
+
+2022-06-12 11:58:57.646660: Epoch 66/150, Train: Loss = 0.3154, preLoss = 0.0772
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2477 0.2477 0.4131767478426435 0.5692 0.5099471611922746 0.9019
+2022-06-12 11:59:51.902748: Epoch 66/150, Test: HR = 0.7464, NDCG = 0.4704
+2022-06-12 11:59:53.309298: Model Saved: gowalla
+
+2022-06-12 12:00:37.814087: Epoch 67/150, Train: Loss = 0.3113, preLoss = 0.0766
+
+2022-06-12 12:01:22.095873: Epoch 68/150, Train: Loss = 0.3058, preLoss = 0.0744
+
+2022-06-12 12:02:06.102506: Epoch 69/150, Train: Loss = 0.3026, preLoss = 0.0743
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2491 0.2491 0.41865332302236236 0.5791 0.5138374586351611 0.9032
+2022-06-12 12:03:00.791031: Epoch 69/150, Test: HR = 0.7607, NDCG = 0.4777
+2022-06-12 12:03:02.202511: Model Saved: gowalla
+
+2022-06-12 12:03:46.615196: Epoch 70/150, Train: Loss = 0.2995, preLoss = 0.0743
+
+2022-06-12 12:04:30.142968: Epoch 71/150, Train: Loss = 0.2963, preLoss = 0.0739
+
+2022-06-12 12:05:13.817654: Epoch 72/150, Train: Loss = 0.2930, preLoss = 0.0735
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2527 0.2527 0.4199150406634756 0.5787 0.5171568176447568 0.9094
+2022-06-12 12:06:08.476689: Epoch 72/150, Test: HR = 0.7620, NDCG = 0.4796
+2022-06-12 12:06:09.967423: Model Saved: gowalla
+
+2022-06-12 12:06:53.786163: Epoch 73/150, Train: Loss = 0.2900, preLoss = 0.0733
+
+2022-06-12 12:07:37.728904: Epoch 74/150, Train: Loss = 0.2859, preLoss = 0.0718
+
+2022-06-12 12:08:21.575135: Epoch 75/150, Train: Loss = 0.2841, preLoss = 0.0723
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2545 0.2545 0.42477207556703744 0.5855 0.5199585160511951 0.9118
+2022-06-12 12:09:15.815776: Epoch 75/150, Test: HR = 0.7636, NDCG = 0.4822
+2022-06-12 12:09:17.249658: Model Saved: gowalla
+
+2022-06-12 12:10:01.720660: Epoch 76/150, Train: Loss = 0.2803, preLoss = 0.0708
+
+2022-06-12 12:10:45.610232: Epoch 77/150, Train: Loss = 0.2794, preLoss = 0.0720
+
+2022-06-12 12:11:29.718731: Epoch 78/150, Train: Loss = 0.2777, preLoss = 0.0724
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2611 0.2611 0.4281218758557755 0.5869 0.524351933517562 0.9174
+2022-06-12 12:12:24.414975: Epoch 78/150, Test: HR = 0.7660, NDCG = 0.4857
+2022-06-12 12:12:25.738819: Model Saved: gowalla
+
+2022-06-12 12:13:09.512380: Epoch 79/150, Train: Loss = 0.2723, preLoss = 0.0690
+
+2022-06-12 12:13:53.567405: Epoch 80/150, Train: Loss = 0.2721, preLoss = 0.0707
+
+2022-06-12 12:14:37.383308: Epoch 81/150, Train: Loss = 0.2685, preLoss = 0.0690
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2552 0.2552 0.4270991055989738 0.5873 0.5230162693331446 0.9157
+2022-06-12 12:15:31.645003: Epoch 81/150, Test: HR = 0.7691, NDCG = 0.4856
+2022-06-12 12:15:33.125430: Model Saved: gowalla
+
+2022-06-12 12:16:16.798736: Epoch 82/150, Train: Loss = 0.2669, preLoss = 0.0692
+
+2022-06-12 12:17:01.198767: Epoch 83/150, Train: Loss = 0.2650, preLoss = 0.0690
+
+2022-06-12 12:17:46.290986: Epoch 84/150, Train: Loss = 0.2633, preLoss = 0.0688
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2577 0.2577 0.42718392788900983 0.5823 0.5247666776688021 0.9161
+2022-06-12 12:18:42.290439: Epoch 84/150, Test: HR = 0.7628, NDCG = 0.4856
+2022-06-12 12:18:43.632651: Model Saved: gowalla
+
+2022-06-12 12:19:28.365029: Epoch 85/150, Train: Loss = 0.2608, preLoss = 0.0678
+
+2022-06-12 12:20:12.217617: Epoch 86/150, Train: Loss = 0.2590, preLoss = 0.0675
+
+2022-06-12 12:20:55.793393: Epoch 87/150, Train: Loss = 0.2587, preLoss = 0.0685
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2574 0.2574 0.42732262964215306 0.5849 0.5247124637017732 0.917
+2022-06-12 12:21:50.068644: Epoch 87/150, Test: HR = 0.7600, NDCG = 0.4844
+2022-06-12 12:21:51.586443: Model Saved: gowalla
+
+2022-06-12 12:22:35.067739: Epoch 88/150, Train: Loss = 0.2567, preLoss = 0.0678
+
+2022-06-12 12:23:19.200423: Epoch 89/150, Train: Loss = 0.2564, preLoss = 0.0688
+
+2022-06-12 12:24:03.693205: Epoch 90/150, Train: Loss = 0.2513, preLoss = 0.0651
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2573 0.2573 0.4298770463396102 0.5904 0.5258717541667962 0.9187
+2022-06-12 12:24:58.510345: Epoch 90/150, Test: HR = 0.7622, NDCG = 0.4857
+2022-06-12 12:24:59.955832: Model Saved: gowalla
+
+2022-06-12 12:25:43.534078: Epoch 91/150, Train: Loss = 0.2514, preLoss = 0.0663
+
+2022-06-12 12:26:26.786057: Epoch 92/150, Train: Loss = 0.2507, preLoss = 0.0669
+
+2022-06-12 12:27:10.718127: Epoch 93/150, Train: Loss = 0.2481, preLoss = 0.0654
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2567 0.2567 0.43186794267048756 0.5962 0.5264473710724558 0.9201
+2022-06-12 12:28:04.073699: Epoch 93/150, Test: HR = 0.7707, NDCG = 0.4883
+2022-06-12 12:28:05.679166: Model Saved: gowalla
+
+2022-06-12 12:28:49.336360: Epoch 94/150, Train: Loss = 0.2473, preLoss = 0.0656
+
+2022-06-12 12:29:32.722530: Epoch 95/150, Train: Loss = 0.2452, preLoss = 0.0646
+
+2022-06-12 12:30:16.410835: Epoch 96/150, Train: Loss = 0.2442, preLoss = 0.0645
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2531 0.2531 0.42988383920472106 0.5937 0.5249859938944468 0.9186
+2022-06-12 12:31:11.503676: Epoch 96/150, Test: HR = 0.7672, NDCG = 0.4861
+2022-06-12 12:31:13.001457: Model Saved: gowalla
+
+2022-06-12 12:31:56.946943: Epoch 97/150, Train: Loss = 0.2438, preLoss = 0.0651
+
+2022-06-12 12:32:40.865794: Epoch 98/150, Train: Loss = 0.2431, preLoss = 0.0652
+
+2022-06-12 12:33:24.468398: Epoch 99/150, Train: Loss = 0.2423, preLoss = 0.0653
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.254 0.254 0.4316721786756679 0.5967 0.5263929381968558 0.921
+2022-06-12 12:34:18.764591: Epoch 99/150, Test: HR = 0.7688, NDCG = 0.4874
+2022-06-12 12:34:20.257373: Model Saved: gowalla
+
+2022-06-12 12:35:04.719770: Epoch 100/150, Train: Loss = 0.2408, preLoss = 0.0647
+
+2022-06-12 12:35:48.719282: Epoch 101/150, Train: Loss = 0.2399, preLoss = 0.0646
+
+2022-06-12 12:36:32.393972: Epoch 102/150, Train: Loss = 0.2399, preLoss = 0.0654
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2561 0.2561 0.43415032342756493 0.5999 0.5278825692617405 0.921
+2022-06-12 12:37:26.955017: Epoch 102/150, Test: HR = 0.7742, NDCG = 0.4904
+2022-06-12 12:37:28.421008: Model Saved: gowalla
+
+^CTraceback (most recent call last):0: preloss = 0.06, REGLoss = 0.17
+  File "main.py", line 25, in <module>
+    recom.run()
+  File "/root/CLSR/model.py", line 50, in run
+    reses = self.trainEpoch()
+  File "/root/CLSR/model.py", line 392, in trainEpoch
+    suLocs, siLocs = self.sampleSslBatch(batIds, self.handler.subadj)
+  File "/root/CLSR/model.py", line 339, in sampleSslBatch
+    posset = np.reshape(np.argwhere(temLabel[k][i]!=0), [-1])
+KeyboardInterrupt
+
+root@container-327e11a8ac-4a1523bb:~/CLSR#
+root@container-327e11a8ac-4a1523bb:~/CLSR# CUDA_VISIBLE_DEVICES=0 python main.py --data yelp --reg 1e-2          --temp  0.1 --ssl_reg 1              e-4 --save_path gowalla --batch 512 --epoch 150
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From main.py:15: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+2022-06-12 12:44:45.249111: Start
+tstInt [None None None ... None 8044 None]
+tstStat [False False False ... False  True False] 34306
+tstUsrs [    5     6     8 ... 34293 34297 34304] 10000
+trnMat   (0, 0) 1.0
+  (0, 1)        1.0
+  (0, 2)        1.0
+  (0, 3)        1.0
+  (0, 4)        1.0
+  (0, 5)        1.0
+  (0, 6)        1.0
+  (0, 7)        1.0
+  (0, 8)        2.0
+  (0, 9)        1.0
+  (1, 10)       1.0
+  (1, 11)       1.0
+  (1, 12)       1.0
+  (1, 13)       1.0
+  (1, 14)       1.0
+  (1, 15)       1.0
+  (1, 16)       1.0
+  (1, 17)       1.0
+  (1, 18)       1.0
+  (1, 19)       1.0
+  (1, 20)       1.0
+  (2, 21)       1.0
+  (2, 22)       1.0
+  (2, 23)       1.0
+  (2, 24)       1.0
+  :     :
+  (34303, 14502)        1.0
+  (34303, 15810)        1.0
+  (34303, 15826)        1.0
+  (34303, 21557)        1.0
+  (34303, 21953)        1.0
+  (34303, 35239)        1.0
+  (34304, 258)  1.0
+  (34304, 6211) 1.0
+  (34304, 9161) 1.0
+  (34304, 18943)        1.0
+  (34304, 18957)        1.0
+  (34304, 19006)        1.0
+  (34304, 19872)        1.0
+  (34304, 25815)        1.0
+  (34304, 41723)        1.0
+  (34305, 264)  1.0
+  (34305, 1207) 1.0
+  (34305, 3229) 1.0
+  (34305, 4340) 1.0
+  (34305, 4344) 1.0
+  (34305, 5847) 1.0
+  (34305, 9852) 1.0
+  (34305, 18942)        1.0
+  (34305, 23483)        1.0
+  (34305, 40666)        1.0   (0, 34306)        1.0
+  (0, 34307)    1.0
+  (0, 34308)    1.0
+  (0, 34309)    1.0
+  (0, 34311)    1.0
+  (0, 34313)    1.0
+  (0, 34314)    1.0
+  (0, 34315)    1.0
+  (1, 34320)    1.0
+  (1, 34321)    1.0
+  (1, 34326)    1.0
+  (2, 34327)    1.0
+  (2, 34331)    1.0
+  (2, 34337)    1.0
+  (2, 34342)    1.0
+  (2, 34346)    1.0
+  (3, 34367)    1.0
+  (3, 34369)    1.0
+  (3, 34370)    1.0
+  (3, 34372)    1.0
+  (3, 34376)    1.0
+  (3, 34378)    1.0
+  (3, 34386)    1.0
+  (3, 34396)    1.0
+  (3, 34409)    1.0
+  :     :
+  (80280, 33393)        1.0
+  (80282, 32716)        1.0
+  (80287, 32812)        1.0
+  (80291, 32853)        2.0
+  (80291, 33050)        2.0
+  (80293, 32862)        1.0
+  (80302, 33141)        1.0
+  (80303, 33142)        1.0
+  (80306, 33163)        1.0
+  (80307, 33173)        1.0
+  (80309, 33197)        2.0
+  (80310, 33206)        1.0
+  (80311, 33956)        2.0
+  (80313, 33229)        1.0
+  (80317, 33314)        1.0
+  (80319, 33331)        1.0
+  (80321, 33354)        1.0
+  (80328, 33399)        1.0
+  (80336, 33535)        1.0
+  (80338, 33576)        1.0
+  (80350, 33781)        1.0
+  (80358, 33946)        1.0
+  (80359, 33955)        1.0
+  (80362, 34076)        1.0
+  (80365, 34120)        1.0   (1, 34316)        1.0
+  (1, 34317)    1.0
+  (1, 34318)    1.0
+  (1, 34322)    1.0
+  (1, 34324)    1.0
+  (1, 34325)    1.0
+  (2, 34334)    1.0
+  (2, 34335)    1.0
+  (2, 34339)    1.0
+  (2, 34349)    1.0
+  (3, 34339)    1.0
+  (3, 34352)    1.0
+  (3, 34353)    1.0
+  (3, 34354)    1.0
+  (3, 34360)    1.0
+  (3, 34361)    1.0
+  (3, 34362)    1.0
+  (3, 34368)    1.0
+  (3, 34379)    1.0
+  (3, 34381)    1.0
+  (3, 34385)    1.0
+  (3, 34390)    1.0
+  (3, 34391)    1.0
+  (3, 34392)    1.0
+  (3, 34393)    1.0
+  :     :
+  (80204, 31379)        1.0
+  (80206, 31422)        1.0
+  (80239, 32026)        1.0
+  (80243, 32055)        1.0
+  (80252, 32250)        1.0
+  (80257, 32342)        1.0
+  (80261, 32372)        1.0
+  (80266, 32450)        1.0
+  (80270, 32474)        1.0
+  (80279, 32642)        1.0
+  (80286, 32803)        1.0
+  (80289, 32818)        1.0
+  (80296, 32959)        2.0
+  (80297, 33036)        1.0
+  (80298, 33068)        1.0
+  (80311, 33207)        1.0
+  (80322, 33356)        1.0
+  (80325, 33383)        1.0
+  (80345, 33691)        1.0
+  (80347, 33737)        1.0
+  (80349, 33775)        1.0
+  (80354, 33846)        1.0
+  (80357, 33867)        1.0
+  (80360, 34013)        1.0
+  (80369, 34192)        1.0   (0, 4)    3
+  (0, 6)        2
+  (1, 10)       1
+  (1, 11)       1
+  (1, 12)       1
+  (1, 13)       3
+  (1, 16)       1
+  (1, 17)       5
+  (1, 18)       1
+  (1, 19)       1
+  (2, 22)       3
+  (2, 23)       5
+  (2, 24)       5
+  (2, 26)       5
+  (2, 27)       7
+  (2, 28)       1
+  (2, 29)       1
+  (2, 30)       6
+  (2, 32)       5
+  (2, 33)       1
+  (2, 34)       3
+  (2, 35)       5
+  (2, 37)       5
+  (2, 38)       5
+  (2, 39)       5
+  :     :
+  (34303, 35239)        6
+  (34303, 6345) 5
+  (34303, 15810)        7
+  (34303, 14502)        5
+  (34303, 3797) 3
+  (34303, 21953)        6
+  (34303, 492)  3
+  (34303, 15826)        6
+  (34303, 1934) 6
+  (34304, 6211) 2
+  (34304, 258)  2
+  (34304, 18943)        4
+  (34304, 18957)        2
+  (34304, 9161) 2
+  (34304, 25815)        2
+  (34304, 19872)        2
+  (34304, 19006)        2
+  (34304, 41723)        4
+  (34305, 4340) 5
+  (34305, 3229) 1
+  (34305, 5847) 4
+  (34305, 40666)        7
+  (34305, 1207) 4
+  (34305, 4344) 4
+  (34305, 264)  7
+[46068 43634 43633 ...   458    51  6084]
+2022-06-12 12:44:45.400014: Load Data
+WARNING:tensorflow:From main.py:23: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+USER 34306 ITEM 46069
+WARNING:tensorflow:From /root/CLSR/model.py:242: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/NNLayers.py:48: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable in              stead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:95: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and wil              l be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:9: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:19: dense (from tensorflow.python.layers.core) is deprecated and will be removed i              n a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/init_ops.py:1251: calling VarianceScaling.__i              nit__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7fab5872a0d0>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7fab5872a0d0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose:0", shape=(34306, 8, 64), dtype=float32)
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7fac4d72f7d0>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7fac4d72f7d0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose_1:0", shape=(46069, 8, 64), dtype=float32)
+WARNING:tensorflow:From /root/CLSR/model.py:287: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.expone              ntial_decay instead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:288: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimi              zer instead.
+
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<loca              ls>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2022-06-12 12:45:05.420805: Model Prepared
+2022-06-12 12:45:07.885795: Variables Inited
+2022-06-12 12:45:54.017544: Epoch 0/150, Train: Loss = 5.2839, preLoss = 2.2305
+^CTraceback (most recent call last):20: hit10 = 87, ndcg10 = 45
+  File "main.py", line 25, in <module>
+    recom.run()
+  File "/root/CLSR/model.py", line 53, in run
+    reses = self.testEpoch()
+  File "/root/CLSR/model.py", line 457, in testEpoch
+    uLocs, iLocs, temTst, tstLocs = self.sampleTestBatch(batIds, self.handler.trnMat)
+  File "/root/CLSR/model.py", line 434, in sampleTestBatch
+    rdnNegSet = negSamp_fre(temLabel[i], 99, self.handler.neg_sequency)
+  File "/root/CLSR/DataHandler.py", line 18, in negSamp_fre
+    if rdmItm not in temLabel:
+KeyboardInterrupt
+root@container-327e11a8ac-4a1523bb:~/CLSR# CUDA_VISIBLE_DEVICES=0 python main.py --data yelp --reg 1e-2          --temp  0.1 --ssl_reg 1              e-4 --save_path yelp --batch 512 --epoch 150
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From main.py:15: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+2022-06-12 12:46:15.392990: Start
+tstInt [None None None ... None 8044 None]
+tstStat [False False False ... False  True False] 34306
+tstUsrs [    5     6     8 ... 34293 34297 34304] 10000
+trnMat   (0, 0) 1.0
+  (0, 1)        1.0
+  (0, 2)        1.0
+  (0, 3)        1.0
+  (0, 4)        1.0
+  (0, 5)        1.0
+  (0, 6)        1.0
+  (0, 7)        1.0
+  (0, 8)        2.0
+  (0, 9)        1.0
+  (1, 10)       1.0
+  (1, 11)       1.0
+  (1, 12)       1.0
+  (1, 13)       1.0
+  (1, 14)       1.0
+  (1, 15)       1.0
+  (1, 16)       1.0
+  (1, 17)       1.0
+  (1, 18)       1.0
+  (1, 19)       1.0
+  (1, 20)       1.0
+  (2, 21)       1.0
+  (2, 22)       1.0
+  (2, 23)       1.0
+  (2, 24)       1.0
+  :     :
+  (34303, 14502)        1.0
+  (34303, 15810)        1.0
+  (34303, 15826)        1.0
+  (34303, 21557)        1.0
+  (34303, 21953)        1.0
+  (34303, 35239)        1.0
+  (34304, 258)  1.0
+  (34304, 6211) 1.0
+  (34304, 9161) 1.0
+  (34304, 18943)        1.0
+  (34304, 18957)        1.0
+  (34304, 19006)        1.0
+  (34304, 19872)        1.0
+  (34304, 25815)        1.0
+  (34304, 41723)        1.0
+  (34305, 264)  1.0
+  (34305, 1207) 1.0
+  (34305, 3229) 1.0
+  (34305, 4340) 1.0
+  (34305, 4344) 1.0
+  (34305, 5847) 1.0
+  (34305, 9852) 1.0
+  (34305, 18942)        1.0
+  (34305, 23483)        1.0
+  (34305, 40666)        1.0   (0, 34306)        1.0
+  (0, 34307)    1.0
+  (0, 34308)    1.0
+  (0, 34309)    1.0
+  (0, 34311)    1.0
+  (0, 34313)    1.0
+  (0, 34314)    1.0
+  (0, 34315)    1.0
+  (1, 34320)    1.0
+  (1, 34321)    1.0
+  (1, 34326)    1.0
+  (2, 34327)    1.0
+  (2, 34331)    1.0
+  (2, 34337)    1.0
+  (2, 34342)    1.0
+  (2, 34346)    1.0
+  (3, 34367)    1.0
+  (3, 34369)    1.0
+  (3, 34370)    1.0
+  (3, 34372)    1.0
+  (3, 34376)    1.0
+  (3, 34378)    1.0
+  (3, 34386)    1.0
+  (3, 34396)    1.0
+  (3, 34409)    1.0
+  :     :
+  (80280, 33393)        1.0
+  (80282, 32716)        1.0
+  (80287, 32812)        1.0
+  (80291, 32853)        2.0
+  (80291, 33050)        2.0
+  (80293, 32862)        1.0
+  (80302, 33141)        1.0
+  (80303, 33142)        1.0
+  (80306, 33163)        1.0
+  (80307, 33173)        1.0
+  (80309, 33197)        2.0
+  (80310, 33206)        1.0
+  (80311, 33956)        2.0
+  (80313, 33229)        1.0
+  (80317, 33314)        1.0
+  (80319, 33331)        1.0
+  (80321, 33354)        1.0
+  (80328, 33399)        1.0
+  (80336, 33535)        1.0
+  (80338, 33576)        1.0
+  (80350, 33781)        1.0
+  (80358, 33946)        1.0
+  (80359, 33955)        1.0
+  (80362, 34076)        1.0
+  (80365, 34120)        1.0   (1, 34316)        1.0
+  (1, 34317)    1.0
+  (1, 34318)    1.0
+  (1, 34322)    1.0
+  (1, 34324)    1.0
+  (1, 34325)    1.0
+  (2, 34334)    1.0
+  (2, 34335)    1.0
+  (2, 34339)    1.0
+  (2, 34349)    1.0
+  (3, 34339)    1.0
+  (3, 34352)    1.0
+  (3, 34353)    1.0
+  (3, 34354)    1.0
+  (3, 34360)    1.0
+  (3, 34361)    1.0
+  (3, 34362)    1.0
+  (3, 34368)    1.0
+  (3, 34379)    1.0
+  (3, 34381)    1.0
+  (3, 34385)    1.0
+  (3, 34390)    1.0
+  (3, 34391)    1.0
+  (3, 34392)    1.0
+  (3, 34393)    1.0
+  :     :
+  (80204, 31379)        1.0
+  (80206, 31422)        1.0
+  (80239, 32026)        1.0
+  (80243, 32055)        1.0
+  (80252, 32250)        1.0
+  (80257, 32342)        1.0
+  (80261, 32372)        1.0
+  (80266, 32450)        1.0
+  (80270, 32474)        1.0
+  (80279, 32642)        1.0
+  (80286, 32803)        1.0
+  (80289, 32818)        1.0
+  (80296, 32959)        2.0
+  (80297, 33036)        1.0
+  (80298, 33068)        1.0
+  (80311, 33207)        1.0
+  (80322, 33356)        1.0
+  (80325, 33383)        1.0
+  (80345, 33691)        1.0
+  (80347, 33737)        1.0
+  (80349, 33775)        1.0
+  (80354, 33846)        1.0
+  (80357, 33867)        1.0
+  (80360, 34013)        1.0
+  (80369, 34192)        1.0   (0, 4)    3
+  (0, 6)        2
+  (1, 10)       1
+  (1, 11)       1
+  (1, 12)       1
+  (1, 13)       3
+  (1, 16)       1
+  (1, 17)       5
+  (1, 18)       1
+  (1, 19)       1
+  (2, 22)       3
+  (2, 23)       5
+  (2, 24)       5
+  (2, 26)       5
+  (2, 27)       7
+  (2, 28)       1
+  (2, 29)       1
+  (2, 30)       6
+  (2, 32)       5
+  (2, 33)       1
+  (2, 34)       3
+  (2, 35)       5
+  (2, 37)       5
+  (2, 38)       5
+  (2, 39)       5
+  :     :
+  (34303, 35239)        6
+  (34303, 6345) 5
+  (34303, 15810)        7
+  (34303, 14502)        5
+  (34303, 3797) 3
+  (34303, 21953)        6
+  (34303, 492)  3
+  (34303, 15826)        6
+  (34303, 1934) 6
+  (34304, 6211) 2
+  (34304, 258)  2
+  (34304, 18943)        4
+  (34304, 18957)        2
+  (34304, 9161) 2
+  (34304, 25815)        2
+  (34304, 19872)        2
+  (34304, 19006)        2
+  (34304, 41723)        4
+  (34305, 4340) 5
+  (34305, 3229) 1
+  (34305, 5847) 4
+  (34305, 40666)        7
+  (34305, 1207) 4
+  (34305, 4344) 4
+  (34305, 264)  7
+[46068 43634 43633 ...   458    51  6084]
+2022-06-12 12:46:15.471440: Load Data
+WARNING:tensorflow:From main.py:23: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+USER 34306 ITEM 46069
+WARNING:tensorflow:From /root/CLSR/model.py:242: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/NNLayers.py:48: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable in              stead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:95: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and wil              l be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:9: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:19: dense (from tensorflow.python.layers.core) is deprecated and will be removed i              n a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/init_ops.py:1251: calling VarianceScaling.__i              nit__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7efb0052a0d0>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7efb0052a0d0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose:0", shape=(34306, 8, 64), dtype=float32)
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7efc03024fd0>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7efc03024fd0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose_1:0", shape=(46069, 8, 64), dtype=float32)
+WARNING:tensorflow:From /root/CLSR/model.py:287: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.expone              ntial_decay instead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:288: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimi              zer instead.
+
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<loca              ls>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2022-06-12 12:46:35.458262: Model Prepared
+2022-06-12 12:46:37.936547: Variables Inited
+2022-06-12 12:47:24.437513: Epoch 0/150, Train: Loss = 5.2806, preLoss = 2.2497
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0193 0.0193 0.05261710006370225 0.0863 0.10072264338328338 0.2604
+2022-06-12 12:48:12.391719: Epoch 0/150, Test: HR = 0.1499, NDCG = 0.0730
+WARNING:tensorflow:From /root/CLSR/model.py:525: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
+
+2022-06-12 12:48:13.837153: Model Saved: yelp
+
+2022-06-12 12:48:52.499491: Epoch 1/150, Train: Loss = 9.9395, preLoss = 3.9452
+
+2022-06-12 12:49:31.700473: Epoch 2/150, Train: Loss = 12.1088, preLoss = 4.0652
+
+2022-06-12 12:50:10.705943: Epoch 3/150, Train: Loss = 13.5277, preLoss = 3.9201
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0553 0.0553 0.12529801958479847 0.1941 0.19849265505534655 0.4587
+2022-06-12 12:50:58.713295: Epoch 3/150, Test: HR = 0.2920, NDCG = 0.1567
+2022-06-12 12:50:59.716810: Model Saved: yelp
+
+2022-06-12 12:51:38.742127: Epoch 4/150, Train: Loss = 14.3366, preLoss = 3.7473
+
+2022-06-12 12:52:17.592653: Epoch 5/150, Train: Loss = 14.3117, preLoss = 3.2797
+
+2022-06-12 12:52:56.341674: Epoch 6/150, Train: Loss = 13.7282, preLoss = 2.6801
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0579 0.0579 0.13259399139828393 0.2055 0.21331096807894223 0.4924
+2022-06-12 12:53:43.951860: Epoch 6/150, Test: HR = 0.3271, NDCG = 0.1716
+2022-06-12 12:53:44.923354: Model Saved: yelp
+
+2022-06-12 12:54:23.669980: Epoch 7/150, Train: Loss = 12.9052, preLoss = 2.2347
+
+2022-06-12 12:55:02.300159: Epoch 8/150, Train: Loss = 11.9229, preLoss = 1.9125
+
+2022-06-12 12:55:41.395747: Epoch 9/150, Train: Loss = 10.8525, preLoss = 1.5989
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0847 0.0847 0.16669022268913117 0.247 0.24449510628407126 0.524
+2022-06-12 12:56:29.477602: Epoch 9/150, Test: HR = 0.3639, NDCG = 0.2043
+2022-06-12 12:56:30.553260: Model Saved: yelp
+
+2022-06-12 12:57:09.714269: Epoch 10/150, Train: Loss = 9.7933, preLoss = 1.3333
+
+2022-06-12 12:57:48.024950: Epoch 11/150, Train: Loss = 8.7633, preLoss = 1.1156
+
+2022-06-12 12:58:26.941045: Epoch 12/150, Train: Loss = 7.7893, preLoss = 0.9256
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0873 0.0873 0.18165175352457597 0.2752 0.25994146087076997 0.5514
+2022-06-12 12:59:15.037450: Epoch 12/150, Test: HR = 0.3969, NDCG = 0.2210
+2022-06-12 12:59:16.133383: Model Saved: yelp
+
+2022-06-12 12:59:55.588667: Epoch 13/150, Train: Loss = 6.9388, preLoss = 0.8120
+
+2022-06-12 13:00:34.908682: Epoch 14/150, Train: Loss = 6.1325, preLoss = 0.6789
+
+2022-06-12 13:01:14.067978: Epoch 15/150, Train: Loss = 5.4212, preLoss = 0.5819
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0787 0.0787 0.16780952895891 0.258 0.25568548657526874 0.5673
+2022-06-12 13:02:01.112471: Epoch 15/150, Test: HR = 0.3969, NDCG = 0.2128
+2022-06-12 13:02:02.213016: Model Saved: yelp
+
+2022-06-12 13:02:41.498167: Epoch 16/150, Train: Loss = 4.7725, preLoss = 0.4912
+
+2022-06-12 13:03:20.790575: Epoch 17/150, Train: Loss = 4.1943, preLoss = 0.4157
+
+2022-06-12 13:04:00.116287: Epoch 18/150, Train: Loss = 3.6992, preLoss = 0.3619
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0951 0.0951 0.18663683599140554 0.2776 0.27525644015606515 0.5906
+2022-06-12 13:04:47.815865: Epoch 18/150, Test: HR = 0.4165, NDCG = 0.2314
+2022-06-12 13:04:49.026297: Model Saved: yelp
+
+2022-06-12 13:05:28.360396: Epoch 19/150, Train: Loss = 3.2630, preLoss = 0.3110
+
+2022-06-12 13:06:06.969394: Epoch 20/150, Train: Loss = 2.8702, preLoss = 0.2590
+
+2022-06-12 13:06:45.928193: Epoch 21/150, Train: Loss = 2.5516, preLoss = 0.2389
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1005 0.1005 0.19182623788873568 0.2838 0.28109777306180483 0.598
+2022-06-12 13:07:32.459301: Epoch 21/150, Test: HR = 0.4240, NDCG = 0.2371
+2022-06-12 13:07:33.579584: Model Saved: yelp
+
+2022-06-12 13:08:12.315113: Epoch 22/150, Train: Loss = 2.2716, preLoss = 0.2195
+
+2022-06-12 13:08:51.604881: Epoch 23/150, Train: Loss = 2.0144, preLoss = 0.1878
+
+2022-06-12 13:09:30.426206: Epoch 24/150, Train: Loss = 1.8011, preLoss = 0.1692
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1031 0.1031 0.19842491964359155 0.2935 0.28900853563533097 0.6118
+2022-06-12 13:10:17.522323: Epoch 24/150, Test: HR = 0.4391, NDCG = 0.2454
+2022-06-12 13:10:18.534118: Model Saved: yelp
+
+2022-06-12 13:10:57.535161: Epoch 25/150, Train: Loss = 1.6108, preLoss = 0.1495
+
+2022-06-12 13:11:36.353263: Epoch 26/150, Train: Loss = 1.4542, preLoss = 0.1406
+
+2022-06-12 13:12:15.171580: Epoch 27/150, Train: Loss = 1.3141, preLoss = 0.1301
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0915 0.0915 0.20315874274614354 0.307 0.29255071321609916 0.6211
+2022-06-12 13:13:02.916637: Epoch 27/150, Test: HR = 0.4527, NDCG = 0.2501
+2022-06-12 13:13:04.086526: Model Saved: yelp
+
+2022-06-12 13:13:43.167068: Epoch 28/150, Train: Loss = 1.1924, preLoss = 0.1198
+
+2022-06-12 13:14:22.760546: Epoch 29/150, Train: Loss = 1.0868, preLoss = 0.1117
+
+2022-06-12 13:15:02.546039: Epoch 30/150, Train: Loss = 0.9933, preLoss = 0.1042
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0996 0.0996 0.21643863344872016 0.3293 0.30135949159201914 0.6292
+2022-06-12 13:15:49.966816: Epoch 30/150, Test: HR = 0.4651, NDCG = 0.2601
+2022-06-12 13:15:51.101973: Model Saved: yelp
+
+2022-06-12 13:16:29.968680: Epoch 31/150, Train: Loss = 0.9121, preLoss = 0.0985
+
+2022-06-12 13:17:09.644024: Epoch 32/150, Train: Loss = 0.8404, preLoss = 0.0935
+
+2022-06-12 13:17:48.995180: Epoch 33/150, Train: Loss = 0.7781, preLoss = 0.0896
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1106 0.1106 0.22707833130889454 0.3386 0.31537289089632675 0.6456
+2022-06-12 13:18:36.866432: Epoch 33/150, Test: HR = 0.4884, NDCG = 0.2758
+2022-06-12 13:18:38.093773: Model Saved: yelp
+
+2022-06-12 13:19:17.384142: Epoch 34/150, Train: Loss = 0.7243, preLoss = 0.0865
+
+2022-06-12 13:19:56.428187: Epoch 35/150, Train: Loss = 0.6742, preLoss = 0.0815
+
+2022-06-12 13:20:35.998388: Epoch 36/150, Train: Loss = 0.6350, preLoss = 0.0829
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1187 0.1187 0.23709506543831516 0.3513 0.325376751916726 0.6574
+2022-06-12 13:21:22.425993: Epoch 36/150, Test: HR = 0.5051, NDCG = 0.2870
+2022-06-12 13:21:23.586553: Model Saved: yelp
+
+2022-06-12 13:22:02.617546: Epoch 37/150, Train: Loss = 0.5950, preLoss = 0.0784
+
+2022-06-12 13:22:41.582634: Epoch 38/150, Train: Loss = 0.5629, preLoss = 0.0776
+
+2022-06-12 13:23:20.683775: Epoch 39/150, Train: Loss = 0.5316, preLoss = 0.0745
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1257 0.1257 0.2510563484381885 0.3729 0.3377188922476805 0.6752
+2022-06-12 13:24:07.460609: Epoch 39/150, Test: HR = 0.5183, NDCG = 0.2982
+2022-06-12 13:24:08.628754: Model Saved: yelp
+
+2022-06-12 13:24:47.630782: Epoch 40/150, Train: Loss = 0.5054, preLoss = 0.0735
+
+2022-06-12 13:25:27.176889: Epoch 41/150, Train: Loss = 0.4809, preLoss = 0.0719
+
+2022-06-12 13:26:06.256234: Epoch 42/150, Train: Loss = 0.4570, preLoss = 0.0689
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1197 0.1197 0.2579300068627283 0.3883 0.3432108971958384 0.6861
+2022-06-12 13:26:53.348396: Epoch 42/150, Test: HR = 0.5312, NDCG = 0.3043
+2022-06-12 13:26:54.448476: Model Saved: yelp
+
+2022-06-12 13:27:34.032175: Epoch 43/150, Train: Loss = 0.4392, preLoss = 0.0698
+
+2022-06-12 13:28:12.933771: Epoch 44/150, Train: Loss = 0.4218, preLoss = 0.0689
+
+2022-06-12 13:28:52.145284: Epoch 45/150, Train: Loss = 0.4065, preLoss = 0.0689
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1551 0.1551 0.2798525004689827 0.3937 0.36792293810000465 0.7013
+2022-06-12 13:29:40.361399: Epoch 45/150, Test: HR = 0.5408, NDCG = 0.3275
+2022-06-12 13:29:41.644937: Model Saved: yelp
+
+2022-06-12 13:30:21.054338: Epoch 46/150, Train: Loss = 0.3900, preLoss = 0.0665
+
+2022-06-12 13:30:59.574632: Epoch 47/150, Train: Loss = 0.3767, preLoss = 0.0664
+
+2022-06-12 13:31:38.235900: Epoch 48/150, Train: Loss = 0.3649, preLoss = 0.0663
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1629 0.1629 0.29195891918430883 0.4121 0.37593225761192806 0.7062
+2022-06-12 13:32:25.406602: Epoch 48/150, Test: HR = 0.5498, NDCG = 0.3365
+2022-06-12 13:32:26.665741: Model Saved: yelp
+
+2022-06-12 13:33:06.088177: Epoch 49/150, Train: Loss = 0.3530, preLoss = 0.0651
+
+2022-06-12 13:33:45.226051: Epoch 50/150, Train: Loss = 0.3417, preLoss = 0.0637
+
+2022-06-12 13:34:24.305008: Epoch 51/150, Train: Loss = 0.3330, preLoss = 0.0642
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1753 0.1753 0.30167709328277326 0.4235 0.3843546112061305 0.7126
+2022-06-12 13:35:12.782163: Epoch 51/150, Test: HR = 0.5614, NDCG = 0.3463
+2022-06-12 13:35:14.074636: Model Saved: yelp
+
+2022-06-12 13:35:53.357741: Epoch 52/150, Train: Loss = 0.3249, preLoss = 0.0646
+
+2022-06-12 13:36:33.585727: Epoch 53/150, Train: Loss = 0.3157, preLoss = 0.0630
+
+2022-06-12 13:37:12.871835: Epoch 54/150, Train: Loss = 0.3084, preLoss = 0.0630
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1704 0.1704 0.3039246072368855 0.4329 0.3867950311483175 0.7227
+2022-06-12 13:38:00.162030: Epoch 54/150, Test: HR = 0.5705, NDCG = 0.3484
+2022-06-12 13:38:01.494747: Model Saved: yelp
+
+2022-06-12 13:38:41.005943: Epoch 55/150, Train: Loss = 0.3009, preLoss = 0.0621
+
+2022-06-12 13:39:20.241103: Epoch 56/150, Train: Loss = 0.2953, preLoss = 0.0628
+
+2022-06-12 13:39:59.853573: Epoch 57/150, Train: Loss = 0.2874, preLoss = 0.0607
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.177 0.177 0.3085114920794657 0.433 0.39322780371523536 0.7275
+2022-06-12 13:40:47.042251: Epoch 57/150, Test: HR = 0.5778, NDCG = 0.3555
+2022-06-12 13:40:48.338083: Model Saved: yelp
+
+2022-06-12 13:41:27.865922: Epoch 58/150, Train: Loss = 0.2823, preLoss = 0.0610
+
+2022-06-12 13:42:07.596109: Epoch 59/150, Train: Loss = 0.2771, preLoss = 0.0610
+
+2022-06-12 13:42:47.007607: Epoch 60/150, Train: Loss = 0.2715, preLoss = 0.0603
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1786 0.1786 0.30484117669681293 0.4312 0.39085438000476963 0.7316
+2022-06-12 13:43:34.746730: Epoch 60/150, Test: HR = 0.5751, NDCG = 0.3514
+2022-06-12 13:43:36.160575: Model Saved: yelp
+
+2022-06-12 13:44:15.788319: Epoch 61/150, Train: Loss = 0.2665, preLoss = 0.0598
+
+2022-06-12 13:44:55.435061: Epoch 62/150, Train: Loss = 0.2612, preLoss = 0.0586
+
+2022-06-12 13:45:35.923324: Epoch 63/150, Train: Loss = 0.2579, preLoss = 0.0593
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1645 0.1645 0.3015228862737798 0.4334 0.38880930477706416 0.7378
+2022-06-12 13:46:23.469851: Epoch 63/150, Test: HR = 0.5773, NDCG = 0.3482
+2022-06-12 13:46:24.767927: Model Saved: yelp
+
+2022-06-12 13:47:03.605032: Epoch 64/150, Train: Loss = 0.2532, preLoss = 0.0583
+
+2022-06-12 13:47:42.315834: Epoch 65/150, Train: Loss = 0.2496, preLoss = 0.0583
+
+2022-06-12 13:48:21.235987: Epoch 66/150, Train: Loss = 0.2466, preLoss = 0.0586
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1732 0.1732 0.3036597359379339 0.4298 0.3931022663217573 0.7404
+2022-06-12 13:49:07.921224: Epoch 66/150, Test: HR = 0.5803, NDCG = 0.3527
+2022-06-12 13:49:09.151929: Model Saved: yelp
+
+2022-06-12 13:49:48.343175: Epoch 67/150, Train: Loss = 0.2425, preLoss = 0.0577
+
+2022-06-12 13:50:27.526792: Epoch 68/150, Train: Loss = 0.2392, preLoss = 0.0574
+
+2022-06-12 13:51:06.421238: Epoch 69/150, Train: Loss = 0.2358, preLoss = 0.0569
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1929 0.1929 0.3134555460414242 0.4308 0.40149830008860216 0.7356
+2022-06-12 13:51:52.888965: Epoch 69/150, Test: HR = 0.5807, NDCG = 0.3623
+2022-06-12 13:51:54.074834: Model Saved: yelp
+
+2022-06-12 13:52:32.809030: Epoch 70/150, Train: Loss = 0.2327, preLoss = 0.0565
+
+2022-06-12 13:53:12.209582: Epoch 71/150, Train: Loss = 0.2310, preLoss = 0.0573
+
+2022-06-12 13:53:51.052568: Epoch 72/150, Train: Loss = 0.2278, preLoss = 0.0565
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1933 0.1933 0.31275482211676614 0.426 0.4032755631681469 0.738
+2022-06-12 13:54:37.848580: Epoch 72/150, Test: HR = 0.5842, NDCG = 0.3644
+2022-06-12 13:54:38.987913: Model Saved: yelp
+
+2022-06-12 13:55:18.473005: Epoch 73/150, Train: Loss = 0.2251, preLoss = 0.0560
+
+2022-06-12 13:55:57.326158: Epoch 74/150, Train: Loss = 0.2236, preLoss = 0.0566
+
+2022-06-12 13:56:36.853584: Epoch 75/150, Train: Loss = 0.2207, preLoss = 0.0558
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1939 0.1939 0.31458043835007427 0.4275 0.40611519120355755 0.7423
+2022-06-12 13:57:24.653238: Epoch 75/150, Test: HR = 0.5869, NDCG = 0.3669
+2022-06-12 13:57:25.961672: Model Saved: yelp
+
+2022-06-12 13:58:04.995943: Epoch 76/150, Train: Loss = 0.2183, preLoss = 0.0553
+
+2022-06-12 13:58:44.188728: Epoch 77/150, Train: Loss = 0.2159, preLoss = 0.0548
+
+2022-06-12 13:59:23.200748: Epoch 78/150, Train: Loss = 0.2140, preLoss = 0.0547
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1878 0.1878 0.3102457571820826 0.427 0.40351871410046003 0.7477
+2022-06-12 14:00:10.980007: Epoch 78/150, Test: HR = 0.5909, NDCG = 0.3639
+2022-06-12 14:00:12.316873: Model Saved: yelp
+
+2022-06-12 14:00:51.827946: Epoch 79/150, Train: Loss = 0.2120, preLoss = 0.0543
+
+2022-06-12 14:01:31.161518: Epoch 80/150, Train: Loss = 0.2108, preLoss = 0.0547
+
+2022-06-12 14:02:10.241212: Epoch 81/150, Train: Loss = 0.2089, preLoss = 0.0543
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1865 0.1865 0.3105002724489262 0.4318 0.4022903724646787 0.7482
+2022-06-12 14:02:57.424370: Epoch 81/150, Test: HR = 0.5926, NDCG = 0.3630
+2022-06-12 14:02:58.776162: Model Saved: yelp
+
+2022-06-12 14:03:37.651441: Epoch 82/150, Train: Loss = 0.2077, preLoss = 0.0546
+
+2022-06-12 14:04:17.050225: Epoch 83/150, Train: Loss = 0.2055, preLoss = 0.0537
+
+2022-06-12 14:04:57.109211: Epoch 84/150, Train: Loss = 0.2044, preLoss = 0.0540
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1887 0.1887 0.3138052563296669 0.4384 0.4030468934018204 0.7468
+2022-06-12 14:05:44.733003: Epoch 84/150, Test: HR = 0.5960, NDCG = 0.3650
+2022-06-12 14:05:46.099980: Model Saved: yelp
+
+2022-06-12 14:06:25.009163: Epoch 85/150, Train: Loss = 0.2029, preLoss = 0.0538
+
+2022-06-12 14:07:04.644072: Epoch 86/150, Train: Loss = 0.2015, preLoss = 0.0536
+
+2022-06-12 14:07:44.060115: Epoch 87/150, Train: Loss = 0.2014, preLoss = 0.0546
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1935 0.1935 0.31516246277976717 0.4356 0.40710357164313454 0.7514
+2022-06-12 14:08:31.305772: Epoch 87/150, Test: HR = 0.5995, NDCG = 0.3688
+2022-06-12 14:08:32.626519: Model Saved: yelp
+
+2022-06-12 14:09:11.767695: Epoch 88/150, Train: Loss = 0.1996, preLoss = 0.0538
+
+2022-06-12 14:09:50.771791: Epoch 89/150, Train: Loss = 0.1987, preLoss = 0.0540
+
+2022-06-12 14:10:30.124542: Epoch 90/150, Train: Loss = 0.1961, preLoss = 0.0524
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1962 0.1962 0.31522803541489774 0.4329 0.40830002702435925 0.752
+2022-06-12 14:11:17.200077: Epoch 90/150, Test: HR = 0.5998, NDCG = 0.3699
+2022-06-12 14:11:18.576349: Model Saved: yelp
+
+2022-06-12 14:11:57.645577: Epoch 91/150, Train: Loss = 0.1954, preLoss = 0.0526
+
+2022-06-12 14:12:36.725631: Epoch 92/150, Train: Loss = 0.1953, preLoss = 0.0534
+
+2022-06-12 14:13:15.783790: Epoch 93/150, Train: Loss = 0.1934, preLoss = 0.0523
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1974 0.1974 0.3169274955697284 0.4341 0.4098601917724669 0.7516
+2022-06-12 14:14:03.372374: Epoch 93/150, Test: HR = 0.6032, NDCG = 0.3723
+2022-06-12 14:14:04.759034: Model Saved: yelp
+
+2022-06-12 14:14:44.350018: Epoch 94/150, Train: Loss = 0.1925, preLoss = 0.0523
+
+2022-06-12 14:15:23.603150: Epoch 95/150, Train: Loss = 0.1919, preLoss = 0.0526
+
+2022-06-12 14:16:02.951034: Epoch 96/150, Train: Loss = 0.1908, preLoss = 0.0522
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1874 0.1874 0.3129565857456347 0.4353 0.4063081948989463 0.754
+2022-06-12 14:16:50.482056: Epoch 96/150, Test: HR = 0.6062, NDCG = 0.3690
+2022-06-12 14:16:51.987042: Model Saved: yelp
+
+2022-06-12 14:17:31.402996: Epoch 97/150, Train: Loss = 0.1888, preLoss = 0.0510
+
+2022-06-12 14:18:10.633005: Epoch 98/150, Train: Loss = 0.1891, preLoss = 0.0520
+
+2022-06-12 14:18:49.864359: Epoch 99/150, Train: Loss = 0.1889, preLoss = 0.0524
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1912 0.1912 0.31658616596136796 0.4381 0.4094476383369807 0.756
+2022-06-12 14:19:37.709390: Epoch 99/150, Test: HR = 0.6063, NDCG = 0.3716
+2022-06-12 14:19:39.048665: Model Saved: yelp
+
+2022-06-12 14:20:17.887161: Epoch 100/150, Train: Loss = 0.1875, preLoss = 0.0518
+
+2022-06-12 14:20:57.094072: Epoch 101/150, Train: Loss = 0.1868, preLoss = 0.0516
+
+2022-06-12 14:21:36.080396: Epoch 102/150, Train: Loss = 0.1855, preLoss = 0.0509
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1941 0.1941 0.31621367846717174 0.4336 0.4113348599503922 0.7576
+2022-06-12 14:22:23.895357: Epoch 102/150, Test: HR = 0.6085, NDCG = 0.3737
+2022-06-12 14:22:25.749290: Model Saved: yelp
+
+2022-06-12 14:23:05.555584: Epoch 103/150, Train: Loss = 0.1850, preLoss = 0.0510
+
+2022-06-12 14:23:45.178883: Epoch 104/150, Train: Loss = 0.1834, preLoss = 0.0501
+
+2022-06-12 14:24:27.470432: Epoch 105/150, Train: Loss = 0.1835, preLoss = 0.0506
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1955 0.1955 0.3204408347039211 0.4416 0.4128033126976559 0.7582
+2022-06-12 14:25:15.675766: Epoch 105/150, Test: HR = 0.6085, NDCG = 0.3750
+2022-06-12 14:25:17.774898: Model Saved: yelp
+
+2022-06-12 14:25:58.193899: Epoch 106/150, Train: Loss = 0.1836, preLoss = 0.0513
+
+2022-06-12 14:26:38.760878: Epoch 107/150, Train: Loss = 0.1828, preLoss = 0.0510
+
+2022-06-12 14:27:17.633766: Epoch 108/150, Train: Loss = 0.1817, preLoss = 0.0504
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1936 0.1936 0.3189032879914396 0.4394 0.412313892015609 0.7585
+2022-06-12 14:28:05.056096: Epoch 108/150, Test: HR = 0.6113, NDCG = 0.3752
+2022-06-12 14:28:07.368555: Model Saved: yelp
+
+^CTraceback (most recent call last):20: preloss = 0.05, REGLoss = 0.13
+  File "main.py", line 25, in <module>
+    recom.run()
+  File "/root/CLSR/model.py", line 50, in run
+    reses = self.trainEpoch()
+  File "/root/CLSR/model.py", line 392, in trainEpoch
+    suLocs, siLocs = self.sampleSslBatch(batIds, self.handler.subadj)
+  File "/root/CLSR/model.py", line 339, in sampleSslBatch
+    posset = np.reshape(np.argwhere(temLabel[k][i]!=0), [-1])
+KeyboardInterrupt
+root@container-327e11a8ac-4a1523bb:~/CLSR# CUDA_VISIBLE_DEVICES=0 python main.py --data yelp --reg 1e-2                                                --temp  0.1 --ssl_reg 1e-4 --save_path yelp --batch 512 --epoch 150
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (                                      type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (                                      type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (                                      type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (                                      type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (                                      type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (                                      type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (                                      type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (                                      type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (                                      type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (                                      type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (                                      type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (                                      type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Pa                                      ssing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understo                                      od as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Pa                                      ssing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understo                                      od as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Pa                                      ssing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understo                                      od as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Pa                                      ssing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understo                                      od as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Pa                                      ssing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understo                                      od as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Pa                                      ssing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understo                                      od as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From main.py:15: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto i                                      nstead.
+
+2022-06-12 14:30:11.034569: Start
+tstInt [None None None ... None 8044 None]
+tstStat [False False False ... False  True False] 34306
+tstUsrs [    5     6     8 ... 34293 34297 34304] 10000
+trnMat   (0, 0) 1.0
+  (0, 1)        1.0
+  (0, 2)        1.0
+  (0, 3)        1.0
+  (0, 4)        1.0
+  (0, 5)        1.0
+  (0, 6)        1.0
+  (0, 7)        1.0
+  (0, 8)        2.0
+  (0, 9)        1.0
+  (1, 10)       1.0
+  (1, 11)       1.0
+  (1, 12)       1.0
+  (1, 13)       1.0
+  (1, 14)       1.0
+  (1, 15)       1.0
+  (1, 16)       1.0
+  (1, 17)       1.0
+  (1, 18)       1.0
+  (1, 19)       1.0
+  (1, 20)       1.0
+  (2, 21)       1.0
+  (2, 22)       1.0
+  (2, 23)       1.0
+  (2, 24)       1.0
+  :     :
+  (34303, 14502)        1.0
+  (34303, 15810)        1.0
+  (34303, 15826)        1.0
+  (34303, 21557)        1.0
+  (34303, 21953)        1.0
+  (34303, 35239)        1.0
+  (34304, 258)  1.0
+  (34304, 6211) 1.0
+  (34304, 9161) 1.0
+  (34304, 18943)        1.0
+  (34304, 18957)        1.0
+  (34304, 19006)        1.0
+  (34304, 19872)        1.0
+  (34304, 25815)        1.0
+  (34304, 41723)        1.0
+  (34305, 264)  1.0
+  (34305, 1207) 1.0
+  (34305, 3229) 1.0
+  (34305, 4340) 1.0
+  (34305, 4344) 1.0
+  (34305, 5847) 1.0
+  (34305, 9852) 1.0
+  (34305, 18942)        1.0
+  (34305, 23483)        1.0
+  (34305, 40666)        1.0   (0, 34306)        1.0
+  (0, 34307)    1.0
+  (0, 34308)    1.0
+  (0, 34309)    1.0
+  (0, 34311)    1.0
+  (0, 34313)    1.0
+  (0, 34314)    1.0
+  (0, 34315)    1.0
+  (1, 34320)    1.0
+  (1, 34321)    1.0
+  (1, 34326)    1.0
+  (2, 34327)    1.0
+  (2, 34331)    1.0
+  (2, 34337)    1.0
+  (2, 34342)    1.0
+  (2, 34346)    1.0
+  (3, 34367)    1.0
+  (3, 34369)    1.0
+  (3, 34370)    1.0
+  (3, 34372)    1.0
+  (3, 34376)    1.0
+  (3, 34378)    1.0
+  (3, 34386)    1.0
+  (3, 34396)    1.0
+  (3, 34409)    1.0
+  :     :
+  (80280, 33393)        1.0
+  (80282, 32716)        1.0
+  (80287, 32812)        1.0
+  (80291, 32853)        2.0
+  (80291, 33050)        2.0
+  (80293, 32862)        1.0
+  (80302, 33141)        1.0
+  (80303, 33142)        1.0
+  (80306, 33163)        1.0
+  (80307, 33173)        1.0
+  (80309, 33197)        2.0
+  (80310, 33206)        1.0
+  (80311, 33956)        2.0
+  (80313, 33229)        1.0
+  (80317, 33314)        1.0
+  (80319, 33331)        1.0
+  (80321, 33354)        1.0
+  (80328, 33399)        1.0
+  (80336, 33535)        1.0
+  (80338, 33576)        1.0
+  (80350, 33781)        1.0
+  (80358, 33946)        1.0
+  (80359, 33955)        1.0
+  (80362, 34076)        1.0
+  (80365, 34120)        1.0   (1, 34316)        1.0
+  (1, 34317)    1.0
+  (1, 34318)    1.0
+  (1, 34322)    1.0
+  (1, 34324)    1.0
+  (1, 34325)    1.0
+  (2, 34334)    1.0
+  (2, 34335)    1.0
+  (2, 34339)    1.0
+  (2, 34349)    1.0
+  (3, 34339)    1.0
+  (3, 34352)    1.0
+  (3, 34353)    1.0
+  (3, 34354)    1.0
+  (3, 34360)    1.0
+  (3, 34361)    1.0
+  (3, 34362)    1.0
+  (3, 34368)    1.0
+  (3, 34379)    1.0
+  (3, 34381)    1.0
+  (3, 34385)    1.0
+  (3, 34390)    1.0
+  (3, 34391)    1.0
+  (3, 34392)    1.0
+  (3, 34393)    1.0
+  :     :
+  (80204, 31379)        1.0
+  (80206, 31422)        1.0
+  (80239, 32026)        1.0
+  (80243, 32055)        1.0
+  (80252, 32250)        1.0
+  (80257, 32342)        1.0
+  (80261, 32372)        1.0
+  (80266, 32450)        1.0
+  (80270, 32474)        1.0
+  (80279, 32642)        1.0
+  (80286, 32803)        1.0
+  (80289, 32818)        1.0
+  (80296, 32959)        2.0
+  (80297, 33036)        1.0
+  (80298, 33068)        1.0
+  (80311, 33207)        1.0
+  (80322, 33356)        1.0
+  (80325, 33383)        1.0
+  (80345, 33691)        1.0
+  (80347, 33737)        1.0
+  (80349, 33775)        1.0
+  (80354, 33846)        1.0
+  (80357, 33867)        1.0
+  (80360, 34013)        1.0
+  (80369, 34192)        1.0   (0, 4)    3
+  (0, 6)        2
+  (1, 10)       1
+  (1, 11)       1
+  (1, 12)       1
+  (1, 13)       3
+  (1, 16)       1
+  (1, 17)       5
+  (1, 18)       1
+  (1, 19)       1
+  (2, 22)       3
+  (2, 23)       5
+  (2, 24)       5
+  (2, 26)       5
+  (2, 27)       7
+  (2, 28)       1
+  (2, 29)       1
+  (2, 30)       6
+  (2, 32)       5
+  (2, 33)       1
+  (2, 34)       3
+  (2, 35)       5
+  (2, 37)       5
+  (2, 38)       5
+  (2, 39)       5
+  :     :
+  (34303, 35239)        6
+  (34303, 6345) 5
+  (34303, 15810)        7
+  (34303, 14502)        5
+  (34303, 3797) 3
+  (34303, 21953)        6
+  (34303, 492)  3
+  (34303, 15826)        6
+  (34303, 1934) 6
+  (34304, 6211) 2
+  (34304, 258)  2
+  (34304, 18943)        4
+  (34304, 18957)        2
+  (34304, 9161) 2
+  (34304, 25815)        2
+  (34304, 19872)        2
+  (34304, 19006)        2
+  (34304, 41723)        4
+  (34305, 4340) 5
+  (34305, 3229) 1
+  (34305, 5847) 4
+  (34305, 40666)        7
+  (34305, 1207) 4
+  (34305, 4344) 4
+  (34305, 264)  7
+[46068 43634 43633 ...   458    51  6084]
+2022-06-12 14:30:11.213600: Load Data
+WARNING:tensorflow:From main.py:23: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+USER 34306 ITEM 46069
+WARNING:tensorflow:From /root/CLSR/model.py:240: The name tf.placeholder is deprecated. Please use tf.compat.v1.                                      placeholder instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/NNLayers.py:48: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable instead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:95: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:9: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:19: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/init_ops.py:1251: calling VarianceScaling.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f0f0859ccd0>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f0f0859ccd0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose:0", shape=(34306, 8, 64), dtype=float32)
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f0fb5c04990>> could not be transformed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f0fb5c04990>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose_1:0", shape=(46069, 8, 64), dtype=float32)
+WARNING:tensorflow:From /root/CLSR/model.py:285: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.exponential_decay instead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:286: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2022-06-12 14:30:34.008485: Model Prepared
+2022-06-12 14:30:38.253549: Variables Inited
+2022-06-12 14:31:27.696570: Epoch 0/150, Train: Loss = 5.7978, preLoss = 2.3036
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0187 0.0187 0.047188921745564445 0.0769 0.0965                                     2075090959238 0.2566
+2022-06-12 14:32:15.820189: Epoch 0/150, Test: HR = 0.1404, NDCG = 0.0675
+WARNING:tensorflow:From /root/CLSR/model.py:523: The name tf.train.Saver is deprecated. Please use tf.compat.v1.t                                     rain.Saver instead.
+
+2022-06-12 14:32:18.738382: Model Saved: yelp
+
+2022-06-12 14:32:58.619751: Epoch 1/150, Train: Loss = 10.9134, preLoss = 3.9528
+
+2022-06-12 14:33:38.678433: Epoch 2/150, Train: Loss = 13.5745, preLoss = 4.2286
+
+2022-06-12 14:34:18.610824: Epoch 3/150, Train: Loss = 15.0111, preLoss = 4.0747
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.056 0.056 0.12216803258608606 0.187 0.1951632968366965 0.4494
+2022-06-12 14:35:07.698262: Epoch 3/150, Test: HR = 0.2888, NDCG = 0.1549
+2022-06-12 14:35:09.495796: Model Saved: yelp
+
+2022-06-12 14:35:49.204209: Epoch 4/150, Train: Loss = 15.4236, preLoss = 3.6501
+
+2022-06-12 14:36:29.336098: Epoch 5/150, Train: Loss = 15.1850, preLoss = 3.1344
+
+2022-06-12 14:37:09.335024: Epoch 6/150, Train: Loss = 14.4640, preLoss = 2.6054
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0723 0.0723 0.14365379620104426 0.2127 0.2190311267571339 0.4828
+2022-06-12 14:37:58.265899: Epoch 6/150, Test: HR = 0.3229, NDCG = 0.1790
+2022-06-12 14:38:00.422224: Model Saved: yelp
+
+2022-06-12 14:38:40.407499: Epoch 7/150, Train: Loss = 13.4464, preLoss = 2.1565
+
+2022-06-12 14:39:19.719343: Epoch 8/150, Train: Loss = 12.3936, preLoss = 1.8372
+
+2022-06-12 14:39:59.744930: Epoch 9/150, Train: Loss = 11.2163, preLoss = 1.5165
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0739 0.0739 0.1570760258608412 0.2366 0.2344600810170637 0.5121
+2022-06-12 14:40:48.219679: Epoch 9/150, Test: HR = 0.3503, NDCG = 0.1937
+2022-06-12 14:40:50.161082: Model Saved: yelp
+
+2022-06-12 14:41:30.660796: Epoch 10/150, Train: Loss = 10.0309, preLoss = 1.2210
+
+2022-06-12 14:42:10.803988: Epoch 11/150, Train: Loss = 8.9855, preLoss = 1.0653
+
+2022-06-12 14:42:50.359570: Epoch 12/150, Train: Loss = 7.9158, preLoss = 0.8606
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0709 0.0709 0.16097475211647955 0.2456 0.24600266528933254 0.5473
+2022-06-12 14:43:38.798322: Epoch 12/150, Test: HR = 0.3741, NDCG = 0.2023
+2022-06-12 14:43:41.103496: Model Saved: yelp
+
+2022-06-12 14:44:20.991878: Epoch 13/150, Train: Loss = 7.0044, preLoss = 0.7328
+
+2022-06-12 14:45:00.692115: Epoch 14/150, Train: Loss = 6.1733, preLoss = 0.6218
+
+2022-06-12 14:45:40.086098: Epoch 15/150, Train: Loss = 5.4619, preLoss = 0.5458
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0806 0.0806 0.17261630643315548 0.2612 0.2576844894219432 0.5631
+2022-06-12 14:46:27.869679: Epoch 15/150, Test: HR = 0.3893, NDCG = 0.2139
+2022-06-12 14:46:29.693074: Model Saved: yelp
+
+2022-06-12 14:47:09.364068: Epoch 16/150, Train: Loss = 4.7968, preLoss = 0.4469
+
+2022-06-12 14:47:48.782069: Epoch 17/150, Train: Loss = 4.2494, preLoss = 0.3943
+
+2022-06-12 14:48:28.266494: Epoch 18/150, Train: Loss = 3.7690, preLoss = 0.3463
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0874 0.0874 0.18281295137650597 0.2749 0.26903040559083025 0.5798
+2022-06-12 14:49:15.586284: Epoch 18/150, Test: HR = 0.4080, NDCG = 0.2257
+2022-06-12 14:49:17.303264: Model Saved: yelp
+
+2022-06-12 14:49:57.165637: Epoch 19/150, Train: Loss = 3.3295, preLoss = 0.2897
+
+2022-06-12 14:50:37.797023: Epoch 20/150, Train: Loss = 2.9653, preLoss = 0.2583
+
+2022-06-12 14:51:18.549433: Epoch 21/150, Train: Loss = 2.6572, preLoss = 0.2390
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0901 0.0901 0.19225765143534465 0.2922 0.27740718327699615 0.5928
+2022-06-12 14:52:06.408917: Epoch 21/150, Test: HR = 0.4248, NDCG = 0.2350
+2022-06-12 14:52:08.411860: Model Saved: yelp
+
+2022-06-12 14:52:48.062146: Epoch 22/150, Train: Loss = 2.3740, preLoss = 0.2057
+
+2022-06-12 14:53:27.929638: Epoch 23/150, Train: Loss = 2.1370, preLoss = 0.1883
+
+2022-06-12 14:54:07.823595: Epoch 24/150, Train: Loss = 1.9282, preLoss = 0.1702
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0948 0.0948 0.19738718279359643 0.2967 0.28626108146303997 0.6089
+2022-06-12 14:54:55.320117: Epoch 24/150, Test: HR = 0.4386, NDCG = 0.2432
+2022-06-12 14:54:57.182094: Model Saved: yelp
+
+2022-06-12 14:55:37.738393: Epoch 25/150, Train: Loss = 1.7491, preLoss = 0.1569
+
+2022-06-12 14:56:17.924928: Epoch 26/150, Train: Loss = 1.5958, preLoss = 0.1421
+
+2022-06-12 14:56:57.407727: Epoch 27/150, Train: Loss = 1.4626, preLoss = 0.1328
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1071 0.1071 0.2073674083271503 0.3033 0.29838458372647514 0.6226
+2022-06-12 14:57:45.258357: Epoch 27/150, Test: HR = 0.4489, NDCG = 0.2545
+2022-06-12 14:57:47.036447: Model Saved: yelp
+
+2022-06-12 14:58:26.967488: Epoch 28/150, Train: Loss = 1.3488, preLoss = 0.1261
+
+2022-06-12 14:59:07.280473: Epoch 29/150, Train: Loss = 1.2439, preLoss = 0.1178
+
+2022-06-12 14:59:48.871930: Epoch 30/150, Train: Loss = 1.1530, preLoss = 0.1111
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.129 0.129 0.22798408878060678 0.3236 0.3161714080344886 0.6369
+2022-06-12 15:00:37.564905: Epoch 30/150, Test: HR = 0.4560, NDCG = 0.2706
+2022-06-12 15:00:39.042115: Model Saved: yelp
+
+2022-06-12 15:01:18.789173: Epoch 31/150, Train: Loss = 1.0753, preLoss = 0.1066
+
+2022-06-12 15:01:58.393125: Epoch 32/150, Train: Loss = 1.0058, preLoss = 0.1023
+
+2022-06-12 15:02:38.002118: Epoch 33/150, Train: Loss = 0.9468, preLoss = 0.0979
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.131 0.131 0.23556796893688842 0.3364 0.3233565523791857 0.6476
+2022-06-12 15:03:25.044323: Epoch 33/150, Test: HR = 0.4705, NDCG = 0.2788
+2022-06-12 15:03:26.520994: Model Saved: yelp
+
+2022-06-12 15:04:06.425853: Epoch 34/150, Train: Loss = 0.8959, preLoss = 0.0972
+
+2022-06-12 15:04:45.599712: Epoch 35/150, Train: Loss = 0.8469, preLoss = 0.0911
+
+2022-06-12 15:05:25.122038: Epoch 36/150, Train: Loss = 0.8041, preLoss = 0.0911
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1442 0.1442 0.23811434393796857 0.3299 0.32930013862705926 0.6506
+2022-06-12 15:06:11.924483: Epoch 36/150, Test: HR = 0.4734, NDCG = 0.2849
+2022-06-12 15:06:13.477124: Model Saved: yelp
+
+2022-06-12 15:06:52.562798: Epoch 37/150, Train: Loss = 0.7686, preLoss = 0.0887
+
+2022-06-12 15:07:32.101273: Epoch 38/150, Train: Loss = 0.7313, preLoss = 0.0864
+
+2022-06-12 15:08:12.042308: Epoch 39/150, Train: Loss = 0.7024, preLoss = 0.0838
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1451 0.1451 0.23980124599695438 0.3313 0.33354674770506265 0.6601
+2022-06-12 15:09:01.325504: Epoch 39/150, Test: HR = 0.4786, NDCG = 0.2879
+2022-06-12 15:09:03.082288: Model Saved: yelp
+
+2022-06-12 15:09:43.984427: Epoch 40/150, Train: Loss = 0.6763, preLoss = 0.0831
+
+2022-06-12 15:10:23.294653: Epoch 41/150, Train: Loss = 0.6464, preLoss = 0.0795
+
+2022-06-12 15:11:02.996641: Epoch 42/150, Train: Loss = 0.6285, preLoss = 0.0800
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1414 0.1414 0.24296664183902125 0.34 0.3339812044203271 0.6613
+2022-06-12 15:11:49.881509: Epoch 42/150, Test: HR = 0.4793, NDCG = 0.2883
+2022-06-12 15:11:51.557492: Model Saved: yelp
+
+2022-06-12 15:12:30.991555: Epoch 43/150, Train: Loss = 0.6036, preLoss = 0.0764
+
+2022-06-12 15:13:10.457954: Epoch 44/150, Train: Loss = 0.5845, preLoss = 0.0768
+
+2022-06-12 15:13:50.642656: Epoch 45/150, Train: Loss = 0.5699, preLoss = 0.0771
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1375 0.1375 0.25224180373859606 0.3608 0.3401765713235422 0.6711
+2022-06-12 15:14:38.294082: Epoch 45/150, Test: HR = 0.4977, NDCG = 0.2967
+2022-06-12 15:14:39.904746: Model Saved: yelp
+
+2022-06-12 15:15:19.858991: Epoch 46/150, Train: Loss = 0.5531, preLoss = 0.0751
+
+2022-06-12 15:15:59.970584: Epoch 47/150, Train: Loss = 0.5388, preLoss = 0.0747
+
+2022-06-12 15:16:39.623244: Epoch 48/150, Train: Loss = 0.5235, preLoss = 0.0728
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1434 0.1434 0.25430835022955145 0.3591 0.3435459392917066 0.6721
+2022-06-12 15:17:27.150730: Epoch 48/150, Test: HR = 0.5016, NDCG = 0.3007
+2022-06-12 15:17:28.800834: Model Saved: yelp
+
+2022-06-12 15:18:11.174803: Epoch 49/150, Train: Loss = 0.5142, preLoss = 0.0729
+
+2022-06-12 15:18:52.268371: Epoch 50/150, Train: Loss = 0.5040, preLoss = 0.0739
+
+2022-06-12 15:19:32.082784: Epoch 51/150, Train: Loss = 0.4907, preLoss = 0.0726
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1427 0.1427 0.26438191489074436 0.3773 0.3502357411890616 0.6779
+2022-06-12 15:20:19.636436: Epoch 51/150, Test: HR = 0.5158, NDCG = 0.3095
+2022-06-12 15:20:21.285227: Model Saved: yelp
+
+2022-06-12 15:21:01.183357: Epoch 52/150, Train: Loss = 0.4798, preLoss = 0.0707
+
+2022-06-12 15:21:40.757897: Epoch 53/150, Train: Loss = 0.4696, preLoss = 0.0698
+
+2022-06-12 15:22:20.640787: Epoch 54/150, Train: Loss = 0.4597, preLoss = 0.0685
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1463 0.1463 0.26503423157153705 0.377 0.35270660494013867 0.6841
+2022-06-12 15:23:08.105581: Epoch 54/150, Test: HR = 0.5206, NDCG = 0.3116
+2022-06-12 15:23:09.851377: Model Saved: yelp
+
+2022-06-12 15:23:50.392248: Epoch 55/150, Train: Loss = 0.4549, preLoss = 0.0703
+
+2022-06-12 15:24:31.443871: Epoch 56/150, Train: Loss = 0.4433, preLoss = 0.0686
+
+2022-06-12 15:25:11.366154: Epoch 57/150, Train: Loss = 0.4403, preLoss = 0.0699
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1564 0.1564 0.27131151769362305 0.3781 0.3619712074041354 0.6926
+2022-06-12 15:25:58.849659: Epoch 57/150, Test: HR = 0.5338, NDCG = 0.3220
+2022-06-12 15:26:00.504842: Model Saved: yelp
+
+2022-06-12 15:26:41.239159: Epoch 58/150, Train: Loss = 0.4309, preLoss = 0.0688
+
+2022-06-12 15:27:22.198651: Epoch 59/150, Train: Loss = 0.4243, preLoss = 0.0683
+
+2022-06-12 15:28:02.968238: Epoch 60/150, Train: Loss = 0.4189, preLoss = 0.0677
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.161 0.161 0.27541640525393407 0.3834 0.36578684719558924 0.6959
+2022-06-12 15:28:51.166680: Epoch 60/150, Test: HR = 0.5369, NDCG = 0.3256
+2022-06-12 15:28:52.773403: Model Saved: yelp
+
+2022-06-12 15:29:32.250447: Epoch 61/150, Train: Loss = 0.4107, preLoss = 0.0651
+
+2022-06-12 15:30:11.462296: Epoch 62/150, Train: Loss = 0.4072, preLoss = 0.0662
+
+2022-06-12 15:30:51.123783: Epoch 63/150, Train: Loss = 0.4028, preLoss = 0.0661
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1655 0.1655 0.2788973389024213 0.3888 0.3691447346518176 0.702
+2022-06-12 15:31:38.387715: Epoch 63/150, Test: HR = 0.5387, NDCG = 0.3280
+2022-06-12 15:31:39.962002: Model Saved: yelp
+
+2022-06-12 15:32:19.608495: Epoch 64/150, Train: Loss = 0.3979, preLoss = 0.0651
+
+2022-06-12 15:32:59.097802: Epoch 65/150, Train: Loss = 0.3930, preLoss = 0.0662
+
+2022-06-12 15:33:38.846257: Epoch 66/150, Train: Loss = 0.3874, preLoss = 0.0634
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1638 0.1638 0.2807912741744567 0.3939 0.371301803167601 0.7068
+2022-06-12 15:34:25.815125: Epoch 66/150, Test: HR = 0.5474, NDCG = 0.3311
+2022-06-12 15:34:27.475339: Model Saved: yelp
+
+2022-06-12 15:35:08.257861: Epoch 67/150, Train: Loss = 0.3826, preLoss = 0.0641
+
+2022-06-12 15:35:48.123537: Epoch 68/150, Train: Loss = 0.3770, preLoss = 0.0625
+
+2022-06-12 15:36:30.280558: Epoch 69/150, Train: Loss = 0.3731, preLoss = 0.0624
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1829 0.1829 0.290534699709874 0.3959 0.38196496821565906 0.7098
+2022-06-12 15:37:19.040204: Epoch 69/150, Test: HR = 0.5588, NDCG = 0.3440
+2022-06-12 15:37:20.803755: Model Saved: yelp
+
+2022-06-12 15:38:01.242862: Epoch 70/150, Train: Loss = 0.3738, preLoss = 0.0645
+
+2022-06-12 15:38:41.335289: Epoch 71/150, Train: Loss = 0.3681, preLoss = 0.0616
+
+2022-06-12 15:39:21.281746: Epoch 72/150, Train: Loss = 0.3662, preLoss = 0.0626
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1758 0.1758 0.2876053787827376 0.3957 0.38102499408362006 0.7159
+2022-06-12 15:40:09.070436: Epoch 72/150, Test: HR = 0.5582, NDCG = 0.3413
+2022-06-12 15:40:10.670083: Model Saved: yelp
+
+2022-06-12 15:40:50.917031: Epoch 73/150, Train: Loss = 0.3607, preLoss = 0.0628
+
+2022-06-12 15:41:31.556284: Epoch 74/150, Train: Loss = 0.3583, preLoss = 0.0617
+
+2022-06-12 15:42:11.658253: Epoch 75/150, Train: Loss = 0.3556, preLoss = 0.0613
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1813 0.1813 0.2918399246258053 0.3976 0.3843331505384412 0.715
+2022-06-12 15:43:00.088035: Epoch 75/150, Test: HR = 0.5613, NDCG = 0.3457
+2022-06-12 15:43:01.853520: Model Saved: yelp
+
+2022-06-12 15:43:42.300593: Epoch 76/150, Train: Loss = 0.3520, preLoss = 0.0612
+
+2022-06-12 15:44:22.672528: Epoch 77/150, Train: Loss = 0.3497, preLoss = 0.0600
+
+2022-06-12 15:45:02.104135: Epoch 78/150, Train: Loss = 0.3455, preLoss = 0.0602
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1937 0.1937 0.3008035495293225 0.4025 0.39126034498614753 0.715
+2022-06-12 15:45:51.661412: Epoch 78/150, Test: HR = 0.5608, NDCG = 0.3525
+2022-06-12 15:45:53.343483: Model Saved: yelp
+
+2022-06-12 15:46:35.125755: Epoch 79/150, Train: Loss = 0.3434, preLoss = 0.0599
+
+2022-06-12 15:47:14.815969: Epoch 80/150, Train: Loss = 0.3419, preLoss = 0.0590
+
+2022-06-12 15:47:54.391150: Epoch 81/150, Train: Loss = 0.3409, preLoss = 0.0604
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1898 0.1898 0.302136101303641 0.4101 0.3904167661926472 0.7169
+2022-06-12 15:48:41.557966: Epoch 81/150, Test: HR = 0.5623, NDCG = 0.3515
+2022-06-12 15:48:43.162496: Model Saved: yelp
+
+2022-06-12 15:49:22.845219: Epoch 82/150, Train: Loss = 0.3383, preLoss = 0.0595
+
+2022-06-12 15:50:02.990706: Epoch 83/150, Train: Loss = 0.3380, preLoss = 0.0599
+
+2022-06-12 15:50:42.546167: Epoch 84/150, Train: Loss = 0.3342, preLoss = 0.0600
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1931 0.1931 0.30665576118843435 0.4158 0.3933496110399881 0.7153
+2022-06-12 15:51:29.726793: Epoch 84/150, Test: HR = 0.5679, NDCG = 0.3563
+2022-06-12 15:51:31.480752: Model Saved: yelp
+
+2022-06-12 15:52:11.328245: Epoch 85/150, Train: Loss = 0.3300, preLoss = 0.0586
+
+2022-06-12 15:52:51.728363: Epoch 86/150, Train: Loss = 0.3313, preLoss = 0.0593
+
+2022-06-12 15:53:31.476767: Epoch 87/150, Train: Loss = 0.3291, preLoss = 0.0584
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1843 0.1843 0.30275363455601495 0.416 0.3897573843274236 0.7179
+2022-06-12 15:54:18.518736: Epoch 87/150, Test: HR = 0.5651, NDCG = 0.3513
+2022-06-12 15:54:20.582583: Model Saved: yelp
+
+2022-06-12 15:55:02.272574: Epoch 88/150, Train: Loss = 0.3259, preLoss = 0.0583
+
+2022-06-12 15:55:43.503155: Epoch 89/150, Train: Loss = 0.3265, preLoss = 0.0577
+
+2022-06-12 15:56:22.837749: Epoch 90/150, Train: Loss = 0.3223, preLoss = 0.0577
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1852 0.1852 0.30203643444677314 0.4146 0.38988                                     730435075725 0.7192
+2022-06-12 15:57:10.593058: Epoch 90/150, Test: HR = 0.5646, NDCG = 0.3510
+2022-06-12 15:57:12.437019: Model Saved: yelp
+
+2022-06-12 15:57:52.250751: Epoch 91/150, Train: Loss = 0.3214, preLoss = 0.0586
+
+2022-06-12 15:58:32.702656: Epoch 92/150, Train: Loss = 0.3200, preLoss = 0.0570
+
+2022-06-12 15:59:12.608308: Epoch 93/150, Train: Loss = 0.3192, preLoss = 0.0578
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1784 0.1784 0.2968241468978595 0.4115 0.38664957403612304 0.7229
+2022-06-12 16:00:00.484359: Epoch 93/150, Test: HR = 0.5653, NDCG = 0.3471
+2022-06-12 16:00:02.273359: Model Saved: yelp
+
+2022-06-12 16:00:41.761552: Epoch 94/150, Train: Loss = 0.3189, preLoss = 0.0583
+
+2022-06-12 16:01:22.416408: Epoch 95/150, Train: Loss = 0.3147, preLoss = 0.0566
+
+2022-06-12 16:02:03.039038: Epoch 96/150, Train: Loss = 0.3163, preLoss = 0.0576
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1788 0.1788 0.29741667176929215 0.4129 0.38668799684949906 0.7233
+2022-06-12 16:02:51.421672: Epoch 96/150, Test: HR = 0.5658, NDCG = 0.3471
+2022-06-12 16:02:53.211443: Model Saved: yelp
+
+2022-06-12 16:03:33.455080: Epoch 97/150, Train: Loss = 0.3133, preLoss = 0.0568
+
+2022-06-12 16:04:15.866764: Epoch 98/150, Train: Loss = 0.3148, preLoss = 0.0579
+
+2022-06-12 16:04:56.385182: Epoch 99/150, Train: Loss = 0.3111, preLoss = 0.0567
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1819 0.1819 0.29805007161185204 0.4101 0.38845051837474304 0.7236
+2022-06-12 16:05:43.703969: Epoch 99/150, Test: HR = 0.5666, NDCG = 0.3490
+2022-06-12 16:05:45.481434: Model Saved: yelp
+
+2022-06-12 16:06:25.346339: Epoch 100/150, Train: Loss = 0.3109, preLoss = 0.0561
+
+2022-06-12 16:07:05.658519: Epoch 101/150, Train: Loss = 0.3102, preLoss = 0.0576
+
+2022-06-12 16:07:46.418199: Epoch 102/150, Train: Loss = 0.3071, preLoss = 0.0557
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1879 0.1879 0.3002461715756079 0.4102 0.391021490958185 0.7235
+2022-06-12 16:08:34.319473: Epoch 102/150, Test: HR = 0.5701, NDCG = 0.3525
+2022-06-12 16:08:36.098288: Model Saved: yelp
+
+2022-06-12 16:09:15.845290: Epoch 103/150, Train: Loss = 0.3058, preLoss = 0.0556
+
+2022-06-12 16:09:55.489932: Epoch 104/150, Train: Loss = 0.3086, preLoss = 0.0573
+
+2022-06-12 16:10:36.260308: Epoch 105/150, Train: Loss = 0.3072, preLoss = 0.0557
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1883 0.1883 0.301359705260714 0.4132 0.3917762977703098 0.7247
+2022-06-12 16:11:28.270943: Epoch 105/150, Test: HR = 0.5728, NDCG = 0.3535
+2022-06-12 16:11:30.239532: Model Saved: yelp
+
+2022-06-12 16:12:12.854578: Epoch 106/150, Train: Loss = 0.3047, preLoss = 0.0554
+
+2022-06-12 16:12:54.585227: Epoch 107/150, Train: Loss = 0.3030, preLoss = 0.0556
+
+2022-06-12 16:13:35.161560: Epoch 108/150, Train: Loss = 0.3037, preLoss = 0.0554
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1856 0.1856 0.3003776609235431 0.4129 0.3913101332183661 0.726
+2022-06-12 16:14:22.899395: Epoch 108/150, Test: HR = 0.5731, NDCG = 0.3528
+2022-06-12 16:14:24.804884: Model Saved: yelp
+
+2022-06-12 16:15:04.872982: Epoch 109/150, Train: Loss = 0.3013, preLoss = 0.0556
+
+2022-06-12 16:15:44.969099: Epoch 110/150, Train: Loss = 0.3010, preLoss = 0.0552
+
+2022-06-12 16:16:24.926766: Epoch 111/150, Train: Loss = 0.3025, preLoss = 0.0551
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1805 0.1805 0.2992454603081148 0.4133 0.3902474600726779 0.7258
+2022-06-12 16:17:12.741542: Epoch 111/150, Test: HR = 0.5747, NDCG = 0.3521
+2022-06-12 16:17:14.632742: Model Saved: yelp
+
+2022-06-12 16:17:54.840439: Epoch 112/150, Train: Loss = 0.3000, preLoss = 0.0546
+
+2022-06-12 16:18:35.060576: Epoch 113/150, Train: Loss = 0.2993, preLoss = 0.0555
+
+2022-06-12 16:19:15.111129: Epoch 114/150, Train: Loss = 0.3015, preLoss = 0.0560
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.177 0.177 0.298025335607679 0.4125 0.38945250419061533 0.726
+2022-06-12 16:20:02.951015: Epoch 114/150, Test: HR = 0.5754, NDCG = 0.3515
+2022-06-12 16:20:04.887944: Model Saved: yelp
+
+2022-06-12 16:20:44.791966: Epoch 115/150, Train: Loss = 0.3005, preLoss = 0.0557
+
+2022-06-12 16:21:25.542505: Epoch 116/150, Train: Loss = 0.2955, preLoss = 0.0545
+
+2022-06-12 16:22:06.363035: Epoch 117/150, Train: Loss = 0.2996, preLoss = 0.0557
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.178 0.178 0.29863082471820057 0.4138 0.38992958923820226 0.7273
+2022-06-12 16:22:53.925964: Epoch 117/150, Test: HR = 0.5768, NDCG = 0.3520
+2022-06-12 16:22:55.918129: Model Saved: yelp
+
+2022-06-12 16:23:36.421312: Epoch 118/150, Train: Loss = 0.2998, preLoss = 0.0558
+
+2022-06-12 16:24:16.774654: Epoch 119/150, Train: Loss = 0.2964, preLoss = 0.0554
+
+2022-06-12 16:24:56.555514: Epoch 120/150, Train: Loss = 0.2974, preLoss = 0.0552
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1755 0.1755 0.2986715337373684 0.4154 0.3898511624474644 0.7285
+2022-06-12 16:25:44.121141: Epoch 120/150, Test: HR = 0.5776, NDCG = 0.3518
+2022-06-12 16:25:46.038762: Model Saved: yelp
+
+2022-06-12 16:26:25.743804: Epoch 121/150, Train: Loss = 0.2963, preLoss = 0.0546
+
+2022-06-12 16:27:05.435086: Epoch 122/150, Train: Loss = 0.2974, preLoss = 0.0551
+
+2022-06-12 16:27:46.989360: Epoch 123/150, Train: Loss = 0.2935, preLoss = 0.0536
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1747 0.1747 0.29920912963408736 0.4172 0.3900894559371288 0.7295
+2022-06-12 16:28:35.905613: Epoch 123/150, Test: HR = 0.5768, NDCG = 0.3516
+2022-06-12 16:28:37.859866: Model Saved: yelp
+
+2022-06-12 16:29:18.205203: Epoch 124/150, Train: Loss = 0.2924, preLoss = 0.0535
+
+2022-06-12 16:29:58.452361: Epoch 125/150, Train: Loss = 0.2923, preLoss = 0.0542
+这是完整的
+2022-06-12 16:30:38.718920: Epoch 126/150, Train: Loss = 0.2924, preLoss = 0.0551
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1741 0.1741 0.29933821143120076 0.4175 0.39084755725349385 0.7319
+2022-06-12 16:31:26.523128: Epoch 126/150, Test: HR = 0.5796, NDCG = 0.3525
+2022-06-12 16:31:28.439565: Model Saved: yelp
+
+2022-06-12 16:32:08.844877: Epoch 127/150, Train: Loss = 0.2924, preLoss = 0.0551
+
+2022-06-12 16:32:49.371607: Epoch 128/150, Train: Loss = 0.2957, preLoss = 0.0549
+
+2022-06-12 16:33:30.433622: Epoch 129/150, Train: Loss = 0.2936, preLoss = 0.0532
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1749 0.1749 0.29894133668018374 0.4162 0.39110969996274686 0.7325
+2022-06-12 16:34:19.507112: Epoch 129/150, Test: HR = 0.5807, NDCG = 0.3529
+2022-06-12 16:34:21.651196: Model Saved: yelp
+
+2022-06-12 16:35:01.987056: Epoch 130/150, Train: Loss = 0.2907, preLoss = 0.0536
+
+2022-06-12 16:35:42.791775: Epoch 131/150, Train: Loss = 0.2934, preLoss = 0.0552
+
+2022-06-12 16:36:23.588918: Epoch 132/150, Train: Loss = 0.2917, preLoss = 0.0541
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1754 0.1754 0.2988256964156812 0.4152 0.3914356889488435 0.7324
+2022-06-12 16:37:12.672879: Epoch 132/150, Test: HR = 0.5806, NDCG = 0.3532
+2022-06-12 16:37:14.745737: Model Saved: yelp
+
+2022-06-12 16:37:56.855476: Epoch 133/150, Train: Loss = 0.2911, preLoss = 0.0540
+
+^CTraceback (most recent call last):20: preloss = 0.06, REGLoss = 0.24
+  File "main.py", line 25, in <module>
+    recom.run()
+  File "/root/CLSR/model.py", line 50, in run
+    reses = self.trainEpoch()
+  File "/root/CLSR/model.py", line 390, in trainEpoch
+    suLocs, siLocs = self.sampleSslBatch(batIds, self.handler.subadj)
+  File "/root/CLSR/model.py", line 337, in sampleSslBatch
+    posset = np.reshape(np.argwhere(temLabel[k][i]!=0), [-1])
+  File "<__array_function__ internals>", line 6, in argwhere
+  File "/root/miniconda3/lib/python3.7/site-packages/numpy/core/numeric.py", line 614, in argwhere
+    if np.ndim(a) == 0:
+  File "<__array_function__ internals>", line 6, in ndim
+  File "/root/miniconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py", line 3159, in ndim
+    try:
+KeyboardInterrupt
+root@container-327e11a8ac-4a1523bb:~/CLSR#
+Remote side unexpectedly closed network connection
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Session stopped
+    - Press <return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+     ┌────────────────────────────────────────────────────────────────────┐
+     │                        • MobaXterm 20.3 •                          │
+     │            (SSH client, X-server and networking tools)             │
+     │                                                                    │
+     │ ➤ SSH session to root@region-3.autodl.com                          │
+     │   • SSH compression : ✔                                            │
+     │   • SSH-browser     : ✔                                            │
+     │   • X11-forwarding  : ✘  (disabled or not supported by server)     │
+     │   • DISPLAY         : 192.168.1.107:0.0                            │
+     │                                                                    │
+     │ ➤ For more info, ctrl+click on help or visit our website           │
+     └────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 5.4.0-96-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+Last login: Sun Jun 12 10:42:29 2022 from 127.0.0.1
++--------------------------------------------------AutoDL--------------------------------------------------------+
+目录说明:
+╔═════════════════╦══════╦════╦═════════════════════════════════════════════════════════════════════════╗
+║目录             ║名称  ║速度║说明                                                                     ║
+╠═════════════════╬══════╬════╬═════════════════════════════════════════════════════════════════════════╣
+║/                ║系统盘║快  ║实例关机数据不会丢失，可存放代码等。会随保存镜像一起保存。               ║
+║/root/autodl-tmp ║数据盘║快  ║实例关机数据不会丢失，可存放读写IO要求高的数据。但不会随保存镜像一起保存 ║
+╚═════════════════╩══════╩════╩═════════════════════════════════════════════════════════════════════════╝
+CPU ：7 核心
+内存：16 GB
+GPU ：NVIDIA TITAN Xp, 1
+存储：
+  系统盘/               ：15% 2.9G/20G
+  数据盘/root/autodl-tmp：0% 0/50G
++----------------------------------------------------------------------------------------------------------------+
+*注意:
+1.系统盘较小请将大的数据存放于数据盘或网盘中，重置系统时数据盘和网盘中的数据不受影响
+2.清理系统盘请参考：https://www.autodl.com/docs/qa/
+root@container-327e11a8ac-4a1523bb:~# nvidia-smi
+Sun Jun 12 14:16:02 2022
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 495.44       Driver Version: 495.44       CUDA Version: 11.5     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA TITAN Xp     On   | 00000000:05:00.0 Off |                  N/A |
+| 38%   64C    P2   190W / 250W |   4377MiB / 12196MiB |     34%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
++-----------------------------------------------------------------------------+
+root@container-327e11a8ac-4a1523bb:~# cd ./CLSR
+root@container-327e11a8ac-4a1523bb:~/CLSR# CUDA_VISIBLE_DEVICES=0 python main.py --data yelp --reg 1e-2          --temp  0.1 --ssl_reg 1e-4 --save_path yelp --batch 256 --epoch 150
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a               synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/root/miniconda3/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1typ              e' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+WARNING:tensorflow:From main.py:15: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+2022-06-12 14:21:55.530070: Start
+tstInt [None None None ... None 8044 None]
+tstStat [False False False ... False  True False] 34306
+tstUsrs [    5     6     8 ... 34293 34297 34304] 10000
+trnMat   (0, 0) 1.0
+  (0, 1)        1.0
+  (0, 2)        1.0
+  (0, 3)        1.0
+  (0, 4)        1.0
+  (0, 5)        1.0
+  (0, 6)        1.0
+  (0, 7)        1.0
+  (0, 8)        2.0
+  (0, 9)        1.0
+  (1, 10)       1.0
+  (1, 11)       1.0
+  (1, 12)       1.0
+  (1, 13)       1.0
+  (1, 14)       1.0
+  (1, 15)       1.0
+  (1, 16)       1.0
+  (1, 17)       1.0
+  (1, 18)       1.0
+  (1, 19)       1.0
+  (1, 20)       1.0
+  (2, 21)       1.0
+  (2, 22)       1.0
+  (2, 23)       1.0
+  (2, 24)       1.0
+  :     :
+  (34303, 14502)        1.0
+  (34303, 15810)        1.0
+  (34303, 15826)        1.0
+  (34303, 21557)        1.0
+  (34303, 21953)        1.0
+  (34303, 35239)        1.0
+  (34304, 258)  1.0
+  (34304, 6211) 1.0
+  (34304, 9161) 1.0
+  (34304, 18943)        1.0
+  (34304, 18957)        1.0
+  (34304, 19006)        1.0
+  (34304, 19872)        1.0
+  (34304, 25815)        1.0
+  (34304, 41723)        1.0
+  (34305, 264)  1.0
+  (34305, 1207) 1.0
+  (34305, 3229) 1.0
+  (34305, 4340) 1.0
+  (34305, 4344) 1.0
+  (34305, 5847) 1.0
+  (34305, 9852) 1.0
+  (34305, 18942)        1.0
+  (34305, 23483)        1.0
+  (34305, 40666)        1.0   (0, 34306)        1.0
+  (0, 34307)    1.0
+  (0, 34308)    1.0
+  (0, 34309)    1.0
+  (0, 34311)    1.0
+  (0, 34313)    1.0
+  (0, 34314)    1.0
+  (0, 34315)    1.0
+  (1, 34320)    1.0
+  (1, 34321)    1.0
+  (1, 34326)    1.0
+  (2, 34327)    1.0
+  (2, 34331)    1.0
+  (2, 34337)    1.0
+  (2, 34342)    1.0
+  (2, 34346)    1.0
+  (3, 34367)    1.0
+  (3, 34369)    1.0
+  (3, 34370)    1.0
+  (3, 34372)    1.0
+  (3, 34376)    1.0
+  (3, 34378)    1.0
+  (3, 34386)    1.0
+  (3, 34396)    1.0
+  (3, 34409)    1.0
+  :     :
+  (80280, 33393)        1.0
+  (80282, 32716)        1.0
+  (80287, 32812)        1.0
+  (80291, 32853)        2.0
+  (80291, 33050)        2.0
+  (80293, 32862)        1.0
+  (80302, 33141)        1.0
+  (80303, 33142)        1.0
+  (80306, 33163)        1.0
+  (80307, 33173)        1.0
+  (80309, 33197)        2.0
+  (80310, 33206)        1.0
+  (80311, 33956)        2.0
+  (80313, 33229)        1.0
+  (80317, 33314)        1.0
+  (80319, 33331)        1.0
+  (80321, 33354)        1.0
+  (80328, 33399)        1.0
+  (80336, 33535)        1.0
+  (80338, 33576)        1.0
+  (80350, 33781)        1.0
+  (80358, 33946)        1.0
+  (80359, 33955)        1.0
+  (80362, 34076)        1.0
+  (80365, 34120)        1.0   (1, 34316)        1.0
+  (1, 34317)    1.0
+  (1, 34318)    1.0
+  (1, 34322)    1.0
+  (1, 34324)    1.0
+  (1, 34325)    1.0
+  (2, 34334)    1.0
+  (2, 34335)    1.0
+  (2, 34339)    1.0
+  (2, 34349)    1.0
+  (3, 34339)    1.0
+  (3, 34352)    1.0
+  (3, 34353)    1.0
+  (3, 34354)    1.0
+  (3, 34360)    1.0
+  (3, 34361)    1.0
+  (3, 34362)    1.0
+  (3, 34368)    1.0
+  (3, 34379)    1.0
+  (3, 34381)    1.0
+  (3, 34385)    1.0
+  (3, 34390)    1.0
+  (3, 34391)    1.0
+  (3, 34392)    1.0
+  (3, 34393)    1.0
+  :     :
+  (80204, 31379)        1.0
+  (80206, 31422)        1.0
+  (80239, 32026)        1.0
+  (80243, 32055)        1.0
+  (80252, 32250)        1.0
+  (80257, 32342)        1.0
+  (80261, 32372)        1.0
+  (80266, 32450)        1.0
+  (80270, 32474)        1.0
+  (80279, 32642)        1.0
+  (80286, 32803)        1.0
+  (80289, 32818)        1.0
+  (80296, 32959)        2.0
+  (80297, 33036)        1.0
+  (80298, 33068)        1.0
+  (80311, 33207)        1.0
+  (80322, 33356)        1.0
+  (80325, 33383)        1.0
+  (80345, 33691)        1.0
+  (80347, 33737)        1.0
+  (80349, 33775)        1.0
+  (80354, 33846)        1.0
+  (80357, 33867)        1.0
+  (80360, 34013)        1.0
+  (80369, 34192)        1.0   (0, 4)    3
+  (0, 6)        2
+  (1, 10)       1
+  (1, 11)       1
+  (1, 12)       1
+  (1, 13)       3
+  (1, 16)       1
+  (1, 17)       5
+  (1, 18)       1
+  (1, 19)       1
+  (2, 22)       3
+  (2, 23)       5
+  (2, 24)       5
+  (2, 26)       5
+  (2, 27)       7
+  (2, 28)       1
+  (2, 29)       1
+  (2, 30)       6
+  (2, 32)       5
+  (2, 33)       1
+  (2, 34)       3
+  (2, 35)       5
+  (2, 37)       5
+  (2, 38)       5
+  (2, 39)       5
+  :     :
+  (34303, 35239)        6
+  (34303, 6345) 5
+  (34303, 15810)        7
+  (34303, 14502)        5
+  (34303, 3797) 3
+  (34303, 21953)        6
+  (34303, 492)  3
+  (34303, 15826)        6
+  (34303, 1934) 6
+  (34304, 6211) 2
+  (34304, 258)  2
+  (34304, 18943)        4
+  (34304, 18957)        2
+  (34304, 9161) 2
+  (34304, 25815)        2
+  (34304, 19872)        2
+  (34304, 19006)        2
+  (34304, 41723)        4
+  (34305, 4340) 5
+  (34305, 3229) 1
+  (34305, 5847) 4
+  (34305, 40666)        7
+  (34305, 1207) 4
+  (34305, 4344) 4
+  (34305, 264)  7
+[46068 43634 43633 ...   458    51  6084]
+2022-06-12 14:21:55.611761: Load Data
+WARNING:tensorflow:From main.py:23: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+USER 34306 ITEM 46069
+WARNING:tensorflow:From /root/CLSR/model.py:242: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/NNLayers.py:48: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable in              stead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:95: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and wil              l be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:9: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+WARNING:tensorflow:From /root/CLSR/Utils/attention.py:19: dense (from tensorflow.python.layers.core) is deprecated and will be removed i              n a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/init_ops.py:1251: calling VarianceScaling.__i              nit__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f658026a790>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7f658026a790>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose:0", shape=(34306, 8, 64), dtype=float32)
+WARNING:tensorflow:Entity <bound method Dense.call of <tensorflow.python.layers.core.Dense object at 0x7f66465457d0>> could not be trans              formed and will be executed as-is. Please report this to the AutgoGraph team. When filing the bug, set the verbosity to 10 (on Linux, `e              xport AUTOGRAPH_VERBOSITY=10`) and attach the full output. Cause: converting <bound method Dense.call of <tensorflow.python.layers.core.              Dense object at 0x7f66465457d0>>: AttributeError: module 'gast' has no attribute 'Index'
+candidate_vector Tensor("transpose_1:0", shape=(46069, 8, 64), dtype=float32)
+WARNING:tensorflow:From /root/CLSR/model.py:287: The name tf.train.exponential_decay is deprecated. Please use tf.compat.v1.train.expone              ntial_decay instead.
+
+WARNING:tensorflow:From /root/CLSR/model.py:288: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimi              zer instead.
+
+WARNING:tensorflow:From /root/miniconda3/lib/python3.7/site-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<loca              ls>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2022-06-12 14:22:17.754106: Model Prepared
+2022-06-12 14:22:20.577774: Variables Inited
+2022-06-12 14:23:12.764015: Epoch 0/150, Train: Loss = 6.5252, preLoss = 2.4812
+[  0.        -41.99445    37.799282  ... -22.85801   -15.0353476
+  -1.6616372]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0344 0.0344 0.08014404518501471 0.1257 0.14292734723570602 0.3521
+2022-06-12 14:24:08.727116: Epoch 0/150, Test: HR = 0.2130, NDCG = 0.1081
+WARNING:tensorflow:From /root/CLSR/model.py:525: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
+
+2022-06-12 14:24:15.148911: Model Saved: yelp
+
+2022-06-12 14:24:56.746532: Epoch 1/150, Train: Loss = 12.8802, preLoss = 4.3702
+
+2022-06-12 14:25:38.888697: Epoch 2/150, Train: Loss = 17.6034, preLoss = 5.2605
+
+2022-06-12 14:26:20.823898: Epoch 3/150, Train: Loss = 20.5442, preLoss = 5.1263
+[  0.        -20.498108   34.017593  ... -12.649096    1.4155955
+   6.5003242]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0536 0.0536 0.11439007280350415 0.175 0.1899486684507918 0.4458
+2022-06-12 14:27:17.848148: Epoch 3/150, Test: HR = 0.2829, NDCG = 0.1492
+2022-06-12 14:27:19.931091: Model Saved: yelp
+
+2022-06-12 14:28:01.174263: Epoch 4/150, Train: Loss = 21.2094, preLoss = 4.3615
+
+2022-06-12 14:28:43.547781: Epoch 5/150, Train: Loss = 20.5457, preLoss = 3.6677
+
+2022-06-12 14:29:24.902795: Epoch 6/150, Train: Loss = 19.2410, preLoss = 3.0895
+[  0.         -4.546628    3.5773544 ...  11.418551  -22.10928772
+ -16.494698 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0661 0.0661 0.13660061800630605 0.2075 0.2155122585374465 0.4881
+2022-06-12 14:30:21.487741: Epoch 6/150, Test: HR = 0.3259, NDCG = 0.1747
+2022-06-12 14:30:22.644447: Model Saved: yelp
+
+2022-06-12 14:31:04.946128: Epoch 7/150, Train: Loss = 17.4520, preLoss = 2.5220
+
+2022-06-12 14:31:48.999427: Epoch 8/150, Train: Loss = 15.4112, preLoss = 2.0086
+
+2022-06-12 14:32:33.111311: Epoch 9/150, Train: Loss = 13.3793, preLoss = 1.5828
+[  0.         -5.7355556  20.011604  ...  -3.5640073 -12.93027855
+ -27.896746 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0769 0.0769 0.1535361394953356 0.2299 0.23621327530131395 0.5233
+2022-06-12 14:33:29.904246: Epoch 9/150, Test: HR = 0.3565, NDCG = 0.1944
+2022-06-12 14:33:31.679192: Model Saved: yelp
+
+2022-06-12 14:34:13.567551: Epoch 10/150, Train: Loss = 11.4669, preLoss = 1.2552
+
+2022-06-12 14:34:55.429827: Epoch 11/150, Train: Loss = 9.7563, preLoss = 0.9962
+
+2022-06-12 14:35:37.573909: Epoch 12/150, Train: Loss = 8.2674, preLoss = 0.8031
+[  0.          0.8089838 -30.703197  ...  18.10421    -4.82630182
+  -6.0648117]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0908 0.0908 0.16922314442666986 0.2471 0.25126027109331245 0.5396
+2022-06-12 14:36:34.436262: Epoch 12/150, Test: HR = 0.3673, NDCG = 0.2080
+2022-06-12 14:36:35.839524: Model Saved: yelp
+
+2022-06-12 14:37:17.459663: Epoch 13/150, Train: Loss = 6.9540, preLoss = 0.6479
+
+2022-06-12 14:37:58.976463: Epoch 14/150, Train: Loss = 5.8533, preLoss = 0.5301
+
+2022-06-12 14:38:41.172339: Epoch 15/150, Train: Loss = 4.9483, preLoss = 0.4438
+[ 0.          0.71640706 -8.571585   ...  7.418216   -1.776560577
+ -1.912641  ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.065 0.065 0.16175645336972472 0.2529 0.24528511509472586 0.5496
+2022-06-12 14:39:36.359119: Epoch 15/150, Test: HR = 0.3820, NDCG = 0.2032
+2022-06-12 14:39:38.081726: Model Saved: yelp
+
+2022-06-12 14:40:19.135070: Epoch 16/150, Train: Loss = 4.1794, preLoss = 0.3633
+
+2022-06-12 14:41:01.611855: Epoch 17/150, Train: Loss = 3.5649, preLoss = 0.3154
+
+2022-06-12 14:41:44.700754: Epoch 18/150, Train: Loss = 3.0428, preLoss = 0.2612
+[ 0.         -2.777385   -7.527842   ...  1.4193897   5.478879555
+  0.48273996]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0727 0.0727 0.1808167513337663 0.2814 0.2668593629990173 0.5869
+2022-06-12 14:42:40.524772: Epoch 18/150, Test: HR = 0.4112, NDCG = 0.2227
+2022-06-12 14:42:43.448243: Model Saved: yelp
+
+2022-06-12 14:43:24.429224: Epoch 19/150, Train: Loss = 2.6383, preLoss = 0.2374
+
+2022-06-12 14:44:06.036158: Epoch 20/150, Train: Loss = 2.2908, preLoss = 0.2052
+
+2022-06-12 14:44:47.901307: Epoch 21/150, Train: Loss = 2.0013, preLoss = 0.1819
+[ 0.         -1.3068342  -3.6553495  ... -1.288541    1.342964 54
+  0.84087485]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0781 0.0781 0.18870051192896145 0.2926 0.27627251916289997 0.6044
+2022-06-12 14:45:42.633592: Epoch 21/150, Test: HR = 0.4249, NDCG = 0.2312
+2022-06-12 14:45:44.739114: Model Saved: yelp
+
+2022-06-12 14:46:25.561090: Epoch 22/150, Train: Loss = 1.7816, preLoss = 0.1776
+
+2022-06-12 14:47:06.630913: Epoch 23/150, Train: Loss = 1.5857, preLoss = 0.1564
+
+2022-06-12 14:47:47.743041: Epoch 24/150, Train: Loss = 1.4292, preLoss = 0.1518
+[ 0.         -1.4707111  -0.09968519 ...  0.29337227  0.343430582
+  0.21236926]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.0915 0.0915 0.1981312212647363 0.3004 0.2926909821199187 0.6296
+2022-06-12 14:48:42.532085: Epoch 24/150, Test: HR = 0.4620, NDCG = 0.2505
+2022-06-12 14:48:44.195907: Model Saved: yelp
+
+2022-06-12 14:49:25.215921: Epoch 25/150, Train: Loss = 1.2883, preLoss = 0.1398
+
+2022-06-12 14:50:07.731211: Epoch 26/150, Train: Loss = 1.1764, preLoss = 0.1336
+
+2022-06-12 14:50:50.438339: Epoch 27/150, Train: Loss = 1.0806, preLoss = 0.1299
+[ 0.          0.10354537  0.18734068 ... -0.0951333  -0.212511269
+  0.19554433]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1269 0.1269 0.23596368948789045 0.3453 0.3226797807163704 0.6483
+2022-06-12 14:51:45.908701: Epoch 27/150, Test: HR = 0.4882, NDCG = 0.2823
+2022-06-12 14:51:47.618598: Model Saved: yelp
+
+2022-06-12 14:52:28.784769: Epoch 28/150, Train: Loss = 0.9985, preLoss = 0.1255
+
+2022-06-12 14:53:09.886062: Epoch 29/150, Train: Loss = 0.9308, preLoss = 0.1252
+
+2022-06-12 14:53:51.048370: Epoch 30/150, Train: Loss = 0.8745, preLoss = 0.1237
+[ 0.         -0.3036555  -0.5847909  ... -1.4467726  -0.214899941
+  0.0847048 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1359 0.1359 0.24778268674931736 0.3581 0.3299744511304607 0.6473
+2022-06-12 14:54:45.494690: Epoch 30/150, Test: HR = 0.4912, NDCG = 0.2907
+2022-06-12 14:54:47.098786: Model Saved: yelp
+
+2022-06-12 14:55:27.700711: Epoch 31/150, Train: Loss = 0.8150, preLoss = 0.1155
+
+2022-06-12 14:56:08.548835: Epoch 32/150, Train: Loss = 0.7701, preLoss = 0.1171
+
+2022-06-12 14:56:49.773862: Epoch 33/150, Train: Loss = 0.7261, preLoss = 0.1138
+[ 0.         -0.07897764  0.18458968 ... -0.579628   -1.153177 72
+ -0.11405691]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1485 0.1485 0.26285721407121787 0.3726 0.3470455406605504 0.6652
+2022-06-12 14:57:44.473731: Epoch 33/150, Test: HR = 0.5165, NDCG = 0.3096
+2022-06-12 14:57:45.794502: Model Saved: yelp
+
+2022-06-12 14:58:26.700853: Epoch 34/150, Train: Loss = 0.6851, preLoss = 0.1090
+
+2022-06-12 14:59:08.222202: Epoch 35/150, Train: Loss = 0.6545, preLoss = 0.1101
+
+2022-06-12 14:59:49.570128: Epoch 36/150, Train: Loss = 0.6239, preLoss = 0.1085
+[ 0.         -0.28302687  0.05100906 ... -0.13470814 -0.585538479
+ -0.07889351]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1683 0.1683 0.2748001950141174 0.376 0.3634917120365501 0.6839
+2022-06-12 15:00:43.958545: Epoch 36/150, Test: HR = 0.5266, NDCG = 0.3239
+2022-06-12 15:00:45.280354: Model Saved: yelp
+
+2022-06-12 15:01:27.275917: Epoch 37/150, Train: Loss = 0.5989, preLoss = 0.1087
+
+2022-06-12 15:02:08.831423: Epoch 38/150, Train: Loss = 0.5736, preLoss = 0.1064
+
+2022-06-12 15:02:50.074978: Epoch 39/150, Train: Loss = 0.5510, preLoss = 0.1055
+[ 0.         -0.01198365 -0.58173466 ...  0.8840465   0.553751 76
+  0.20408997]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1696 0.1696 0.2798652362598647 0.3821 0.36623344297754457 0.6834
+2022-06-12 15:03:44.758222: Epoch 39/150, Test: HR = 0.5230, NDCG = 0.3258
+2022-06-12 15:03:46.174991: Model Saved: yelp
+
+2022-06-12 15:04:27.577172: Epoch 40/150, Train: Loss = 0.5327, preLoss = 0.1044
+
+2022-06-12 15:05:08.663006: Epoch 41/150, Train: Loss = 0.5168, preLoss = 0.1053
+
+2022-06-12 15:05:49.486319: Epoch 42/150, Train: Loss = 0.4962, preLoss = 0.1008
+[ 0.         -1.1820556  -0.02342913 ...  0.73474956  0.255796641
+  0.31418383]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1723 0.1723 0.28484344489042895 0.3925 0.3751652219462366 0.7064
+2022-06-12 15:06:44.419354: Epoch 42/150, Test: HR = 0.5469, NDCG = 0.3348
+2022-06-12 15:06:45.806853: Model Saved: yelp
+
+2022-06-12 15:07:27.100254: Epoch 43/150, Train: Loss = 0.4791, preLoss = 0.0997
+
+2022-06-12 15:08:08.375746: Epoch 44/150, Train: Loss = 0.4671, preLoss = 0.1014
+
+2022-06-12 15:08:50.103750: Epoch 45/150, Train: Loss = 0.4527, preLoss = 0.0997
+[ 0.         -1.0037521   0.0696893  ...  0.5081372   0.001269887
+  0.2064364 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1717 0.1717 0.2848541475772574 0.3926 0.3765564865275414 0.7121
+2022-06-12 15:09:45.320731: Epoch 45/150, Test: HR = 0.5492, NDCG = 0.3355
+2022-06-12 15:09:46.786009: Model Saved: yelp
+
+2022-06-12 15:10:27.987025: Epoch 46/150, Train: Loss = 0.4403, preLoss = 0.0995
+
+2022-06-12 15:11:09.486950: Epoch 47/150, Train: Loss = 0.4274, preLoss = 0.0974
+
+2022-06-12 15:11:50.493564: Epoch 48/150, Train: Loss = 0.4156, preLoss = 0.0962
+[ 0.         -0.5390033  -0.5008844  ...  0.38165206  0.258626139
+  0.21785402]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1787 0.1787 0.29017795815967024 0.3945 0.38401016659871157 0.7127
+2022-06-12 15:12:45.336577: Epoch 48/150, Test: HR = 0.5717, NDCG = 0.3484
+2022-06-12 15:12:46.865191: Model Saved: yelp
+
+2022-06-12 15:13:28.442675: Epoch 49/150, Train: Loss = 0.4053, preLoss = 0.0958
+
+2022-06-12 15:14:09.055637: Epoch 50/150, Train: Loss = 0.3946, preLoss = 0.0948
+
+2022-06-12 15:14:49.951650: Epoch 51/150, Train: Loss = 0.3840, preLoss = 0.0936
+[ 0.         -0.15611032 -0.57954746 ...  0.4332666   0.146701193
+  0.3108035 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1647 0.1647 0.2892400138866125 0.4059 0.37803677777143296 0.7132
+2022-06-12 15:15:44.683957: Epoch 51/150, Test: HR = 0.5590, NDCG = 0.3392
+2022-06-12 15:15:46.101693: Model Saved: yelp
+
+2022-06-12 15:16:27.449341: Epoch 52/150, Train: Loss = 0.3744, preLoss = 0.0931
+
+2022-06-12 15:17:08.379697: Epoch 53/150, Train: Loss = 0.3653, preLoss = 0.0916
+
+2022-06-12 15:17:49.838759: Epoch 54/150, Train: Loss = 0.3572, preLoss = 0.0906
+[ 0.         -0.34789968 -0.32072917 ...  0.32492927  0.2088783903
+  0.29553285]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1849 0.1849 0.30635478131132177 0.4224 0.39202170877569575 0.7222
+2022-06-12 15:18:45.232499: Epoch 54/150, Test: HR = 0.5587, NDCG = 0.3507
+2022-06-12 15:18:46.541619: Model Saved: yelp
+
+2022-06-12 15:19:28.076946: Epoch 55/150, Train: Loss = 0.3474, preLoss = 0.0881
+
+2022-06-12 15:20:08.847239: Epoch 56/150, Train: Loss = 0.3393, preLoss = 0.0873
+
+2022-06-12 15:20:49.514958: Epoch 57/150, Train: Loss = 0.3330, preLoss = 0.0878
+[ 0.         -0.3854228   0.280053   ...  0.5111213  -0.0504853852
+  0.12566131]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1843 0.1843 0.3009970800647946 0.4139 0.39407851406389743 0.734
+2022-06-12 15:21:44.574108: Epoch 57/150, Test: HR = 0.5787, NDCG = 0.3549
+2022-06-12 15:21:45.903381: Model Saved: yelp
+
+2022-06-12 15:22:27.081944: Epoch 58/150, Train: Loss = 0.3265, preLoss = 0.0874
+
+2022-06-12 15:23:08.227807: Epoch 59/150, Train: Loss = 0.3219, preLoss = 0.0882
+
+2022-06-12 15:23:50.013799: Epoch 60/150, Train: Loss = 0.3145, preLoss = 0.0861
+[ 0.         -0.14003196  0.5847663  ...  0.20859274  0.1416524467
+  0.18890701]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1886 0.1886 0.31133164594059254 0.4315 0.40113838019962983 0.74
+2022-06-12 15:24:45.031796: Epoch 60/150, Test: HR = 0.5901, NDCG = 0.3634
+2022-06-12 15:24:46.475108: Model Saved: yelp
+
+2022-06-12 15:25:27.217018: Epoch 61/150, Train: Loss = 0.3108, preLoss = 0.0877
+
+2022-06-12 15:26:08.205830: Epoch 62/150, Train: Loss = 0.3040, preLoss = 0.0855
+
+2022-06-12 15:26:50.087055: Epoch 63/150, Train: Loss = 0.2998, preLoss = 0.0858
+[ 0.         -0.15297028 -0.08692563 ...  0.08420391 -0.1695954225
+  0.09981295]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1837 0.1837 0.29551083893185054 0.4125 0.39089681532654114 0.7425
+2022-06-12 15:27:45.528152: Epoch 63/150, Test: HR = 0.5737, NDCG = 0.3484
+2022-06-12 15:27:46.832608: Model Saved: yelp
+
+2022-06-12 15:28:27.814282: Epoch 64/150, Train: Loss = 0.2955, preLoss = 0.0856
+
+2022-06-12 15:29:09.216141: Epoch 65/150, Train: Loss = 0.2891, preLoss = 0.0834
+
+2022-06-12 15:29:50.904021: Epoch 66/150, Train: Loss = 0.2859, preLoss = 0.0842
+[ 0.          0.05302656 -0.22898719 ...  0.01391993 -0.2361578606
+  0.18339357]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1862 0.1862 0.30145190911954967 0.422 0.39087080718952677 0.7327
+2022-06-12 15:30:45.961329: Epoch 66/150, Test: HR = 0.5722, NDCG = 0.3505
+2022-06-12 15:30:47.267767: Model Saved: yelp
+
+2022-06-12 15:31:27.962753: Epoch 67/150, Train: Loss = 0.2788, preLoss = 0.0808
+
+2022-06-12 15:32:08.940086: Epoch 68/150, Train: Loss = 0.2751, preLoss = 0.0803
+
+2022-06-12 15:32:49.801582: Epoch 69/150, Train: Loss = 0.2718, preLoss = 0.0805
+[ 0.          0.14189033 -0.23674509 ...  0.00499689 -0.1541297735
+  0.15345165]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1896 0.1896 0.30500790901017316 0.4224 0.39391259372941484 0.7334
+2022-06-12 15:33:44.223752: Epoch 69/150, Test: HR = 0.5648, NDCG = 0.3515
+2022-06-12 15:33:45.692072: Model Saved: yelp
+
+2022-06-12 15:34:27.024899: Epoch 70/150, Train: Loss = 0.2709, preLoss = 0.0829
+
+2022-06-12 15:35:08.299565: Epoch 71/150, Train: Loss = 0.2644, preLoss = 0.0797
+
+2022-06-12 15:35:49.641607: Epoch 72/150, Train: Loss = 0.2605, preLoss = 0.0790
+[ 0.         -0.09325471 -0.02537417 ...  0.14778781 -0.1112536436
+  0.17467578]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1978 0.1978 0.31788735790177863 0.437 0.4036072175340784 0.7399
+2022-06-12 15:36:45.132104: Epoch 72/150, Test: HR = 0.5711, NDCG = 0.3611
+2022-06-12 15:36:46.669880: Model Saved: yelp
+
+2022-06-12 15:37:28.568388: Epoch 73/150, Train: Loss = 0.2576, preLoss = 0.0790
+
+2022-06-12 15:38:10.052413: Epoch 74/150, Train: Loss = 0.2539, preLoss = 0.0780
+
+2022-06-12 15:38:51.361930: Epoch 75/150, Train: Loss = 0.2521, preLoss = 0.0789
+[ 0.         -0.19583459  0.35334563 ...  0.15896434 -0.0903351546
+  0.14163223]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1997 0.1997 0.3085932048922062 0.4121 0.40463260903089393 0.745
+2022-06-12 15:39:46.731443: Epoch 75/150, Test: HR = 0.5733, NDCG = 0.3614
+2022-06-12 15:39:48.131078: Model Saved: yelp
+
+2022-06-12 15:40:29.325061: Epoch 76/150, Train: Loss = 0.2485, preLoss = 0.0776
+
+2022-06-12 15:41:10.344789: Epoch 77/150, Train: Loss = 0.2449, preLoss = 0.0765
+
+2022-06-12 15:41:51.714068: Epoch 78/150, Train: Loss = 0.2405, preLoss = 0.0745
+[ 0.         -0.16983205  0.2667813  ... -0.23958808 -0.0459029866
+  0.29797542]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1902 0.1902 0.3126572370555963 0.4262 0.4034013795391101 0.7408
+2022-06-12 15:42:47.235879: Epoch 78/150, Test: HR = 0.5782, NDCG = 0.3626
+2022-06-12 15:42:48.631367: Model Saved: yelp
+
+2022-06-12 15:43:30.456531: Epoch 79/150, Train: Loss = 0.2400, preLoss = 0.0763
+
+2022-06-12 15:44:12.282772: Epoch 80/150, Train: Loss = 0.2357, preLoss = 0.0742
+
+2022-06-12 15:44:53.647502: Epoch 81/150, Train: Loss = 0.2333, preLoss = 0.0739
+[ 0.         -0.05267514  0.0584363  ... -0.14899656  0.0593223896
+  0.27916712]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2046 0.2046 0.32050466355118534 0.4329 0.4095889478707283 0.7423
+2022-06-12 15:45:49.524577: Epoch 81/150, Test: HR = 0.5829, NDCG = 0.3695
+2022-06-12 15:45:50.925637: Model Saved: yelp
+
+2022-06-12 15:46:33.728589: Epoch 82/150, Train: Loss = 0.2316, preLoss = 0.0742
+
+2022-06-12 15:47:15.468752: Epoch 83/150, Train: Loss = 0.2282, preLoss = 0.0728
+
+2022-06-12 15:47:57.342777: Epoch 84/150, Train: Loss = 0.2276, preLoss = 0.0740
+[ 0.         -0.12716444  0.14297003 ... -0.06879934  0.0169723301
+  0.16887926]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.216 0.216 0.3341931085731103 0.4481 0.42186998264241854 0.7513
+2022-06-12 15:48:53.482221: Epoch 84/150, Test: HR = 0.5963, NDCG = 0.3827
+2022-06-12 15:48:55.027168: Model Saved: yelp
+
+2022-06-12 15:49:36.420165: Epoch 85/150, Train: Loss = 0.2257, preLoss = 0.0739
+
+2022-06-12 15:50:18.342684: Epoch 86/150, Train: Loss = 0.2224, preLoss = 0.0722
+
+2022-06-12 15:50:59.774274: Epoch 87/150, Train: Loss = 0.2222, preLoss = 0.0735
+[ 0.0000000e+00 -3.0527443e-01  8.6694956e-05 ...  5.3561948e-0200
+  3.7471820e-03  2.7738118e-01]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1951 0.1951 0.323648914927899 0.4493 0.40937010741845054 0.7478
+2022-06-12 15:51:54.612686: Epoch 87/150, Test: HR = 0.5909, NDCG = 0.3699
+2022-06-12 15:51:56.010088: Model Saved: yelp
+
+2022-06-12 15:52:36.668435: Epoch 88/150, Train: Loss = 0.2198, preLoss = 0.0728
+
+2022-06-12 15:53:17.165768: Epoch 89/150, Train: Loss = 0.2177, preLoss = 0.0722
+
+2022-06-12 15:53:58.035836: Epoch 90/150, Train: Loss = 0.2168, preLoss = 0.0728
+[ 0.         -0.33922333 -0.26526135 ...  0.0406151  -0.0056844189
+  0.26950133]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1974 0.1974 0.3217813140734103 0.444 0.4092453187932542 0.7483
+2022-06-12 15:54:52.900682: Epoch 90/150, Test: HR = 0.5877, NDCG = 0.3688
+2022-06-12 15:54:54.464191: Model Saved: yelp
+
+2022-06-12 15:55:36.732169: Epoch 91/150, Train: Loss = 0.2152, preLoss = 0.0725
+
+2022-06-12 15:56:18.206447: Epoch 92/150, Train: Loss = 0.2145, preLoss = 0.0732
+
+2022-06-12 15:56:59.207534: Epoch 93/150, Train: Loss = 0.2124, preLoss = 0.0723
+[ 0.         -0.30583403 -0.34615135 ... -0.00803754  0.0294792902
+  0.24941573]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2022 0.2022 0.32473065952104013 0.4423 0.41541007863388096 0.7568
+2022-06-12 15:57:54.484590: Epoch 93/150, Test: HR = 0.5937, NDCG = 0.3745
+2022-06-12 15:57:56.025541: Model Saved: yelp
+
+2022-06-12 15:58:37.443836: Epoch 94/150, Train: Loss = 0.2105, preLoss = 0.0717
+
+2022-06-12 15:59:19.618612: Epoch 95/150, Train: Loss = 0.2070, preLoss = 0.0693
+
+2022-06-12 16:00:01.324223: Epoch 96/150, Train: Loss = 0.2060, preLoss = 0.0696
+[ 0.         -0.25970984 -0.13944134 ...  0.05248466  0.0477982581
+  0.23627573]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.2096 0.2096 0.32841662808134303 0.4458 0.4175440598123801 0.7539
+2022-06-12 16:00:57.301145: Epoch 96/150, Test: HR = 0.5970, NDCG = 0.3780
+2022-06-12 16:00:58.879855: Model Saved: yelp
+
+2022-06-12 16:01:40.595770: Epoch 97/150, Train: Loss = 0.2044, preLoss = 0.0692
+
+2022-06-12 16:02:22.067016: Epoch 98/150, Train: Loss = 0.2031, preLoss = 0.0690
+
+2022-06-12 16:03:03.908680: Epoch 99/150, Train: Loss = 0.2029, preLoss = 0.0698
+[ 0.         -0.26959258 -0.27352914 ... -0.01816764  0.0438022270
+  0.22067556]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1889 0.1889 0.3203846792439188 0.4447 0.41097387352248516 0.7564
+2022-06-12 16:04:00.049009: Epoch 99/150, Test: HR = 0.6035, NDCG = 0.3726
+2022-06-12 16:04:01.672264: Model Saved: yelp
+
+2022-06-12 16:04:44.311398: Epoch 100/150, Train: Loss = 0.2005, preLoss = 0.0685
+
+2022-06-12 16:05:25.826658: Epoch 101/150, Train: Loss = 0.1995, preLoss = 0.0685
+
+2022-06-12 16:06:06.663418: Epoch 102/150, Train: Loss = 0.1987, preLoss = 0.0687
+[ 0.         -0.18087468 -0.17057718 ... -0.04855374 -0.0267548881
+  0.26896772]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1976 0.1976 0.31996502494321993 0.435 0.41433865462637726 0.7575
+2022-06-12 16:07:01.434498: Epoch 102/150, Test: HR = 0.6053, NDCG = 0.3760
+2022-06-12 16:07:02.933805: Model Saved: yelp
+
+2022-06-12 16:07:44.110861: Epoch 103/150, Train: Loss = 0.1973, preLoss = 0.0681
+
+2022-06-12 16:08:25.044626: Epoch 104/150, Train: Loss = 0.1965, preLoss = 0.0682
+
+2022-06-12 16:09:06.591806: Epoch 105/150, Train: Loss = 0.1959, preLoss = 0.0684
+[ 0.         -0.11261177 -0.10034978 ... -0.08295902  0.0275586791
+  0.27705753]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1987 0.1987 0.3182886835916316 0.4337 0.4134737145109049 0.7587
+2022-06-12 16:10:02.489935: Epoch 105/150, Test: HR = 0.6060, NDCG = 0.3748
+2022-06-12 16:10:04.152311: Model Saved: yelp
+
+2022-06-12 16:10:47.082768: Epoch 106/150, Train: Loss = 0.1941, preLoss = 0.0674
+
+2022-06-12 16:11:31.604223: Epoch 107/150, Train: Loss = 0.1919, preLoss = 0.0660
+
+2022-06-12 16:12:16.262258: Epoch 108/150, Train: Loss = 0.1911, preLoss = 0.0660
+[ 0.         -0.11513331 -0.12636638 ...  0.03443737 -0.006214 882
+  0.31286782]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1955 0.1955 0.3154965110022339 0.4288 0.41294435127764045 0.7608
+2022-06-12 16:13:15.461043: Epoch 108/150, Test: HR = 0.6079, NDCG = 0.3744
+2022-06-12 16:13:16.988275: Model Saved: yelp
+
+2022-06-12 16:13:58.671356: Epoch 109/150, Train: Loss = 0.1916, preLoss = 0.0672
+
+2022-06-12 16:14:41.959166: Epoch 110/150, Train: Loss = 0.1899, preLoss = 0.0663
+
+2022-06-12 16:15:24.803421: Epoch 111/150, Train: Loss = 0.1895, preLoss = 0.0666
+[ 0.         -0.14171134 -0.1319671  ...  0.05228863 -0.0029145492
+  0.25740838]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1972 0.1972 0.31581808504025305 0.4273 0.41462397687661334 0.7631
+2022-06-12 16:16:19.539382: Epoch 111/150, Test: HR = 0.6084, NDCG = 0.3756
+2022-06-12 16:16:21.101299: Model Saved: yelp
+
+2022-06-12 16:17:02.522917: Epoch 112/150, Train: Loss = 0.1876, preLoss = 0.0655
+
+2022-06-12 16:17:44.039674: Epoch 113/150, Train: Loss = 0.1871, preLoss = 0.0656
+
+2022-06-12 16:18:25.355067: Epoch 114/150, Train: Loss = 0.1864, preLoss = 0.0656
+[ 0.         -0.1995229  -0.08508922 ...  0.06140191 -0.0187093303
+  0.2640968 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1989 0.1989 0.31884549065428186 0.4348 0.41569865027113473 0.764
+2022-06-12 16:19:20.508345: Epoch 114/150, Test: HR = 0.6118, NDCG = 0.3772
+2022-06-12 16:19:22.139441: Model Saved: yelp
+
+2022-06-12 16:20:03.610525: Epoch 115/150, Train: Loss = 0.1863, preLoss = 0.0660
+
+2022-06-12 16:20:45.832357: Epoch 116/150, Train: Loss = 0.1846, preLoss = 0.0649
+
+2022-06-12 16:21:29.525697: Epoch 117/150, Train: Loss = 0.1849, preLoss = 0.0658
+[ 0.         -0.19313507 -0.12775728 ...  0.03853813 -0.024407 893
+  0.24416208]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.198 0.198 0.31564106156023575 0.4286 0.41530462028331905 0.766
+2022-06-12 16:22:25.815724: Epoch 117/150, Test: HR = 0.6127, NDCG = 0.3766
+2022-06-12 16:22:27.393392: Model Saved: yelp
+
+2022-06-12 16:23:08.826185: Epoch 118/150, Train: Loss = 0.1840, preLoss = 0.0654
+
+2022-06-12 16:23:50.323423: Epoch 119/150, Train: Loss = 0.1831, preLoss = 0.0651
+
+2022-06-12 16:24:31.842922: Epoch 120/150, Train: Loss = 0.1827, preLoss = 0.0652
+[ 0.         -0.16345564 -0.09133066 ...  0.02991416 -0.0267612494
+  0.2254685 ]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1975 0.1975 0.320477096071841 0.4395 0.4171307271335727 0.7676
+2022-06-12 16:25:27.223538: Epoch 120/150, Test: HR = 0.6156, NDCG = 0.3787
+2022-06-12 16:25:28.895620: Model Saved: yelp
+其它都是去掉ssl的
+2022-06-12 16:26:10.534731: Epoch 121/150, Train: Loss = 0.1828, preLoss = 0.0659
+
+2022-06-12 16:26:52.479379: Epoch 122/150, Train: Loss = 0.1806, preLoss = 0.0641
+
+2022-06-12 16:27:35.080517: Epoch 123/150, Train: Loss = 0.1818, preLoss = 0.0658
+[ 0.         -0.1456523  -0.12803881 ...  0.02436096 -0.0172064603
+  0.16684604]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1979 0.1979 0.3229550841957645 0.4419 0.41876032914214284 0.7679
+2022-06-12 16:28:32.274375: Epoch 123/150, Test: HR = 0.6160, NDCG = 0.3805
+2022-06-12 16:28:33.930067: Model Saved: yelp
+
+2022-06-12 16:29:14.894336: Epoch 124/150, Train: Loss = 0.1806, preLoss = 0.0650
+
+2022-06-12 16:29:55.969356: Epoch 125/150, Train: Loss = 0.1797, preLoss = 0.0645
+
+2022-06-12 16:30:37.037201: Epoch 126/150, Train: Loss = 0.1792, preLoss = 0.0644
+[ 0.         -0.14004603 -0.10794888 ... -0.04934482 -0.0302049912
+  0.16304445]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1959 0.1959 0.32048509065231845 0.4376 0.4181907644059025 0.7697
+2022-06-12 16:31:31.572599: Epoch 126/150, Test: HR = 0.6164, NDCG = 0.3796
+2022-06-12 16:31:34.950750: Model Saved: yelp
+
+2022-06-12 16:32:16.096625: Epoch 127/150, Train: Loss = 0.1782, preLoss = 0.0639
+
+2022-06-12 16:32:57.495593: Epoch 128/150, Train: Loss = 0.1778, preLoss = 0.0638
+
+2022-06-12 16:33:39.580454: Epoch 129/150, Train: Loss = 0.1783, preLoss = 0.0647
+[ 0.         -0.21411315 -0.09791051 ... -0.01528065 -0.0491471992
+  0.19728582]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1969 0.1969 0.32302006494357355 0.441 0.42020658613512896 0.7721
+2022-06-12 16:34:35.366768: Epoch 129/150, Test: HR = 0.6172, NDCG = 0.3813
+2022-06-12 16:34:36.996465: Model Saved: yelp
+
+2022-06-12 16:35:18.694543: Epoch 130/150, Train: Loss = 0.1784, preLoss = 0.0652
+
+2022-06-12 16:36:00.431273: Epoch 131/150, Train: Loss = 0.1773, preLoss = 0.0644
+
+2022-06-12 16:36:42.654332: Epoch 132/150, Train: Loss = 0.1769, preLoss = 0.0644
+[ 0.         -0.21895021 -0.060325   ... -0.02892742 -0.0257657903
+  0.20969662]
+epochNdcg1,epochHit1,epochNdcg5,epochHit5,epochNdcg20,epochHit20 0.1984 0.1984 0.32309628935867174 0.4397 0.42059444990148503 0.7707
+2022-06-12 16:37:41.180535: Epoch 132/150, Test: HR = 0.6169, NDCG = 0.3818
+2022-06-12 16:37:42.802805: Model Saved: yelp
+
+^CTraceback (most recent call last):40: preloss = 0.06, REGLoss = 0.11
+  File "main.py", line 25, in <module>
+    recom.run()
+  File "/root/CLSR/model.py", line 50, in run
+    reses = self.trainEpoch()
+  File "/root/CLSR/model.py", line 392, in trainEpoch
+    feed_dict[self.iids] = iLocs
+  File "/root/CLSR/model.py", line 339, in sampleSslBatch
+    sslNum = min(args.sslNum, len(posset)//2)
+KeyboardInterrupt
+root@container-327e11a8ac-4a1523bb:~/CLSR#
+Remote side unexpectedly closed network connection
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Session stopped
+    - Press <return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file

@@ -26,14 +26,14 @@ def negSamp(temLabel, sampSize, nodeNum,trnPos):
 	cur = 0
 	while cur < sampSize:
 		rdmItm = np.random.choice(nodeNum)
-		if rdmItm not in temLabel and rdmItm != trnPos:
-		# if temLabel[rdmItm] == 0 and rdmItm != trnPos:
+		# if rdmItm not in temLabel and rdmItm != trnPos:
+		if temLabel[rdmItm] == 0 and rdmItm != trnPos:
 			negset[cur] = rdmItm
 			cur += 1
 	return negset
 def posSamp(user_sequence,sampleNum):
 	indexs=np.random.choice(np.array(range(len(user_sequence))),sampleNum)
-	print(indexs)
+	# print(indexs)
 	return user_sequence[indexs.sort()]
 def transToLsts(mat, mask=False, norm=False):
 	shape = [mat.shape[0], mat.shape[1]]
@@ -89,8 +89,10 @@ class DataHandler:
 			self.trnPos = np.array(pickle.load(fs))
 		with open(self.neg_sequency_file, 'rb') as fs:
 			self.neg_sequency = pickle.load(fs)
+		'''
 		with open(self.sequence, 'rb') as fs:
 			self.user_sequence = pickle.load(fs)
+		'''
 		print("tstInt",tstInt)
 		tstStat = (tstInt != None)
 		print("tstStat",tstStat,len(tstStat))
