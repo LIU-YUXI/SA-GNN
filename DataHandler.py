@@ -14,9 +14,9 @@ def negSamp_fre(temLabel, sampSize, neg_frequency):
     cur = 0
     i = 0
     while cur < sampSize:
-        rdmItm = neg_frequency[-i]# np.random.choice(nodeNum)
+        rdmItm =  neg_frequency[-i]# np.random.choice(nodeNum)
         if rdmItm not in temLabel:
-            negset[cur] = rdmItm+1
+            negset[cur] = rdmItm +1
             cur += 1
         i += 1
     return negset
@@ -66,7 +66,7 @@ class DataHandler:
 		elif args.data == 'gowalla':
 			predir = './Datasets/gowalla/'
 		elif args.data == 'amazon':
-			predir = './Datasets/amazon-book/'
+			predir = './Datasets/amazon/'
 		self.predir = predir
 		self.trnfile = predir + 'trn_mat_time'
 		self.tstfile = predir + 'tst_int'

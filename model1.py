@@ -327,9 +327,11 @@ class Recommender:
 				timeLocs[cur+temlen//2] = timeMat[batIds[i],negloc]
 				cur += 1
 			positionLocs[cur-sampNum:cur]=self.positions_indexs[:cur]
+		'''
 		# 每一对正负例对应的user是一样的
 		uLocs = uLocs[:cur] + uLocs[temlen//2: temlen//2 + cur]
 		iLocs = iLocs[:cur] + iLocs[temlen//2: temlen//2 + cur]
+		'''
 		timeLocs = timeLocs[:cur] + timeLocs[temlen//2: temlen//2 + cur]
 		positionLocs = positionLocs[:cur] + [args.pos_length-1]*cur
 		# print(uLocs[0],uLocs[1],iLocs[0],iLocs[1])

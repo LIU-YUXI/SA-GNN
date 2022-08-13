@@ -3,7 +3,7 @@ import argparse
 def parse_args():
 	parser = argparse.ArgumentParser(description='Model Params')
 	parser.add_argument('--lr', default=1e-3, type=float, help='learning rate')
-	parser.add_argument('--batch', default=256, type=int, help='batch size')
+	parser.add_argument('--batch', default=512, type=int, help='batch size')
 	parser.add_argument('--reg', default=1e-5, type=float, help='weight decay regularizer')
 	parser.add_argument('--epoch', default=100, type=int, help='number of epochs')
 	parser.add_argument('--graphNum', default=8, type=int, help='number of graphs based on time series')
@@ -37,8 +37,8 @@ def parse_args():
 	parser.add_argument('--temp', default=1, type=float, help='temperature in ssl loss')
 	parser.add_argument('--ssl_reg', default=1e-4, type=float, help='reg weight for ssl loss')
 	parser.add_argument('--percent', default=0.0, type=float, help='percent of noise for noise robust test')
-	parser.add_argument('--batch_size', default=2048, type=int, help='batch size of a attention')
 	parser.add_argument('--pos_length', default=101, type=int, help='max length of a sequence')
+	parser.add_argument('--att_size', default=12000, type=int, help='max size of multi att')
 	return parser.parse_args()
 args = parse_args()
 args.decay_step = args.trnNum//args.batch
