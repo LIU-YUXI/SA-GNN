@@ -21,7 +21,7 @@ class AdditiveAttention(object):
             print("candidate_vector",candidate_vector)
             temp = tf.tanh(dense)
             # batch_size, candidate_size
-            candidate_weights = tf.nn.softmax(tf.squeeze(tf.matmul( temp, self.attention_query_vector),axis=2),axis=1) * 128
+            candidate_weights = tf.nn.softmax(tf.squeeze(tf.matmul( temp, self.attention_query_vector),axis=2),axis=1) #* 128
             # batch_size, 1, candidate_size * batch_size, candidate_size, candidate_vector_dim =
             # batch_size, candidate_vector_dim
             target =tf.squeeze( tf.matmul(tf.expand_dims(candidate_weights,1),candidate_vector),1)
@@ -40,9 +40,10 @@ class ScaledDotProductAttention(object):
             if attn_mask is not None:
                 scores = scores * attn_mask
             # batch_size,head_num, candidate_num, 1
-            # batch_size,head_num, candidate_num, candidate_num
-            attn = scores / (tf.expand_dims(tf.reduce_sum(scores, axis=-1),-1) + 1e-8)
+            attn = scores / (tf.expand_dims(tf.reduce_sum(scores, axis=-1),-1) + 1e-8) # 归一化
+            # batch_size,head_num, candidate_num, candidate_num * batch_size,head_num, candidate_num, d_k
             # batch_size,head_num, candidate_num, d_k
+            # 用每个item和其它item的关系的权重，然后去把它自己，其它item的embedding加权求和，得到这个item新的表征
             context = tf.matmul(attn, V)
             return context, attn
 

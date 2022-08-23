@@ -8,15 +8,25 @@ from Utils.TimeLogger import log
 def transpose(mat):
 	coomat = sp.coo_matrix(mat)
 	return csr_matrix(coomat.transpose())
-
+'''
 def negSamp_fre(temLabel, sampSize, neg_frequency):
+    negset = np.setdiff1d(neg_frequency,temLabel)
+    print(temLabel)
+    negset = np.concatenate([negset,[neg_frequency[0]]*(args.item-len(negset))],axis=-1)
+    return negset
+
+'''
+def negSamp_fre(temLabel, sampSize, neg_frequency,pos_los):
     negset = [None] * sampSize
     cur = 0
     i = 0
+    # print(temLabel)
     while cur < sampSize:
-        rdmItm =  neg_frequency[-i]# np.random.choice(nodeNum)
-        if rdmItm not in temLabel:
-            negset[cur] = rdmItm +1
+        rdmItm = neg_frequency[-i]# 
+        # rdmItm = np.random.choice(args.item)
+        # print(rdmItm,temLabel[rdmItm])
+        if rdmItm != pos_los and temLabel[rdmItm] == 0:
+            negset[cur] = rdmItm
             cur += 1
         i += 1
     return negset
@@ -31,6 +41,7 @@ def negSamp(temLabel, sampSize, nodeNum,trnPos):
 			negset[cur] = rdmItm
 			cur += 1
 	return negset
+
 def posSamp(user_sequence,sampleNum):
 	indexs=np.random.choice(np.array(range(len(user_sequence))),sampleNum)
 	# print(indexs)
@@ -39,7 +50,7 @@ def transToLsts(mat, mask=False, norm=False):
 	shape = [mat.shape[0], mat.shape[1]]
 	coomat = sp.coo_matrix(mat)
 	indices = np.array(list(map(list, zip(coomat.row, coomat.col))), dtype=np.int32)
-	data = coomat.data.astype(np.float32)
+	data = coomat.data.astype(np.int32)
 
 	if norm:
 		rowD = np.squeeze(np.array(1 / (np.sqrt(np.sum(mat, axis=1) + 1e-8) + 1e-8)))
@@ -56,7 +67,7 @@ def transToLsts(mat, mask=False, norm=False):
 
 	if indices.shape[0] == 0:
 		indices = np.array([[0, 0]], dtype=np.int32)
-		data = np.array([0.0], np.float32)
+		data = np.array([0.0], np.int32)
 	return indices, data, shape
 
 class DataHandler:
@@ -67,12 +78,14 @@ class DataHandler:
 			predir = './Datasets/gowalla/'
 		elif args.data == 'amazon':
 			predir = './Datasets/amazon/'
+		else:
+			predir='./Datasets/'+args.data+'/'
 		self.predir = predir
 		self.trnfile = predir + 'trn_mat_time'
 		self.tstfile = predir + 'tst_int'
 		self.trnposfile = predir + 'train_pos'
 		self.neg_sequency_file = predir + 'sort'
-		self.sequence=predir+'sequence'
+		self.sequencefile=predir+'sequence'
 	def LoadData(self):
 		if args.percent > 1e-8:
 			print('noised')
@@ -89,10 +102,9 @@ class DataHandler:
 			self.trnPos = np.array(pickle.load(fs))
 		with open(self.neg_sequency_file, 'rb') as fs:
 			self.neg_sequency = pickle.load(fs)
-		'''
-		with open(self.sequence, 'rb') as fs:
-			self.user_sequence = pickle.load(fs)
-		'''
+			print("neg_fre:",len(self.neg_sequency))
+		with open(self.sequencefile, 'rb') as fs:
+			self.sequence = pickle.load(fs)
 		print("tstInt",tstInt)
 		tstStat = (tstInt != None)
 		print("tstStat",tstStat,len(tstStat))
@@ -108,6 +120,22 @@ class DataHandler:
 		args.user, args.item = trnMat[0].shape
 		self.prepareGlobalData()
 
+	def timeProcess(self,trnMats):
+		mi = 1e16
+		ma = 0
+		for i in range(len(trnMats)):
+			minn = np.min(trnMats[i].data)
+			maxx = np.max(trnMats[i].data)
+			mi = min(mi, minn)
+			ma = max(ma, maxx)
+		maxTime = 0
+		for i in range(len(trnMats)):
+			newData = ((trnMats[i].data - mi) // (3600*24*args.slot)).astype(np.int32)
+			maxTime = max(np.max(newData), maxTime)
+			trnMats[i] = csr_matrix((newData, trnMats[i].indices, trnMats[i].indptr), shape=trnMats[i].shape)
+		print('MAX TIME',mi,ma, maxTime)
+		return trnMats, maxTime + 1
+	
 	def prepareGlobalData(self):
 		'''
 		adj0 = self.trnMat
@@ -129,7 +157,9 @@ class DataHandler:
 			return (adj_mat+sp.eye(adj_mat.shape[0]))
 			
 
-		adj = self.subMat
+		# adj = self.subMat
+		self.subMat,self.maxTime=self.timeProcess(self.subMat)
+		print(self.subMat[0],self.subMat[-1])
 		'''
 		tpadj = list()
 		adjNorm = list()
@@ -143,7 +173,7 @@ class DataHandler:
 				for j in range(adj[kk].indptr[i], adj[kk].indptr[i+1]):
 					adj[kk].data[j] /= adjNorm[kk][i]
 		'''
-		self.subadj = adj
+		# self.subadj = adj
 		# self.tpsubAdj = tpadj
 		# print("adj",adj)
 		# self.labelP[i] = np.squeeze(np.array(np.sum(adj, axis=0)))
