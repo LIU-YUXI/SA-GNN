@@ -16,6 +16,7 @@ def negSamp_fre(temLabel, sampSize, neg_frequency):
     return negset
 
 '''
+
 def negSamp_fre(temLabel, sampSize, neg_frequency,pos_los):
     negset = [None] * sampSize
     cur = 0
@@ -113,7 +114,7 @@ class DataHandler:
 		self.trnMat = trnMat[0]
 		self.subMat = trnMat[1]
 		self.timeMat = trnMat[2]
-		print("trnMat",trnMat[0],trnMat[1][0],trnMat[1][1],trnMat[2])
+		print("trnMat",trnMat[0],trnMat[1],trnMat[2])
 		print(self.neg_sequency)
 		self.tstInt = tstInt
 		self.tstUsrs = tstUsrs
@@ -158,7 +159,8 @@ class DataHandler:
 			
 
 		# adj = self.subMat
-		self.subMat,self.maxTime=self.timeProcess(self.subMat)
+		self.maxTime=1
+		# self.subMat,self.maxTime=self.timeProcess(self.subMat)
 		print(self.subMat[0],self.subMat[-1])
 		'''
 		tpadj = list()
