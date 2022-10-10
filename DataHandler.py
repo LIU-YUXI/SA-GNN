@@ -4,7 +4,8 @@ from scipy.sparse import csr_matrix
 from Params import args
 import scipy.sparse as sp
 from Utils.TimeLogger import log
-
+import os
+import random
 def transpose(mat):
 	coomat = sp.coo_matrix(mat)
 	return csr_matrix(coomat.transpose())
@@ -32,13 +33,17 @@ def negSamp_fre(temLabel, sampSize, neg_frequency,pos_los):
         i += 1
     return negset
 
-def negSamp(temLabel, sampSize, nodeNum,trnPos):
+def negSamp(temLabel, sampSize, nodeNum,trnPos, item_with_pop):
 	negset = [None] * sampSize
 	cur = 0
+	# print(trnPos)
 	while cur < sampSize:
+
+		# rdmItm = random.choice(item_with_pop)
+		# rdmItm = np.random.choice(sequence[rdmItm],1)
 		rdmItm = np.random.choice(nodeNum)
 		# if rdmItm not in temLabel and rdmItm != trnPos:
-		if temLabel[rdmItm] == 0 and rdmItm != trnPos:
+		if temLabel[rdmItm] == 0 and rdmItm not in trnPos:
 			negset[cur] = rdmItm
 			cur += 1
 	return negset
@@ -87,6 +92,7 @@ class DataHandler:
 		self.trnposfile = predir + 'train_pos'
 		self.neg_sequency_file = predir + 'sort'
 		self.sequencefile=predir+'sequence'
+		self.test_dictfile=predir+'test_dict'
 	def LoadData(self):
 		if args.percent > 1e-8:
 			print('noised')
@@ -106,6 +112,9 @@ class DataHandler:
 			print("neg_fre:",len(self.neg_sequency))
 		with open(self.sequencefile, 'rb') as fs:
 			self.sequence = pickle.load(fs)
+		if os.path.isfile(self.test_dictfile):
+			with open(self.test_dictfile, 'rb') as fs:
+				self.test_dict = pickle.load(fs)
 		print("tstInt",tstInt)
 		tstStat = (tstInt != None)
 		print("tstStat",tstStat,len(tstStat))
@@ -120,6 +129,7 @@ class DataHandler:
 		self.tstUsrs = tstUsrs
 		args.user, args.item = trnMat[0].shape
 		self.prepareGlobalData()
+
 
 	def timeProcess(self,trnMats):
 		mi = 1e16
@@ -162,6 +172,10 @@ class DataHandler:
 		self.maxTime=1
 		# self.subMat,self.maxTime=self.timeProcess(self.subMat)
 		print(self.subMat[0],self.subMat[-1])
+		self.item_with_pop=[]
+		for i in range(len(self.sequence)):
+			self.item_with_pop.extend(self.sequence[i])
+		# print(self.item_with_pop)
 		'''
 		tpadj = list()
 		adjNorm = list()

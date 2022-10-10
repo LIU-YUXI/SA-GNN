@@ -1,6 +1,5 @@
 from ast import arg
 from curses import meta
-from random import randint, random
 # from msilib import sequence
 from site import USER_BASE
 
@@ -17,6 +16,7 @@ from Utils.TimeLogger import log
 from DataHandler import negSamp,negSamp_fre, transpose, DataHandler, transToLsts
 from Utils.attention import AdditiveAttention,MultiHeadSelfAttention
 import scipy.sparse as sp
+from random import randint
 class Recommender:
 	def __init__(self, sess, handler):
 		self.sess = sess
@@ -99,12 +99,12 @@ class Recommender:
 		timeEmbed = tf.reshape(tf.concat([sine, cosine], axis=-1), [self.maxTime, args.latdim*2]) / 4.0
 		return timeEmbed
 	def messagePropagate(self, srclats, mat, type='user'):
-		# timeEmbed = FC(self.timeEmbed, args.latdim, reg=True)
+		timeEmbed = FC(self.timeEmbed, args.latdim, reg=True)
 		srcNodes = tf.squeeze(tf.slice(mat.indices, [0, 1], [-1, 1]))
 		tgtNodes = tf.squeeze(tf.slice(mat.indices, [0, 0], [-1, 1]))
 		edgeVals = mat.values
 		# print(srcNodes,tgtNodes)
-		srcEmbeds = tf.nn.embedding_lookup(srclats, srcNodes) # + tf.nn.embedding_lookup(timeEmbed, edgeVals)
+		srcEmbeds = tf.nn.embedding_lookup(srclats, srcNodes) #+ tf.nn.embedding_lookup(timeEmbed, edgeVals)
 		lat=tf.pad(tf.math.segment_sum(srcEmbeds, tgtNodes),[[0,100],[0,0]])
 		if(type=='user'):
 			lat=tf.nn.embedding_lookup(lat,self.users)
@@ -174,8 +174,7 @@ class Recommender:
 			shape = mat.dense_shape
 			# newVals = tf.to_float(tf.sign(tf.nn.dropout(values, self.keepRate)))
 			newVals = tf.nn.dropout(tf.cast(values,dtype=tf.float32), self.keepRate)
-			# return tf.sparse.SparseTensor(indices, tf.cast(newVals,dtype=tf.int32), shape)
-			return tf.sparse.SparseTensor(indices, newVals, shape)
+			return tf.sparse.SparseTensor(indices, tf.cast(newVals,dtype=tf.int32), shape)
 		return dropOneMat(mat)
 	# cross-view collabrative Supervision
 	def ours(self):
@@ -192,7 +191,7 @@ class Recommender:
 		self.users=tf.range(args.user)
 		# self.timeEmbed = tf.Variable(initial_value=self.makeTimeEmbed(), shape=[self.maxTime, args.latdim*2], name='timeEmbed', trainable=True)
 		# NNs.addReg('timeEmbed', self.timeEmbed)
-		# self.timeEmbed=NNs.defineParam('timeEmbed', [self.maxTime+1, args.latdim], reg=True)
+		self.timeEmbed=NNs.defineParam('timeEmbed', [self.maxTime+1, args.latdim], reg=True)
 		# graphNum是short term的数量，每个short graph做一次lightgcn的学习
 		for k in range(args.graphNum):
 			embs0=[uEmbed[k]]
@@ -216,8 +215,6 @@ class Recommender:
 				# print(self.subAdj[k].shape)
 				a_emb0= self.messagePropagate(embs1[-1],self.edgeDropout(self.subAdj[k]),'user')
 				a_emb1= self.messagePropagate(embs0[-1],self.edgeDropout(self.subTpAdj[k]),'item')
-				# a_emb0 = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.subAdj[k]), embs1[-1]), self.actFunc)
-				# a_emb1 = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.subTpAdj[k]), embs0[-1]), self.actFunc)
 				# a_emb0= self.messagePropagate2(embs1[-1],embs0[-1],[self.edgeDropout(self.subAdj[k])],args.user)
 				# a_emb1= self.messagePropagate2(embs0[-1],embs1[-1],[self.edgeDropout(self.subTpAdj[k])],args.item)
 				# print("a_emb0",a_emb0,embs0[-1])
@@ -260,7 +257,6 @@ class Recommender:
 		def dropout():
 			cell = gru_cell()
 			return tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=self.keepRate)
-		
 		with tf.name_scope("rnn"):
 			cells = [dropout() for _ in range(1)]
 			rnn_cell = tf.contrib.rnn.MultiRNNCell(cells, state_is_tuple=True)        
@@ -280,17 +276,19 @@ class Recommender:
 		'''		
 		self.additive_attention0 = AdditiveAttention(args.query_vector_dim,args.latdim)
 		self.additive_attention1 = AdditiveAttention(args.query_vector_dim,args.latdim)
+
 		self.multihead_self_attention0 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
 		self.multihead_self_attention1 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
 		multihead_user_vector = self.multihead_self_attention0.attention(tf.contrib.layers.layer_norm(user_vector_tensor))# (tf.layers.batch_normalization(user_vector_tensor,training=self.is_train))#
 		multihead_item_vector = self.multihead_self_attention1.attention(tf.contrib.layers.layer_norm(item_vector_tensor))# (tf.layers.batch_normalization(item_vector_tensor,training=self.is_train))#
+		'''		'''
 		# multihead_user_vector = tf.concat([multihead_user_vector,self.multihead_self_attention0.attention(tf.contrib.layers.layer_norm(user_vector_tensor[args.user//2:]))],axis=0)# (tf.layers.batch_normalization(user_vector_tensor,training=self.is_train))#
 		# multihead_item_vector = tf.concat([multihead_item_vector,self.multihead_self_attention1.attention(tf.contrib.layers.layer_norm(item_vector_tensor[args.item//2:]))],axis=0)# (tf.layers.batch_normalization(item_vector_tensor,training=self.is_train))#
 		# final_user_vector = self.additive_attention0.attention(multihead_user_vector)		
 		# final_item_vector = self.additive_attention1.attention(multihead_item_vector)
 		# final_user_vector = self.additive_attention0.attention(user_vector_tensor)		
-		# final_item_vector = self.additive_attention1.aattention(item_vector_tensor)
-		# final_user_vector = self.additive_attention0.ttention(multihead_user_vector)		
+		# final_item_vector = self.additive_attention1.attention(item_vector_tensor)
+		# final_user_vector = self.additive_attention0.attention(multihead_user_vector)		
 		# final_item_vector = self.additive_attention1.attention(multihead_item_vector)
 		final_user_vector = tf.reduce_mean(multihead_user_vector,axis=1)#+user_vector_long
 		final_item_vector = tf.reduce_mean(multihead_item_vector,axis=1)#+item_vector_long
@@ -328,9 +326,9 @@ class Recommender:
 		att_layer=sequence_batch
 		for i in range(args.att_layer):
 			att_layer1=self.multihead_self_attention_sequence[i].attention(tf.contrib.layers.layer_norm(att_layer))
-			att_layer=Activate(att_layer1,"leakyRelu")# +att_layer
-		# att_user=tf.transpose(att_layer,[1,0,2])[-1]
+			att_layer=Activate(att_layer1,"leakyRelu")+att_layer
 		att_user=tf.reduce_sum(att_layer,axis=1)
+		# att_user=self.additive_attention0.attention(att_layer)# tf.reduce_sum(att_layer,axis=1)
 		pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.iids)		
 		# 基于long term的pred计算
 		pckUlat = tf.nn.embedding_lookup(final_user_vector, self.uids)
@@ -339,11 +337,9 @@ class Recommender:
 
 		# final_user_vector=tf.clip_by_value(final_user_vector,-20,20)
 		# final_item_vector=tf.clip_by_value(final_item_vector,-20,20)
-		# preds = tf.reduce_sum(Activate(pckUlat * pckIlat,'leakyRelu'), axis=-1)
-		# preds += tf.reduce_sum(Activate(Activate(tf.nn.embedding_lookup(att_user,self.uLocs_seq),"leakyRelu")* pckIlat_att,'leakyRelu'),axis=-1)
 		preds = tf.reduce_sum(pckUlat * pckIlat, axis=-1)
 		preds += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.uLocs_seq),"leakyRelu")* pckIlat_att,axis=-1)
-		preds= Activate(preds,"relu")+1e-10
+		# preds += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.uLocs_seq)* pckIlat_att,axis=-1)
 		self.preds_one=list()
 		self.final_one=list()
 		# preds += tf.reduce_sum(tf.reduce_sum(tf.nn.embedding_lookup(user_vector_tensor, self.uids)*
@@ -391,11 +387,13 @@ class Recommender:
 		user_weight=list()
 		# 通过meta网络，依次输入每个用户长期的embedding和每个短期的embedding，来学习每个用户在对比学习中的修正权重，权重大的代表用户稳定
 		# final_user_vector是长期的，user_vector[i]是第i个短期的
+
 		for i in range(args.graphNum):
 			meta1=tf.concat([final_user_vector*user_vector[i],final_user_vector,user_vector[i]],axis=-1)
 			meta2=FC(meta1,16,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta2")
 			user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='sigmoid',reg=True,reuse=True,name="meta3")))
 		user_weight=tf.stack(user_weight,axis=0)
+		'''		
 		def calcSSL(hyperLat, gnnLat):
 			# [1, sample num ] * [1 , smaple num]=[1]
 			# [ sample num,1 ] * [ sample num,1 ]=[ sample ]  
@@ -405,7 +403,6 @@ class Recommender:
 			negScore = tf.reduce_sum(tf.exp(gnnLat @ tf.transpose(hyperLat) / args.temp), axis=1)
 			uLoss = tf.reduce_sum(-tf.log(posScore+1 / (negScore + 1) + 1e-8))
 			return uLoss		
-		'''
 		# 每个用户用来判断是否噪声边的阈值
 		drop_threshold=list()
 		for i in range(args.graphNum):
@@ -444,21 +441,60 @@ class Recommender:
 			# self.preds_one.append(rh)	
 		# print(S_final)
 		'''
+		'''		
+		def calcSSL(hyperLat, gnnLat):
+			# [ sample num,lat ] * [ sample num, lat]=[ sample,lat ]  
+			posScore = tf.exp(tf.reduce_sum(hyperLat * gnnLat, axis=1) / args.temp)
+			# [sample num, lat] * [ lat, sample num]= [sample]
+			# [ sample, sample ] --> [ sample ]
+			negScore = tf.reduce_sum(tf.exp(gnnLat @ tf.transpose(hyperLat) / args.temp), axis=1)
+			uLoss = tf.reduce_sum(-tf.log(posScore+1 / (negScore + 1) + 1e-8))
+			return uLoss
+	
+		uniqIids, _ = tf.unique(self.iids)
+		# W = NNs.defineRandomNameParam([args.latdim, args.latdim])
+
+		pckhyperILat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(iEmbed_att, uniqIids), axis=1),axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
+		pckGNNILat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(final_item_vector, uniqIids), axis=1),axis=1)#tf.nn.l2_normalize(, axis=1)
+		iLoss = calcSSL(pckhyperILat, pckGNNILat)
+		sslloss+=iLoss
+
+		for i in range(args.graphNum):
+			uniqUids, _ = tf.unique(self.utime0[i])
+			uniqUids_att, _ =tf.unique(self.utime1[i])			
+			pckHyperULat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(att_user, uniqUids_att), axis=1),axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
+			pckGnnULat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(user_vector[i], uniqUids), axis=1),axis=1)#tf.nn.l2_normalize(, axis=1)
+			uLoss = calcSSL(pckHyperULat, pckGnnULat)
+			sslloss += uLoss
+		'''
+		'''
+		pckhyperILat = tf.nn.l2_normalize(tf.nn.embedding_lookup(iEmbed_att, uniqIids)+10.0, axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
+		pckGNNILat =tf.nn.l2_normalize(tf.nn.embedding_lookup(final_item_vector, uniqIids)+10.0, axis=1)#tf.nn.l2_normalize(, axis=1)
+		iLoss = calcSSL(pckhyperILat, pckGNNILat)
+
+		for i in range(args.graphNum):
+			uniqUids, _ = tf.unique(self.utime0[i])
+			uniqUids_att, _ =tf.unique(self.utime1[i])			
+			pckHyperULat = tf.nn.l2_normalize(tf.nn.embedding_lookup(att_user, uniqUids_att)+10.0, axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
+			pckGnnULat = tf.nn.l2_normalize(tf.nn.embedding_lookup(user_vector[i], uniqUids)+10.0, axis=1)#tf.nn.l2_normalize(, axis=1)
+			uLoss = calcSSL(pckHyperULat, pckGnnULat)
+			sslloss += uLoss
+		'''				
 		# suids是对每一个短期的图随机抽取的边，用来对比学习
 		for i in range(args.graphNum):
 			sampNum = tf.shape(self.suids[i])[0] // 2 # pair的数量
 			pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
 			pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
 			pckUweight =  tf.nn.embedding_lookup(user_weight[i], self.suids[i])
-			# pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.siids[i])
+			pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.siids[i])
 			# 计算来自long term的S^
 			S_final = tf.reduce_sum(Activate(pckUlat* pckIlat, self.actFunc),axis=-1)
+			# S_final += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,self.actFunc),axis=-1)
+			# S_final = tf.reduce_sum(pckUlat* pckIlat,axis=-1)
 			# S_final += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,axis=-1)
 			# S_final = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
 			posPred_final = tf.stop_gradient(tf.slice(S_final, [0], [sampNum]))#.detach()
 			negPred_final = tf.stop_gradient(tf.slice(S_final, [sampNum], [-1]))#.detach()
-			# posPred_final = tf.maximum(tf.minimum(posPred_final, 1.0 - 10e-12), 10e-12)
-			# negPred_final = tf.maximum(tf.minimum(negPred_final, 1.0 - 10e-12), 10e-12)
 			posweight_final = tf.slice(pckUweight, [0], [sampNum])
 			negweight_final = tf.slice(pckUweight, [sampNum], [-1])
 			S_final = posweight_final*posPred_final-negweight_final*negPred_final
@@ -466,15 +502,13 @@ class Recommender:
 			pckIlat = tf.nn.embedding_lookup(item_vector[i], self.siids[i])
 			# 计算来自short term的S
 			preds_one = tf.reduce_sum(Activate(pckUlat* pckIlat , self.actFunc), axis=-1)
+			# preds_one = tf.reduce_sum(pckUlat* pckIlat , axis=-1)
 			# preds_one = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
 			posPred = tf.slice(preds_one, [0], [sampNum])
 			negPred = tf.slice(preds_one, [sampNum], [-1])
 			# 计算(S1^-S2^)(S1-S2)
-			# posPred = tf.maximum(tf.minimum(posPred, 1.0 - 10e-12), 10e-12)
-			# negPred = tf.maximum(tf.minimum(negPred, 1.0 - 10e-12), 10e-12)
 			sslloss += tf.reduce_sum(tf.maximum(0.0, 1.0 -S_final * (posPred-negPred)))
 			self.preds_one.append(preds_one)
-		
 		return preds, sslloss
 
 	def prepareModel(self):
@@ -497,6 +531,8 @@ class Recommender:
 		self.suids=list()
 		self.siids=list()
 		self.suLocs_seq=list()
+		self.utime0=list()
+		self.utime1=list()
 		'''
 		self.esuids=list()
 		self.esiids=list()
@@ -506,6 +542,8 @@ class Recommender:
 			self.suids.append(tf.placeholder(name='suids%d'%k, dtype=tf.int32, shape=[None]))
 			self.siids.append(tf.placeholder(name='siids%d'%k, dtype=tf.int32, shape=[None]))
 			self.suLocs_seq.append(tf.placeholder(name='suLocs%d'%k, dtype=tf.int32, shape=[None]))
+			self.utime0.append(tf.placeholder(name='utime%d'%k, dtype=tf.int32, shape=[None]))
+			self.utime1.append(tf.placeholder(name='utime%d'%k, dtype=tf.int32, shape=[None]))
 			'''
 			self.esuids.append(tf.placeholder(name='esuids%d'%k, dtype=tf.int32, shape=[None]))
 			self.esiids.append(tf.placeholder(name='esiids%d'%k, dtype=tf.int32, shape=[None]))
@@ -537,14 +575,7 @@ class Recommender:
 		self.posPred = tf.slice(self.preds, [0], [sampNum])# begin at 0, size = sampleNum
 		self.negPred = tf.slice(self.preds, [sampNum], [-1])# 
 		# self.preLoss = tf.reduce_sum(tf.maximum(0.0, 1.0 - (posPred - negPred))) / args.batch
-		# self.posPred = tf.maximum(tf.minimum(self.posPred, 1.0 - 10e-12), 10e-12)
-		# self.negPred = tf.maximum(tf.minimum(self.negPred, 1.0 - 10e-12), 10e-12)
-		# self.posPred = 256*tf.nn.softmax(self.posPred)
-		# self.negPred = 256*tf.nn.softmax(self.negPred)
-		# self.posPred = tf.maximum(self.posPred, 10e-8)
-		# self.negPred = tf.maximum(self.negPred, -10e-8)
-		# self.preLoss = tf.reduce_mean(- (tf.log(self.posPred) + tf.log(-self.negPred)))
-		self.preLoss = tf.reduce_mean(tf.maximum(0.0, 1 - ((self.posPred) - ( self.negPred))))# +tf.reduce_mean(tf.maximum(0.0,self.negPred))
+		self.preLoss = tf.reduce_mean(tf.maximum(0.0, 1.0 - (self.posPred - self.negPred)))# +tf.reduce_mean(tf.maximum(0.0,self.negPred))
 		self.regLoss = args.reg * Regularize()  + args.ssl_reg * self.sslloss
 		self.loss = self.preLoss + self.regLoss
 
@@ -552,8 +583,9 @@ class Recommender:
 		learningRate = tf.train.exponential_decay(args.lr, globalStep, args.decay_step, args.decay, staircase=True)
 		self.optimizer = tf.train.AdamOptimizer(learningRate).minimize(self.loss, global_step=globalStep)
 
-	def sampleTrainBatch(self, batIds, labelMat, timeMat, train_sample_num, no=0):
+	def sampleTrainBatch(self, batIds, labelMat, timeMat, train_sample_num):
 		trnPos = self.handler.trnPos[batIds]
+		temTst = self.handler.tstInt[batIds]
 		temLabel=labelMat[batIds].toarray()
 		batch = len(batIds)
 		temlen = batch * 2 * train_sample_num
@@ -563,32 +595,28 @@ class Recommender:
 		sequence = [None] * args.batch
 		mask = [None]*args.batch
 		cur = 0				
+		utime = [[list(),list()] for x in range(args.graphNum)]
 		for i in range(batch):
-			posset=self.handler.sequence[batIds[i]]
+			if(trnPos[i] is not None):
+				posset=self.handler.sequence[batIds[i]][:-1]
+			else:
+				posset=self.handler.sequence[batIds[i]]
 			# posset = np.reshape(np.argwhere(temLabel[i]!=0), [-1])
 			sampNum = min(train_sample_num, len(posset))
-			choose_trnPos=0
+			choose=1
 			if sampNum == 0:
 				poslocs = [np.random.choice(args.item)]
 				neglocs = [poslocs[0]]
 			else:
 				# poslocs = np.random.choice(posset, sampNum)
 				# poslocs = list(np.random.choice(posset, sampNum-1))
-				
-				poslocs=[]
-				if(no==0):
-					# poslocs.extend([trnPos[i]]*sampNum)
-					# poslocs.extend([trnPos[i]])
-					# choose_trnPos=randint(1,min(len(posset),args.pos_length))
-					choose_trnPos=1
-					poslocs.extend([posset[-choose_trnPos]]*sampNum)
-				else:
-					# choose_trnPos=randint(1,min(len(posset),args.pos_length-1))
-					choose_trnPos=1
-					# print(choose_trnPos,posset)
-					poslocs.extend([posset[-choose_trnPos]]*sampNum)
-					posset=posset+[trnPos[i]]
-				neglocs = negSamp(temLabel[i], sampNum, args.item, trnPos[i])
+				poslocs = []
+				choose= randint(1,min(args.pred_num+1,len(posset)-3))
+				poslocs.extend([posset[-choose]]*sampNum)
+				utime[timeMat[batIds[i],poslocs[0]]][0].append(batIds[i])
+				utime[timeMat[batIds[i],poslocs[0]]][1].append(i)
+				# poslocs.extend([trnPos[i]]*sampNum)
+				neglocs = negSamp(temLabel[i], sampNum, args.item, [trnPos[i],temTst[i]], self.handler.item_with_pop)
 			for j in range(sampNum):
 				posloc = poslocs[j]
 				negloc = neglocs[j]
@@ -603,19 +631,15 @@ class Recommender:
 			mask[i]=np.zeros(args.pos_length)
 			# print(self.handler.sequence)
 			# print(self.handler.sequence[5544])
-			# posset=self.handler.sequence[batIds[i]]
+			posset=posset[:-choose]# self.handler.sequence[batIds[i]][:-choose]
 			if(len(posset)<=args.pos_length):
 				sequence[i][-len(posset):]=posset
 				mask[i][-len(posset):]=1
-				# if(no==1):
-				mask[i][-(choose_trnPos)]=0
-				# print(choose_trnPos,mask[i][-(choose_trnPos+2):])
 			else:
 				sequence[i]=posset[-args.pos_length:]
 				mask[i]+=1
-				# if(no==1):
-				mask[i][-(choose_trnPos)]=0
-				# print(choose_trnPos,mask[i][-(choose_trnPos+2):])
+			# mask[i][-choose]=0
+			# mask[i][-1]=0
 			# print( batIds[i], sequence[i])
 		# 每一对正负例对应的user是一样的
 		uLocs = uLocs[:cur] + uLocs[temlen//2: temlen//2 + cur]
@@ -627,7 +651,7 @@ class Recommender:
 				mask[i]=np.zeros(args.pos_length)
 		# timeLocs = timeLocs[:cur] + timeLocs[temlen//2: temlen//2 + cur]
 		# print(uLocs[0],uLocs[1],iLocs[0],iLocs[1])
-		return uLocs, iLocs, sequence,mask, uLocs_seq
+		return uLocs, iLocs, sequence,mask, uLocs_seq,utime
 
 	def sampleSslBatch(self, batIds, labelMat, use_epsilon=True):
 		temLabel=list()
@@ -699,7 +723,7 @@ class Recommender:
 		sfIds = np.random.permutation(num)[:args.trnNum]
 		epochLoss, epochPreLoss = [0] * 2
 		num = len(sfIds)
-		sample_num_list=[args.sampNum] #,args.sampNum]		
+		sample_num_list=[40]		
 		steps = int(np.ceil(num / args.batch))
 		for s in range(len(sample_num_list)):
 			for i in range(steps):
@@ -709,7 +733,7 @@ class Recommender:
 
 				target = [self.optimizer, self.preLoss, self.regLoss, self.loss, self.posPred, self.negPred, self.preds_one]
 				feed_dict = {}
-				uLocs, iLocs, sequence, mask, uLocs_seq = self.sampleTrainBatch(batIds, self.handler.trnMat, self.handler.timeMat, sample_num_list[s], s)
+				uLocs, iLocs, sequence, mask, uLocs_seq, utime = self.sampleTrainBatch(batIds, self.handler.trnMat, self.handler.timeMat, sample_num_list[s])
 				# esuLocs, esiLocs, epsilon = self.sampleSslBatch(batIds, self.handler.subadj)
 				suLocs, siLocs, suLocs_seq = self.sampleSslBatch(batIds, self.handler.subMat, False)
 				feed_dict[self.uids] = uLocs
@@ -724,6 +748,8 @@ class Recommender:
 					feed_dict[self.suids[k]] = suLocs[k]
 					feed_dict[self.siids[k]] = siLocs[k]
 					feed_dict[self.suLocs_seq[k]] = suLocs_seq[k]
+					feed_dict[self.utime0[k]] = utime[k][0]
+					feed_dict[self.utime1[k]] = utime[k][1]
 					# print("ssl",suLocs[k],suLocs_seq[k])
 					'''
 					feed_dict[self.epsilon[k]]=epsilon[k]
@@ -772,10 +798,17 @@ class Recommender:
 		sequence = [None] * args.batch
 		mask = [None]*args.batch
 		cur = 0
+		val_list=[None]*args.batch
 		for i in range(batch):
-			posloc = temTst[i]
-			posset = np.reshape(np.argwhere(temLabel[i]!=0), [-1])
-			rdnNegSet = negSamp_fre(temLabel[i], args.testSize-1, self.handler.neg_sequency,posloc)# + [posloc]
+			if(args.test==True):
+				posloc = temTst[i]
+			else:
+				posloc = self.handler.sequence[batIds[i]][-1]
+				val_list[i]=posloc
+			# print(self.handler.sequence[batIds[i]][-3:],temTst[i])
+			# posset = np.reshape(np.argwhere(temLabel[i]!=0), [-1])
+			rdnNegSet = np.array(self.handler.test_dict[batIds[i]+1][:args.testSize-1])-1
+			# rdnNegSet = negSamp_fre(temLabel[i], args.testSize-1, self.handler.neg_sequency,posloc)# + [posloc]
 			# print(rdnNegSet)
 			locset = np.concatenate((rdnNegSet, np.array([posloc])))
 			tstLocs[i] = locset
@@ -787,7 +820,11 @@ class Recommender:
 				cur += 1
 			sequence[i]=np.zeros(args.pos_length,dtype=int)
 			mask[i]=np.zeros(args.pos_length)
-			# posset=self.handler.sequence[batIds[i]]# +[trnPos[i]]
+			if(args.test==True):
+				posset=self.handler.sequence[batIds[i]]# +[trnPos[i]]
+			else:
+				posset=self.handler.sequence[batIds[i]][:-1]
+			# posset=self.handler.sequence[batIds[i]]
 			if(len(posset)<=args.pos_length):
 				sequence[i][-len(posset):]=posset
 				mask[i][-len(posset):]=1
@@ -799,7 +836,7 @@ class Recommender:
 			for i in range(batch,args.batch):
 				sequence[i]=np.zeros(args.pos_length,dtype=int)
 				mask[i]=np.zeros(args.pos_length)
-		return uLocs, iLocs, temTst, tstLocs, sequence, mask, uLocs_seq
+		return uLocs, iLocs, temTst, tstLocs, sequence, mask, uLocs_seq, val_list
 
 	def testEpoch(self):
 		epochHit, epochNdcg = [0] * 2
@@ -811,13 +848,13 @@ class Recommender:
 		num = len(ids)
 		tstBat = args.batch
 		steps = int(np.ceil(num / tstBat))
-		np.random.seed(100)
+		# np.random.seed(100)
 		for i in range(steps):
 			st = i * tstBat
 			ed = min((i+1) * tstBat, num)
 			batIds = ids[st: ed]
 			feed_dict = {}
-			uLocs, iLocs, temTst, tstLocs, sequence, mask, uLocs_seq = self.sampleTestBatch(batIds, self.handler.trnMat)
+			uLocs, iLocs, temTst, tstLocs, sequence, mask, uLocs_seq, val_list = self.sampleTestBatch(batIds, self.handler.trnMat)
 			suLocs, siLocs, _ = self.sampleSslBatch(batIds, self.handler.subMat, False)
 			feed_dict[self.uids] = uLocs
 			feed_dict[self.iids] = iLocs
@@ -842,7 +879,10 @@ class Recommender:
 				# while(kk<len(preds)):
 				# 	print(preds[kk:kk+10])
 				# 	kk+=10
-			hit, ndcg, hit5, ndcg5, hit20, ndcg20,hit1, ndcg1,  hit15, ndcg15= self.calcRes(np.reshape(preds, [ed-st, args.testSize]), temTst, tstLocs)
+			if(args.test==True):
+				hit, ndcg, hit5, ndcg5, hit20, ndcg20,hit1, ndcg1,  hit15, ndcg15= self.calcRes(np.reshape(preds, [ed-st, args.testSize]), temTst, tstLocs)
+			else:
+				hit, ndcg, hit5, ndcg5, hit20, ndcg20,hit1, ndcg1,  hit15, ndcg15= self.calcRes(np.reshape(preds, [ed-st, args.testSize]), val_list, tstLocs)
 			epochHit += hit
 			epochNdcg += ndcg
 			epochHit5 += hit5

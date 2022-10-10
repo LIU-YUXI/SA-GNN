@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python main.py --data amazon --reg 1e-2 --temp 0.1 --ssl_reg 1e-5 --save_path amazon143 --epoch 200  --batch 512 --sslNum 100 --graphNum 14 --pred_num 2 --test True --load amazon143

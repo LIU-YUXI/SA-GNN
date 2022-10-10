@@ -41,8 +41,9 @@ def parse_args():
 	parser.add_argument('--pos_length', default=200, type=int, help='max length of a sequence')
 	parser.add_argument('--att_size', default=12000, type=int, help='max size of multi att')
 	parser.add_argument('--att_layer', default=3, type=int, help='layer number of multi att')
+	parser.add_argument('--pred_num', default=3, type=int, help='pred number of train')
 	parser.add_argument('--nfs', default=False, type=bool, help='load from nfs')
-
+	parser.add_argument('--test', default=False, type=bool, help='test or val')
 	return parser.parse_args()
 args = parse_args()
 args.decay_step = args.trnNum//args.batch
