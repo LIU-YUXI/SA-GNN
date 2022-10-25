@@ -11,6 +11,7 @@ from tensorflow.core.protobuf import config_pb2
 import pickle
 from model import Recommender
 from model_nosub import Recommender0
+import random
 if __name__ == '__main__':
 	logger.saveDefault = True
 	config = tf.ConfigProto()
@@ -20,7 +21,9 @@ if __name__ == '__main__':
 	handler = DataHandler()
 	handler.LoadData()
 	log('Load Data')
-
+	np.random.seed(100)
+	random.seed(100)
+	tf.set_random_seed(100)
 	with tf.Session(config=config) as sess:
 		recom = Recommender(sess, handler)
 		recom.run()

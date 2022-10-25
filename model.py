@@ -343,7 +343,9 @@ class Recommender:
 		self.preds_one=list()
 		self.final_one=list()
 		# preds += tf.reduce_sum(tf.reduce_sum(tf.nn.embedding_lookup(user_vector_tensor, self.uids)*
-		#  	tf.nn.embedding_lookup(user_vector_tensor, self.uids),axis=-1),axis=-1)
+		#   	tf.nn.embedding_lookup(item_vector_tensor, self.iids),axis=-1),axis=-1)
+		# preds += tf.reduce_sum(tf.nn.embedding_lookup(user_vector[-1], self.uids)*
+		#   	tf.nn.embedding_lookup(item_vector[-1], self.iids),axis=-1)
 		'''
 
 		if(self.is_train==True):	
@@ -388,11 +390,7 @@ class Recommender:
 		# 通过meta网络，依次输入每个用户长期的embedding和每个短期的embedding，来学习每个用户在对比学习中的修正权重，权重大的代表用户稳定
 		# final_user_vector是长期的，user_vector[i]是第i个短期的
 
-		for i in range(args.graphNum):
-			meta1=tf.concat([final_user_vector*user_vector[i],final_user_vector,user_vector[i]],axis=-1)
-			meta2=FC(meta1,16,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta2")
-			user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='sigmoid',reg=True,reuse=True,name="meta3")))
-		user_weight=tf.stack(user_weight,axis=0)
+
 		'''		
 		def calcSSL(hyperLat, gnnLat):
 			# [1, sample num ] * [1 , smaple num]=[1]
@@ -479,36 +477,46 @@ class Recommender:
 			pckGnnULat = tf.nn.l2_normalize(tf.nn.embedding_lookup(user_vector[i], uniqUids)+10.0, axis=1)#tf.nn.l2_normalize(, axis=1)
 			uLoss = calcSSL(pckHyperULat, pckGnnULat)
 			sslloss += uLoss
-		'''				
-		# suids是对每一个短期的图随机抽取的边，用来对比学习
-		for i in range(args.graphNum):
-			sampNum = tf.shape(self.suids[i])[0] // 2 # pair的数量
-			pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
-			pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
-			pckUweight =  tf.nn.embedding_lookup(user_weight[i], self.suids[i])
-			pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.siids[i])
-			# 计算来自long term的S^
-			S_final = tf.reduce_sum(Activate(pckUlat* pckIlat, self.actFunc),axis=-1)
-			# S_final += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,self.actFunc),axis=-1)
-			# S_final = tf.reduce_sum(pckUlat* pckIlat,axis=-1)
-			# S_final += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,axis=-1)
-			# S_final = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
-			posPred_final = tf.stop_gradient(tf.slice(S_final, [0], [sampNum]))#.detach()
-			negPred_final = tf.stop_gradient(tf.slice(S_final, [sampNum], [-1]))#.detach()
-			posweight_final = tf.slice(pckUweight, [0], [sampNum])
-			negweight_final = tf.slice(pckUweight, [sampNum], [-1])
-			S_final = posweight_final*posPred_final-negweight_final*negPred_final
-			pckUlat = tf.nn.embedding_lookup(user_vector[i], self.suids[i])
-			pckIlat = tf.nn.embedding_lookup(item_vector[i], self.siids[i])
-			# 计算来自short term的S
-			preds_one = tf.reduce_sum(Activate(pckUlat* pckIlat , self.actFunc), axis=-1)
-			# preds_one = tf.reduce_sum(pckUlat* pckIlat , axis=-1)
-			# preds_one = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
-			posPred = tf.slice(preds_one, [0], [sampNum])
-			negPred = tf.slice(preds_one, [sampNum], [-1])
-			# 计算(S1^-S2^)(S1-S2)
-			sslloss += tf.reduce_sum(tf.maximum(0.0, 1.0 -S_final * (posPred-negPred)))
-			self.preds_one.append(preds_one)
+		'''		
+		if( args.ssl):
+			for i in range(args.graphNum):
+				meta1=tf.concat([final_user_vector*user_vector[i],final_user_vector,user_vector[i]],axis=-1)
+				meta2=FC(meta1,args.ssldim,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta2")
+				# meta2=FC(meta2,args.ssldim//2,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta4")
+				user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='sigmoid',reg=True,reuse=True,name="meta3")))
+				# user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta3")))
+			user_weight=tf.stack(user_weight,axis=0)		
+			# suids是对每一个短期的图随机抽取的边，用来对比学习
+			for i in range(args.graphNum):
+				sampNum = tf.shape(self.suids[i])[0] // 2 # pair的数量
+				pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
+				pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
+				pckUweight =  tf.nn.embedding_lookup(user_weight[i], self.suids[i])
+				pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.siids[i])
+				# 计算来自long term的S^
+				S_final = tf.reduce_sum(Activate(pckUlat* pckIlat, self.actFunc),axis=-1)
+				# S_final += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,self.actFunc),axis=-1)
+				# S_final = tf.reduce_sum(pckUlat* pckIlat,axis=-1)
+				# S_final += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,axis=-1)
+				# S_final = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
+				posPred_final = tf.stop_gradient(tf.slice(S_final, [0], [sampNum]))#.detach()
+				negPred_final = tf.stop_gradient(tf.slice(S_final, [sampNum], [-1]))#.detach()
+				# posPred_final = tf.slice(S_final, [0], [sampNum])
+				# negPred_final = tf.slice(S_final, [sampNum], [-1])
+				posweight_final = tf.slice(pckUweight, [0], [sampNum])
+				negweight_final = tf.slice(pckUweight, [sampNum], [-1])
+				S_final = posweight_final*posPred_final-negweight_final*negPred_final
+				pckUlat = tf.nn.embedding_lookup(user_vector[i], self.suids[i])
+				pckIlat = tf.nn.embedding_lookup(item_vector[i], self.siids[i])
+				# 计算来自short term的S
+				preds_one = tf.reduce_sum(Activate(pckUlat* pckIlat , self.actFunc), axis=-1)
+				# preds_one = tf.reduce_sum(pckUlat* pckIlat , axis=-1)
+				# preds_one = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
+				posPred = tf.slice(preds_one, [0], [sampNum])
+				negPred = tf.slice(preds_one, [sampNum], [-1])
+				# 计算(S1^-S2^)(S1-S2)
+				sslloss += tf.reduce_sum(tf.maximum(0.0, 1.0 -S_final * (posPred-negPred)))
+				self.preds_one.append(preds_one)
 		return preds, sslloss
 
 	def prepareModel(self):
@@ -531,9 +539,9 @@ class Recommender:
 		self.suids=list()
 		self.siids=list()
 		self.suLocs_seq=list()
+		'''		
 		self.utime0=list()
 		self.utime1=list()
-		'''
 		self.esuids=list()
 		self.esiids=list()
 		self.epsilon=list()
@@ -542,9 +550,9 @@ class Recommender:
 			self.suids.append(tf.placeholder(name='suids%d'%k, dtype=tf.int32, shape=[None]))
 			self.siids.append(tf.placeholder(name='siids%d'%k, dtype=tf.int32, shape=[None]))
 			self.suLocs_seq.append(tf.placeholder(name='suLocs%d'%k, dtype=tf.int32, shape=[None]))
+			'''			
 			self.utime0.append(tf.placeholder(name='utime%d'%k, dtype=tf.int32, shape=[None]))
 			self.utime1.append(tf.placeholder(name='utime%d'%k, dtype=tf.int32, shape=[None]))
-			'''
 			self.esuids.append(tf.placeholder(name='esuids%d'%k, dtype=tf.int32, shape=[None]))
 			self.esiids.append(tf.placeholder(name='esiids%d'%k, dtype=tf.int32, shape=[None]))
 			self.epsilon.append(tf.placeholder(name='epsilon%d'%k, dtype=tf.float32, shape=[None,16]))
@@ -595,7 +603,7 @@ class Recommender:
 		sequence = [None] * args.batch
 		mask = [None]*args.batch
 		cur = 0				
-		utime = [[list(),list()] for x in range(args.graphNum)]
+		# utime = [[list(),list()] for x in range(args.graphNum)]
 		for i in range(batch):
 			if(trnPos[i] is not None):
 				posset=self.handler.sequence[batIds[i]][:-1]
@@ -611,10 +619,24 @@ class Recommender:
 				# poslocs = np.random.choice(posset, sampNum)
 				# poslocs = list(np.random.choice(posset, sampNum-1))
 				poslocs = []
-				choose= randint(1,min(args.pred_num+1,len(posset)-3))
+				'''
+				choose = randint(0,max(len(posset)-3,0))# 1 #randint(1,max(min(args.pred_num+1,len(posset)-3),1))
+				div_len = len(posset)//args.graphNum+1
+				choose = (choose//div_len) *div_len +1
+				'''
+				'''				
+				choose = randint(0,1)
+				choose = 1+choose*(max(len(posset)-3,0)//2)
+				
+				'''	
+				choose = 1
+			
 				poslocs.extend([posset[-choose]]*sampNum)
+
+				'''
 				utime[timeMat[batIds[i],poslocs[0]]][0].append(batIds[i])
 				utime[timeMat[batIds[i],poslocs[0]]][1].append(i)
+				'''
 				# poslocs.extend([trnPos[i]]*sampNum)
 				neglocs = negSamp(temLabel[i], sampNum, args.item, [trnPos[i],temTst[i]], self.handler.item_with_pop)
 			for j in range(sampNum):
@@ -651,7 +673,7 @@ class Recommender:
 				mask[i]=np.zeros(args.pos_length)
 		# timeLocs = timeLocs[:cur] + timeLocs[temlen//2: temlen//2 + cur]
 		# print(uLocs[0],uLocs[1],iLocs[0],iLocs[1])
-		return uLocs, iLocs, sequence,mask, uLocs_seq,utime
+		return uLocs, iLocs, sequence,mask, uLocs_seq# ,utime
 
 	def sampleSslBatch(self, batIds, labelMat, use_epsilon=True):
 		temLabel=list()
@@ -733,7 +755,7 @@ class Recommender:
 
 				target = [self.optimizer, self.preLoss, self.regLoss, self.loss, self.posPred, self.negPred, self.preds_one]
 				feed_dict = {}
-				uLocs, iLocs, sequence, mask, uLocs_seq, utime = self.sampleTrainBatch(batIds, self.handler.trnMat, self.handler.timeMat, sample_num_list[s])
+				uLocs, iLocs, sequence, mask, uLocs_seq= self.sampleTrainBatch(batIds, self.handler.trnMat, self.handler.timeMat, sample_num_list[s])
 				# esuLocs, esiLocs, epsilon = self.sampleSslBatch(batIds, self.handler.subadj)
 				suLocs, siLocs, suLocs_seq = self.sampleSslBatch(batIds, self.handler.subMat, False)
 				feed_dict[self.uids] = uLocs
@@ -748,8 +770,8 @@ class Recommender:
 					feed_dict[self.suids[k]] = suLocs[k]
 					feed_dict[self.siids[k]] = siLocs[k]
 					feed_dict[self.suLocs_seq[k]] = suLocs_seq[k]
-					feed_dict[self.utime0[k]] = utime[k][0]
-					feed_dict[self.utime1[k]] = utime[k][1]
+					# feed_dict[self.utime0[k]] = utime[k][0]
+					# feed_dict[self.utime1[k]] = utime[k][1]
 					# print("ssl",suLocs[k],suLocs_seq[k])
 					'''
 					feed_dict[self.epsilon[k]]=epsilon[k]
@@ -763,7 +785,7 @@ class Recommender:
 				res = self.sess.run(target, feed_dict=feed_dict, options=config_pb2.RunOptions(report_tensor_allocations_upon_oom=True))
 
 				preLoss, regLoss, loss, pos, neg, pone = res[1:]
-				
+				'''
 				# print('pred one',pone[0].shape,pone[0])
 				if(i==0):# np.isnan(regLoss)):
 					kk=0
@@ -775,7 +797,7 @@ class Recommender:
 						print('pred one',pos[kk:kk+20],"neg",neg[kk:kk+20])
 						kk+=20
 						break
-					
+				'''
 				epochLoss += loss
 				epochPreLoss += preLoss
 				log('Step %d/%d: preloss = %.2f, REGLoss = %.2f         ' % (i+s*steps, steps*len(sample_num_list), preLoss, regLoss), save=False, oneline=True)
@@ -873,12 +895,14 @@ class Recommender:
 				'''
 			feed_dict[self.keepRate] = 1.0
 			preds = self.sess.run(self.preds, feed_dict=feed_dict, options=config_pb2.RunOptions(report_tensor_allocations_upon_oom=True))
+			'''
 			if(i==20):
 				kk=0
 				print(preds)
 				# while(kk<len(preds)):
 				# 	print(preds[kk:kk+10])
 				# 	kk+=10
+			'''
 			if(args.test==True):
 				hit, ndcg, hit5, ndcg5, hit20, ndcg20,hit1, ndcg1,  hit15, ndcg15= self.calcRes(np.reshape(preds, [ed-st, args.testSize]), temTst, tstLocs)
 			else:
@@ -919,18 +943,22 @@ class Recommender:
 			if temTst[j] in shoot:
 				hit += 1
 				ndcg += np.reciprocal(np.log2(shoot.index(temTst[j])+2))
+			'''
 			shoot = list(map(lambda x: x[1], predvals[:1]))
 			if temTst[j] in shoot:
 				hit1 += 1
 				ndcg1 += np.reciprocal(np.log2(shoot.index(temTst[j])+2))	
+			'''
 			shoot = list(map(lambda x: x[1], predvals[:5]))
 			if temTst[j] in shoot:
 				hit5 += 1
 				ndcg5 += np.reciprocal(np.log2(shoot.index(temTst[j])+2))
+			'''
 			shoot = list(map(lambda x: x[1], predvals[:15]))	
 			if temTst[j] in shoot:
 				hit15 += 1
 				ndcg15 += np.reciprocal(np.log2(shoot.index(temTst[j])+2))	
+			'''
 			shoot = list(map(lambda x: x[1], predvals[:20]))	
 			if temTst[j] in shoot:
 				hit20 += 1
