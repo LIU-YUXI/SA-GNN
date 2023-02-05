@@ -10,7 +10,8 @@ import tensorflow as tf
 from tensorflow.core.protobuf import config_pb2
 import pickle
 from model import Recommender
-from model_nosub import Recommender0
+# from model_one_graph import Recommender
+# from model_wo_att import Recommender
 import random
 if __name__ == '__main__':
 	logger.saveDefault = True

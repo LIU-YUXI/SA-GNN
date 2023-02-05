@@ -51,6 +51,9 @@ class Recommender:
 			init = tf.global_variables_initializer()
 			self.sess.run(init)
 			log('Variables Inited')
+		maxndcg=0.0
+		maxres=dict()
+		maxepoch=0
 		for ep in range(stloc, args.epoch):
 			test = (ep % args.tstEpoch == 0)
 			reses = self.trainEpoch()
@@ -58,39 +61,17 @@ class Recommender:
 			if test:
 				reses = self.testEpoch()
 				log(self.makePrint('Test', ep, reses, test))
-			if ep % args.tstEpoch == 0:
+			if ep % args.tstEpoch == 0 and reses['NDCG']>maxndcg:
 				self.saveHistory()
+				maxndcg=reses['NDCG']
+				maxres=reses
+				maxepoch=ep
 			print()
 		reses = self.testEpoch()
 		log(self.makePrint('Test', args.epoch, reses, True))
-		self.saveHistory()
+		log(self.makePrint('max', maxepoch, maxres, True))
+		# self.saveHistory()
 	# def LightGcn(self, adj, )
-	'''
-	def messagePropagate(self, lats, adj):
-		# GAT=GraphAttentionLayer(lats.shape[-1],lats.shape[-1],adj,args.user+args.item)
-		# return GAT.call(lats)
-		return Activate(tf.sparse.sparse_dense_matmul(adj, lats), self.actFunc)
-		# return tf.sparse.sparse_dense_matmul(adj, lats)
-	def hyperPropagate(self, lats, adj):
-		# return adj @ (tf.transpose(adj) @ lats)
-		# return FC(adj @ Activate(tf.transpose(adj) @ lats, self.actFunc), args.latdim, activation=self.actFunc)
-		return Activate(adj @ Activate(tf.transpose(adj) @ lats, self.actFunc), self.actFunc)
-	# act(user * item * item * dim) = user * dim
-	# FC(dim*item)=dim*hyperNum
-	# hyperNum*dim + user*dim
-	# 这里多一层有用，dropout没用
-	# return user_dim
-	def hyperPropagate(self, lats, adj):
-		lat1 = Activate(tf.transpose(adj) @ lats, self.actFunc)
-		lat2 = tf.transpose(FC(tf.transpose(lat1), args.hyperNum, activation=self.actFunc)) + lat1
-		lat3 = tf.transpose(FC(tf.transpose(lat2), args.hyperNum, activation=self.actFunc)) + lat2
-		lat4 = tf.transpose(FC(tf.transpose(lat3), args.hyperNum, activation=self.actFunc)) + lat3
-		# lat5 = tf.transpose(FC(tf.transpose(lat4), args.hyperNum, activation=self.actFunc)) + lat3
-		ret = Activate(adj @ lat4, self.actFunc)
-		# print("LATS",lat1,lat2,lat3,lat4,ret)
-		# ret = adj @ lat4
-		return ret
-	'''
 	def makeTimeEmbed(self):
 		divTerm = 1 / (10000 ** (tf.range(0, args.latdim * 2, 2, dtype=tf.float32) / args.latdim))
 		pos = tf.expand_dims(tf.range(0, self.maxTime, dtype=tf.float32), axis=-1)
@@ -111,61 +92,6 @@ class Recommender:
 		else:
 			lat=tf.nn.embedding_lookup(lat,self.items)
 		return Activate(lat, self.actFunc)
-	def GAT(self, srcEmbeds, tgtEmbeds, tgtNodes, maxNum, Qs, Ks, Vs):
-		QWeight = NNs.defineRandomNameParam([args.memosize, 1, 1], reg=True)
-		KWeight = NNs.defineRandomNameParam([args.memosize, 1, 1], reg=True)
-		VWeight = NNs.defineRandomNameParam([args.memosize, 1, 1], reg=True)
-		Q = tf.reduce_sum(Qs * QWeight, axis=0)
-		K = tf.reduce_sum(Ks * KWeight, axis=0)
-		V = tf.reduce_sum(Vs * VWeight, axis=0)
-
-		q = tf.reshape(tgtEmbeds @ Q, [-1, args.num_attention_heads, args.latdim//args.num_attention_heads])
-		k = tf.reshape(srcEmbeds @ K, [-1, args.num_attention_heads, args.latdim//args.num_attention_heads])
-		v = tf.reshape(srcEmbeds @ V, [-1, args.num_attention_heads, args.latdim//args.num_attention_heads])
-		logits = tf.math.exp(tf.reduce_sum(q * k, axis=-1, keepdims=True) / tf.sqrt(args.latdim/args.num_attention_heads))
-		attNorm = tf.nn.embedding_lookup(tf.math.segment_sum(logits, tgtNodes), tgtNodes) + 1e-6
-		att = logits / attNorm
-		padAttval = tf.pad(att * v, [[0, 1], [0, 0], [0, 0]])
-		padTgtNodes = tf.concat([tgtNodes, tf.constant([maxNum], dtype=tf.int64)], axis=-1)
-		attval = tf.reshape(tf.math.segment_sum(padAttval, padTgtNodes), [-1, args.latdim])
-		attval = tf.slice(attval, [0, 0], [maxNum, -1])
-		return attval
-
-	def messagePropagate2(self, srclats, tgtlats, mats, maxNum, wTime=True):
-		unAct = []
-		lats1 = []
-		paramId = 'dfltP%d' % NNs.getParamId()
-		Qs = NNs.defineRandomNameParam([args.memosize, args.latdim, args.latdim], reg=True)
-		Ks = NNs.defineRandomNameParam([args.memosize, args.latdim, args.latdim], reg=True)
-		Vs = NNs.defineRandomNameParam([args.memosize, args.latdim, args.latdim], reg=True)
-		for mat in mats:
-			timeEmbed = FC(self.timeEmbed, args.latdim, reg=True)
-			srcNodes = tf.squeeze(tf.slice(mat.indices, [0, 1], [-1, 1]))
-			tgtNodes = tf.squeeze(tf.slice(mat.indices, [0, 0], [-1, 1]))
-			edgeVals = mat.values
-			srcEmbeds = (tf.nn.embedding_lookup(srclats, srcNodes) + (tf.nn.embedding_lookup(timeEmbed, edgeVals) if wTime else 0))
-			tgtEmbeds = tf.nn.embedding_lookup(tgtlats, tgtNodes)
-
-			newTgtEmbeds = self.GAT(srcEmbeds, tgtEmbeds, tgtNodes, maxNum, Qs, Ks, Vs)
-
-			unAct.append(newTgtEmbeds)
-			lats1.append(Activate(newTgtEmbeds, self.actFunc))
-
-		lats2 = NNs.lightSelfAttention(lats1, number=len(mats), inpDim=args.latdim, numHeads=args.num_attention_heads)
-
-		# aggregation gate
-		globalQuery = Activate(tf.add_n(unAct), self.actFunc)
-		weights = []
-		paramId = 'dfltP%d' % NNs.getParamId()
-		for lat in lats2:
-			temlat = FC(tf.concat([lat, globalQuery], axis=-1) , args.latdim//2, useBias=False, reg=False, activation=self.actFunc, name=paramId+'_1', reuse=True)
-			weight = FC(temlat, 1, useBias=False, reg=False, name=paramId+'_2', reuse=True)
-			weights.append(weight)
-		stkWeight = tf.concat(weights, axis=1)
-		sftWeight = tf.reshape(tf.nn.softmax(stkWeight, axis=1), [-1, len(mats), 1]) * 8
-		stkLat = tf.stack(lats2, axis=1)
-		lat = tf.reshape(tf.reduce_sum(sftWeight * stkLat, axis=1), [-1, args.latdim])
-		return lat,lats1
 	def edgeDropout(self, mat):
 		def dropOneMat(mat):
 			# print("drop",mat)
@@ -197,56 +123,16 @@ class Recommender:
 			embs0=[uEmbed[k]]
 			embs1=[iEmbed[k]]
 			for i in range(args.gnn_layer):
-				'''
-				# 因为graph的形式是[user+item,user+item]，所以把user的embedding和item的embedding concat一下
-				embs=tf.concat([embs0[-1],embs1[-1]],axis=0)
-				# subAdj[k]就是第k个short term graph
-				# [ user + item * user + item ] * [ user + item * emb ] = [ user + item * emb]
-				# 把和该user有交互的item的emb的每一维求和，就变成了新的消息
-				# 给一个[ user, item, time emb ]
-				# 然后本来还有一个 [ user, item, emb ]
-				# [ user, time1+ time2 + time3 ]
-				# [ user, emb1 + emb2 + emb3 ]
-				# 求和 
-				all_emb = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.subAdj[k]), embs), self.actFunc)
-				# 把user和item的特征矩阵分开
-				a_emb0,a_emb1=tf.split(all_emb, [args.user, args.item], axis=0)
-				'''
-				# print(self.subAdj[k].shape)
 				a_emb0= self.messagePropagate(embs1[-1],self.edgeDropout(self.subAdj[k]),'user')
 				a_emb1= self.messagePropagate(embs0[-1],self.edgeDropout(self.subTpAdj[k]),'item')
-				# a_emb0= self.messagePropagate2(embs1[-1],embs0[-1],[self.edgeDropout(self.subAdj[k])],args.user)
-				# a_emb1= self.messagePropagate2(embs0[-1],embs1[-1],[self.edgeDropout(self.subTpAdj[k])],args.item)
-				# print("a_emb0",a_emb0,embs0[-1])
-				# 上一跳学的特征+这一跳学的
 				embs0.append(a_emb0+embs0[-1]) 
 				embs1.append(a_emb1+embs1[-1]) 
 			# 对每一跳学完的特征求和
 			user=tf.add_n(embs0)# +tf.tile(timeUEmbed[k],[args.user,1])
 			item=tf.add_n(embs1)# +tf.tile(timeIEmbed[k],[args.item,1])
-			# user_vector_short.append(embs0)
-			# item_vector_short.append(embs1)
 			# 然后再加一个全连接层，就是第k个short term的graph的结果
 			user_vector.append(user)
 			item_vector.append(item)
-		'''
-		试一下长期的图
-		# embedding
-		LuEmbed=NNs.defineParam('LuEmbed', [args.user, args.latdim], reg=True)
-		LiEmbed=NNs.defineParam('LiEmbed', [args.item, args.latdim], reg=True)	
-		embs0=[LuEmbed]
-		embs1=[LiEmbed]
-		for i in range(args.gnn_layer):
-			a_emb0 = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.adj), embs1[-1]), self.actFunc)
-			a_emb1 = Activate(tf.sparse.sparse_dense_matmul(self.edgeDropout(self.tpAdj), embs0[-1]), self.actFunc)
-			# 上一跳学的特征+这一跳学的
-			embs0.append(a_emb0+embs0[-1]) 
-			embs1.append(a_emb1+embs1[-1]) 
-		# 对每一跳学完的特征求和
-		user_vector_long=tf.add_n(embs0)
-		item_vector_long=tf.add_n(embs1)
-		end
-		'''
 		# now user_vector is [g,u,latdim]
 		user_vector=tf.stack(user_vector,axis=0)
 		item_vector=tf.stack(item_vector,axis=0)
@@ -264,16 +150,6 @@ class Recommender:
 			item_vector_rnn, _ = tf.nn.dynamic_rnn(cell=rnn_cell, inputs=item_vector_tensor, dtype=tf.float32)
 			user_vector_tensor=user_vector_rnn# +user_vector_tensor
 			item_vector_tensor=item_vector_rnn# +item_vector_tensor
-		# user_vector_tensor=Activate(user_vector_tensor,"sigmoid")
-		# item_vector_tensor=Activate(item_vector_tensor,"sigmoid")
-
-		# user_vector_tensor=tf.clip_by_value(user_vector_tensor,-20,20)
-		# item_vector_tensor=tf.clip_by_value(item_vector_tensor,-20,20)
-		'''
-		# 对所有short term的graph学出来的item和user的特征矩阵求和再加一个全连接层，得到long term的表征
-		final_user_vector = FC(tf.reduce_sum(user_vector,axis=0),outDim=args.latdim)
-		final_item_vector = FC(tf.reduce_sum(item_vector,axis=0),outDim=args.latdim)
-		'''		
 		self.additive_attention0 = AdditiveAttention(args.query_vector_dim,args.latdim)
 		self.additive_attention1 = AdditiveAttention(args.query_vector_dim,args.latdim)
 
@@ -281,42 +157,9 @@ class Recommender:
 		self.multihead_self_attention1 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
 		multihead_user_vector = self.multihead_self_attention0.attention(tf.contrib.layers.layer_norm(user_vector_tensor))# (tf.layers.batch_normalization(user_vector_tensor,training=self.is_train))#
 		multihead_item_vector = self.multihead_self_attention1.attention(tf.contrib.layers.layer_norm(item_vector_tensor))# (tf.layers.batch_normalization(item_vector_tensor,training=self.is_train))#
-		'''		'''
-		# multihead_user_vector = tf.concat([multihead_user_vector,self.multihead_self_attention0.attention(tf.contrib.layers.layer_norm(user_vector_tensor[args.user//2:]))],axis=0)# (tf.layers.batch_normalization(user_vector_tensor,training=self.is_train))#
-		# multihead_item_vector = tf.concat([multihead_item_vector,self.multihead_self_attention1.attention(tf.contrib.layers.layer_norm(item_vector_tensor[args.item//2:]))],axis=0)# (tf.layers.batch_normalization(item_vector_tensor,training=self.is_train))#
-		# final_user_vector = self.additive_attention0.attention(multihead_user_vector)		
-		# final_item_vector = self.additive_attention1.attention(multihead_item_vector)
-		# final_user_vector = self.additive_attention0.attention(user_vector_tensor)		
-		# final_item_vector = self.additive_attention1.attention(item_vector_tensor)
-		# final_user_vector = self.additive_attention0.attention(multihead_user_vector)		
-		# final_item_vector = self.additive_attention1.attention(multihead_item_vector)
 		final_user_vector = tf.reduce_mean(multihead_user_vector,axis=1)#+user_vector_long
 		final_item_vector = tf.reduce_mean(multihead_item_vector,axis=1)#+item_vector_long
 		iEmbed_att=final_item_vector
-		'''
-		# 本来用self attention的 但是效果调不好。。。。
-		self.additive_attention0 = AdditiveAttention(args.query_vector_dim,args.latdim)
-		self.additive_attention1 = AdditiveAttention(args.query_vector_dim,args.latdim)
-		self.multihead_self_attention0 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
-		self.multihead_self_attention1 = MultiHeadSelfAttention(args.latdim,args.num_attention_heads)
-		
-		final_user_vector=list()
-		final_item_vector=list()
-		i=0
-		while(i<args.user):
-			multihead_user_vector = self.multihead_self_attention0.attention(user_vector_tensor[i:i+args.batch_size])
-			final_user_vector0 = self.additive_attention0.attention(multihead_user_vector)# (user_vector_tensor)
-			final_user_vector.extend(final_user_vector0)
-			i+=args.batch_size
-		final_user_vector=tf.stack(final_user_vector,axis=1)
-		i=0
-		while(i<args.item):
-			multihead_item_vector = self.multihead_self_attention1.attention(item_vector_tensor[i:i+args.batch_size])
-			final_item_vector0 = self.additive_attention1.attention(multihead_item_vector)# (item_vector_tensor)
-			final_item_vector.extend([final_item_vector0])
-			i+=args.batch_size
-		final_item_vector=tf.stack(final_item_vector,axis=0)
-		'''
 		# sequence att
 		self.multihead_self_attention_sequence = list()
 		for i in range(args.att_layer):
@@ -333,190 +176,56 @@ class Recommender:
 		# 基于long term的pred计算
 		pckUlat = tf.nn.embedding_lookup(final_user_vector, self.uids)
 		pckIlat = tf.nn.embedding_lookup(final_item_vector, self.iids)
-
-
-		# final_user_vector=tf.clip_by_value(final_user_vector,-20,20)
-		# final_item_vector=tf.clip_by_value(final_item_vector,-20,20)
 		preds = tf.reduce_sum(pckUlat * pckIlat, axis=-1)
 		preds += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.uLocs_seq),"leakyRelu")* pckIlat_att,axis=-1)
-		# preds += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.uLocs_seq)* pckIlat_att,axis=-1)
 		self.preds_one=list()
 		self.final_one=list()
-		# preds += tf.reduce_sum(tf.reduce_sum(tf.nn.embedding_lookup(user_vector_tensor, self.uids)*
-		#   	tf.nn.embedding_lookup(item_vector_tensor, self.iids),axis=-1),axis=-1)
-		# preds += tf.reduce_sum(tf.nn.embedding_lookup(user_vector[-1], self.uids)*
-		#   	tf.nn.embedding_lookup(item_vector[-1], self.iids),axis=-1)
-		'''
-
-		if(self.is_train==True):	
-			preds_short=list()
-			for k in range(args.graphNum):
-				preds_short.append(tf.reduce_sum(tf.nn.embedding_lookup(user_vector[k], self.uids) * tf.nn.embedding_lookup(item_vector[k], self.iids),axis=-1))
-			preds_short_value=list()
-			for j in range(tf.shape(self.uids)[0].eval()):
-				preds_short_value.append(preds_short[self.timeids[j]][j])
-			preds_short_value=tf.stack(preds_short_value,axis=0)
-			preds+=preds_short_value# preds_one.append(preds)
-		'''
-   
-		'''
-		elif (self.is_train==False):	
-			preds_short=list()
-			for k in range(args.graphNum):
-				preds_short.append(tf.reduce_sum(tf.nn.embedding_lookup(user_vector[k], self.uids) * tf.nn.embedding_lookup(item_vector[k], self.iids),axis=-1))
-			preds_short_value=list()
-			for j in range(tf.shape(self.uids)[0].eval()):
-				preds_short_value.append(preds_short[-1][j])
-			preds_short_value=tf.stack(preds_short_value,axis=0)
-			preds+=preds_short_value
-		'''
 		# 开始计算对比学习的损失
 		sslloss = 0	
-		# print(S_final)
-		def get_cos_distance(X1, X2, sampNam):
-			# calculate cos distance between two sets
-			# more similar more big
-			# 求模
-			X1_norm = tf.sqrt(tf.reduce_sum(tf.square(X1), axis=1))
-			X2_norm = tf.sqrt(tf.reduce_sum(tf.square(X2), axis=1))
-			# 内积
-			mask = tf.diag(tf.ones([2*sampNam]))
-			X1_X2 = tf.matmul(tf.matmul(X1, tf.transpose(X2)),mask)
-			X1_X2_norm = tf.matmul(tf.reshape(X1_norm,[-1,1]),tf.reshape(X2_norm,[1,-1]))
-			# 计算余弦距离
-			cos = X1_X2/X1_X2_norm
-			return cos
 		user_weight=list()
-		# 通过meta网络，依次输入每个用户长期的embedding和每个短期的embedding，来学习每个用户在对比学习中的修正权重，权重大的代表用户稳定
+		# 通过mlp网络，依次输入每个用户长期的embedding和每个短期的embedding，来学习每个用户在对比学习中的修正权重，权重大的代表用户稳定
 		# final_user_vector是长期的，user_vector[i]是第i个短期的
-
-
-		'''		
-		def calcSSL(hyperLat, gnnLat):
-			# [1, sample num ] * [1 , smaple num]=[1]
-			# [ sample num,1 ] * [ sample num,1 ]=[ sample ]  
-			posScore = tf.exp(tf.reduce_sum(hyperLat * gnnLat, axis=1) / args.temp)
-			# [1, sample num] * [ sample num ,1]= [1]
-			# [ sample, sample ] --> [ sample ]
-			negScore = tf.reduce_sum(tf.exp(gnnLat @ tf.transpose(hyperLat) / args.temp), axis=1)
-			uLoss = tf.reduce_sum(-tf.log(posScore+1 / (negScore + 1) + 1e-8))
-			return uLoss		
-		# 每个用户用来判断是否噪声边的阈值
-		drop_threshold=list()
 		for i in range(args.graphNum):
-			meta1=user_vector[i]# tf.concat([user_vector[i]],axis=-1)
-			meta2=FC(meta1,16,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="threshold2")
-			drop_threshold.append(tf.squeeze(FC(meta2,1,useBias=True,activation='sigmoid',reg=True,reuse=True,name="threshold3")))
-		# drop_threshold=tf.Variable(tf.random_uniform([args.graphNum,args.user], minval=0, maxval=1, dtype=tf.float32), name="drop_threshold")
+			meta1=tf.concat([final_user_vector*user_vector[i],final_user_vector,user_vector[i]],axis=-1)
+			meta2=FC(meta1,args.ssldim,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta2")
+			# meta2=FC(meta2,args.ssldim//2,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta4")
+			user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='sigmoid',reg=True,reuse=True,name="meta3")))
+			# user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta3")))
+		user_weight=tf.stack(user_weight,axis=0)	
+		# suids是对每一个短期的图随机抽取的边，用来对比学习
 		for i in range(args.graphNum):
-			pckUlat = tf.nn.embedding_lookup(user_vector[i], self.esuids[i])
-			pckIlat = tf.nn.embedding_lookup(item_vector[i], self.esiids[i])
-			# pckUthreshold=tf.nn.embedding_lookup(drop_threshold[i],self.esuids[i])
-			# preds_one 代表一条边，[sampleNum,latdim]
-			preds_one = pckUlat* pckIlat
-			# activate [sampleNum,latdim]
-			w=FC(preds_one,16,useBias=True,activation="leakyRelu",reg=True,reuse=True,name="graghw1%d"%(i))# ,layer))
-			# w=tf.squeeze(FC(w,1,useBias=True,activation='sigmoid',reg=True))
-			# epsilon ~ U(0,1)
-			epsilon=self.epsilon[i]# tf.random_uniform([tf.shape(self.suids[i])[0],16], 0, 1, dtype=tf.float32)
-			# reparameter
-			epsilon=(tf.log(epsilon)-tf.log(1.0-epsilon)+w)# /args.temp
-			rh=tf.squeeze(FC(epsilon,1,activation='sigmoid',reg=True,reuse=True,name="graghw2%d"%(i)))#,layer)))
-			self.preds_one.append(tf.concat([rh],axis=-1))	
-			#-pckUthreshold/2
-			# 是否噪声边：if rh<0.5 False; else True;
-			# one = tf.ones_like(rh)
-			# zero = tf.zeros_like(rh)
-			# rh = tf.where(rh <0, x=zero, y=one)
-			rh=tf.tile(tf.expand_dims(rh,dim=-1),multiples=[1,args.latdim])
-			# 边的表示变为一维的，即[sampleNum,1]
-			# preds_one=tf.reduce_sum(preds_one,axis=-1)
-			# 如果被判为噪声边，则该边的值会变为0
-			preds_drop=rh*preds_one
-			# 对比学习损失
-			# sslloss+=calcSSL(tf.expand_dims(preds_one,axis=1),tf.expand_dims(preds_drop,axis=1))
-			sslloss+=calcSSL(preds_one,preds_drop)
-			# self.preds_one.append(rh)	
-		# print(S_final)
-		'''
-		'''		
-		def calcSSL(hyperLat, gnnLat):
-			# [ sample num,lat ] * [ sample num, lat]=[ sample,lat ]  
-			posScore = tf.exp(tf.reduce_sum(hyperLat * gnnLat, axis=1) / args.temp)
-			# [sample num, lat] * [ lat, sample num]= [sample]
-			# [ sample, sample ] --> [ sample ]
-			negScore = tf.reduce_sum(tf.exp(gnnLat @ tf.transpose(hyperLat) / args.temp), axis=1)
-			uLoss = tf.reduce_sum(-tf.log(posScore+1 / (negScore + 1) + 1e-8))
-			return uLoss
-	
-		uniqIids, _ = tf.unique(self.iids)
-		# W = NNs.defineRandomNameParam([args.latdim, args.latdim])
+			sampNum = tf.shape(self.suids[i])[0] // 2 # pair的数量
+			pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
+			pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
+			pckUweight =  tf.nn.embedding_lookup(user_weight[i], self.suids[i])
+			pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.siids[i])
+			# 计算来自long term的S^
+			S_final = tf.reduce_sum(Activate(pckUlat* pckIlat, self.actFunc),axis=-1)
+			# S_final += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,self.actFunc),axis=-1)
+			# S_final = tf.reduce_sum(pckUlat* pckIlat,axis=-1)
+			# S_final += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,axis=-1)
+			# S_final = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
+			posPred_final = tf.stop_gradient(tf.slice(S_final, [0], [sampNum]))#.detach()
+			negPred_final = tf.stop_gradient(tf.slice(S_final, [sampNum], [-1]))#.detach()
+			# posPred_final = tf.slice(S_final, [0], [sampNum])
+			# negPred_final = tf.slice(S_final, [sampNum], [-1])
 
-		pckhyperILat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(iEmbed_att, uniqIids), axis=1),axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
-		pckGNNILat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(final_item_vector, uniqIids), axis=1),axis=1)#tf.nn.l2_normalize(, axis=1)
-		iLoss = calcSSL(pckhyperILat, pckGNNILat)
-		sslloss+=iLoss
-
-		for i in range(args.graphNum):
-			uniqUids, _ = tf.unique(self.utime0[i])
-			uniqUids_att, _ =tf.unique(self.utime1[i])			
-			pckHyperULat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(att_user, uniqUids_att), axis=1),axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
-			pckGnnULat = tf.nn.softmax(tf.nn.l2_normalize(tf.nn.embedding_lookup(user_vector[i], uniqUids), axis=1),axis=1)#tf.nn.l2_normalize(, axis=1)
-			uLoss = calcSSL(pckHyperULat, pckGnnULat)
-			sslloss += uLoss
-		'''
-		'''
-		pckhyperILat = tf.nn.l2_normalize(tf.nn.embedding_lookup(iEmbed_att, uniqIids)+10.0, axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
-		pckGNNILat =tf.nn.l2_normalize(tf.nn.embedding_lookup(final_item_vector, uniqIids)+10.0, axis=1)#tf.nn.l2_normalize(, axis=1)
-		iLoss = calcSSL(pckhyperILat, pckGNNILat)
-
-		for i in range(args.graphNum):
-			uniqUids, _ = tf.unique(self.utime0[i])
-			uniqUids_att, _ =tf.unique(self.utime1[i])			
-			pckHyperULat = tf.nn.l2_normalize(tf.nn.embedding_lookup(att_user, uniqUids_att)+10.0, axis=1) # @ W#tf.nn.l2_normalize(, axis=1)
-			pckGnnULat = tf.nn.l2_normalize(tf.nn.embedding_lookup(user_vector[i], uniqUids)+10.0, axis=1)#tf.nn.l2_normalize(, axis=1)
-			uLoss = calcSSL(pckHyperULat, pckGnnULat)
-			sslloss += uLoss
-		'''		
-		if( args.ssl):
-			for i in range(args.graphNum):
-				meta1=tf.concat([final_user_vector*user_vector[i],final_user_vector,user_vector[i]],axis=-1)
-				meta2=FC(meta1,args.ssldim,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta2")
-				# meta2=FC(meta2,args.ssldim//2,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta4")
-				user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='sigmoid',reg=True,reuse=True,name="meta3")))
-				# user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta3")))
-			user_weight=tf.stack(user_weight,axis=0)		
-			# suids是对每一个短期的图随机抽取的边，用来对比学习
-			for i in range(args.graphNum):
-				sampNum = tf.shape(self.suids[i])[0] // 2 # pair的数量
-				pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
-				pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
-				pckUweight =  tf.nn.embedding_lookup(user_weight[i], self.suids[i])
-				pckIlat_att = tf.nn.embedding_lookup(iEmbed_att, self.siids[i])
-				# 计算来自long term的S^
-				S_final = tf.reduce_sum(Activate(pckUlat* pckIlat, self.actFunc),axis=-1)
-				# S_final += tf.reduce_sum(Activate(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,self.actFunc),axis=-1)
-				# S_final = tf.reduce_sum(pckUlat* pckIlat,axis=-1)
-				# S_final += tf.reduce_sum(tf.nn.embedding_lookup(att_user,self.suLocs_seq[i])* pckIlat_att,axis=-1)
-				# S_final = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
-				posPred_final = tf.stop_gradient(tf.slice(S_final, [0], [sampNum]))#.detach()
-				negPred_final = tf.stop_gradient(tf.slice(S_final, [sampNum], [-1]))#.detach()
-				# posPred_final = tf.slice(S_final, [0], [sampNum])
-				# negPred_final = tf.slice(S_final, [sampNum], [-1])
-				posweight_final = tf.slice(pckUweight, [0], [sampNum])
-				negweight_final = tf.slice(pckUweight, [sampNum], [-1])
-				S_final = posweight_final*posPred_final-negweight_final*negPred_final
-				pckUlat = tf.nn.embedding_lookup(user_vector[i], self.suids[i])
-				pckIlat = tf.nn.embedding_lookup(item_vector[i], self.siids[i])
-				# 计算来自short term的S
-				preds_one = tf.reduce_sum(Activate(pckUlat* pckIlat , self.actFunc), axis=-1)
-				# preds_one = tf.reduce_sum(pckUlat* pckIlat , axis=-1)
-				# preds_one = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
-				posPred = tf.slice(preds_one, [0], [sampNum])
-				negPred = tf.slice(preds_one, [sampNum], [-1])
-				# 计算(S1^-S2^)(S1-S2)
-				sslloss += tf.reduce_sum(tf.maximum(0.0, 1.0 -S_final * (posPred-negPred)))
-				self.preds_one.append(preds_one)
+			posweight_final = tf.slice(pckUweight, [0], [sampNum])
+			negweight_final = tf.slice(pckUweight, [sampNum], [-1])
+			S_final = posweight_final*posPred_final-negweight_final*negPred_final
+			# S_final = posPred_final-negPred_final
+			pckUlat = tf.nn.embedding_lookup(user_vector[i], self.suids[i])
+			pckIlat = tf.nn.embedding_lookup(item_vector[i], self.siids[i])
+			# 计算来自short term的S
+			preds_one = tf.reduce_sum(Activate(pckUlat* pckIlat , self.actFunc), axis=-1)
+			# preds_one = tf.reduce_sum(pckUlat* pckIlat , axis=-1)
+			# preds_one = tf.reduce_sum(Activate(get_cos_distance(pckUlat,pckIlat,sampNum), self.actFunc),axis=-1)
+			posPred = tf.slice(preds_one, [0], [sampNum])
+			negPred = tf.slice(preds_one, [sampNum], [-1])
+			# 计算(S1^-S2^)(S1-S2)
+			sslloss += tf.reduce_sum(tf.maximum(0.0, 1.0 -S_final * (posPred-negPred)))
+			self.preds_one.append(preds_one)
+		
 		return preds, sslloss
 
 	def prepareModel(self):
@@ -527,9 +236,6 @@ class Recommender:
 		adj = self.handler.trnMat
 		idx, data, shape = transToLsts(adj, norm=True)
 		self.adj = tf.sparse.SparseTensor(idx, data, shape)
-		# idx, data, shape = transToLsts(transpose(adj), norm=True)
-		# print("idx,data,shape",idx,data,shape)
-		# self.tpAdj = tf.sparse.SparseTensor(idx, data, shape)
 		self.uids = tf.placeholder(name='uids', dtype=tf.int32, shape=[None])
 		self.iids = tf.placeholder(name='iids', dtype=tf.int32, shape=[None])
 		self.sequence = tf.placeholder(name='sequence', dtype=tf.int32, shape=[args.batch,args.pos_length])
@@ -539,13 +245,6 @@ class Recommender:
 		self.suids=list()
 		self.siids=list()
 		self.suLocs_seq=list()
-		'''		
-		self.utime0=list()
-		self.utime1=list()
-		self.esuids=list()
-		self.esiids=list()
-		self.epsilon=list()
-		'''
 		for k in range(args.graphNum):
 			self.suids.append(tf.placeholder(name='suids%d'%k, dtype=tf.int32, shape=[None]))
 			self.siids.append(tf.placeholder(name='siids%d'%k, dtype=tf.int32, shape=[None]))
@@ -569,14 +268,6 @@ class Recommender:
 			self.subTpAdj.append(tf.sparse.SparseTensor(idx, data, shape))
 			print("2",shape)
 		self.maxTime=self.handler.maxTime
-			# self.subAdjNp.append(sp.lil_matrix(self.handler.subadj[i]).toarray())
-		'''
-		增加一个训练时获得所属短期图的信息，加起来
-		先试一下循环加 看看会不会很慢
-		seqadj = self.handler.trnMat.astype(np.int32)# timeMat
-		idx, data, shape = transToLsts(seqadj, norm=True)
-		self.timeMat=tf.sparse.SparseTensor(idx, data, shape)
-		'''		
 		#############################################################################
 		self.preds, self.sslloss = self.ours()
 		sampNum = tf.shape(self.uids)[0] // 2
@@ -592,7 +283,7 @@ class Recommender:
 		self.optimizer = tf.train.AdamOptimizer(learningRate).minimize(self.loss, global_step=globalStep)
 
 	def sampleTrainBatch(self, batIds, labelMat, timeMat, train_sample_num):
-		trnPos = self.handler.trnPos[batIds]
+		# trnPos = self.handler.trnPos[batIds]
 		temTst = self.handler.tstInt[batIds]
 		temLabel=labelMat[batIds].toarray()
 		batch = len(batIds)
@@ -605,10 +296,7 @@ class Recommender:
 		cur = 0				
 		# utime = [[list(),list()] for x in range(args.graphNum)]
 		for i in range(batch):
-			if(trnPos[i] is not None):
-				posset=self.handler.sequence[batIds[i]][:-1]
-			else:
-				posset=self.handler.sequence[batIds[i]]
+			posset=self.handler.sequence[batIds[i]][:-1]
 			# posset = np.reshape(np.argwhere(temLabel[i]!=0), [-1])
 			sampNum = min(train_sample_num, len(posset))
 			choose=1
@@ -616,29 +304,11 @@ class Recommender:
 				poslocs = [np.random.choice(args.item)]
 				neglocs = [poslocs[0]]
 			else:
-				# poslocs = np.random.choice(posset, sampNum)
-				# poslocs = list(np.random.choice(posset, sampNum-1))
 				poslocs = []
-				'''
-				choose = randint(0,max(len(posset)-3,0))# 1 #randint(1,max(min(args.pred_num+1,len(posset)-3),1))
-				div_len = len(posset)//args.graphNum+1
-				choose = (choose//div_len) *div_len +1
-				'''
-				'''				
-				choose = randint(0,1)
-				choose = 1+choose*(max(len(posset)-3,0)//2)
-				
-				'''	
-				choose = 1
-			
+				# choose = 1
+				choose = randint(1,max(min(args.pred_num+1,len(posset)-3),1))
 				poslocs.extend([posset[-choose]]*sampNum)
-
-				'''
-				utime[timeMat[batIds[i],poslocs[0]]][0].append(batIds[i])
-				utime[timeMat[batIds[i],poslocs[0]]][1].append(i)
-				'''
-				# poslocs.extend([trnPos[i]]*sampNum)
-				neglocs = negSamp(temLabel[i], sampNum, args.item, [trnPos[i],temTst[i]], self.handler.item_with_pop)
+				neglocs = negSamp(temLabel[i], sampNum, args.item, [self.handler.sequence[batIds[i]][-1],temTst[i]], self.handler.item_with_pop)
 			for j in range(sampNum):
 				posloc = poslocs[j]
 				negloc = neglocs[j]
@@ -678,8 +348,6 @@ class Recommender:
 	def sampleSslBatch(self, batIds, labelMat, use_epsilon=True):
 		temLabel=list()
 		for k in range(args.graphNum):	
-			# print(labelMat[k][batIds])
-			# print(labelMat[k][batIds][args.user:])
 			temLabel.append(labelMat[k][batIds].toarray())
 		batch = len(batIds)
 		temlen = batch * 2 * args.sslNum
@@ -785,19 +453,6 @@ class Recommender:
 				res = self.sess.run(target, feed_dict=feed_dict, options=config_pb2.RunOptions(report_tensor_allocations_upon_oom=True))
 
 				preLoss, regLoss, loss, pos, neg, pone = res[1:]
-				'''
-				# print('pred one',pone[0].shape,pone[0])
-				if(i==0):# np.isnan(regLoss)):
-					kk=0
-					#print("pred one",pos,neg)
-					
-					while(kk<len(pos)):
-						# print(pre[kk:kk+10])
-						# print('finalS',finalS[k])
-						print('pred one',pos[kk:kk+20],"neg",neg[kk:kk+20])
-						kk+=20
-						break
-				'''
 				epochLoss += loss
 				epochPreLoss += preLoss
 				log('Step %d/%d: preloss = %.2f, REGLoss = %.2f         ' % (i+s*steps, steps*len(sample_num_list), preLoss, regLoss), save=False, oneline=True)
@@ -810,7 +465,7 @@ class Recommender:
 		batch = len(batIds)
 		temTst = self.handler.tstInt[batIds]
 		temLabel = labelMat[batIds].toarray()
-		trnPos = self.handler.trnPos[batIds]
+		# trnPos = self.handler.trnPos[batIds]
 		# print("temLabel",temLabel)
 		temlen = batch * args.testSize# args.item
 		uLocs = [None] * temlen
@@ -843,7 +498,7 @@ class Recommender:
 			sequence[i]=np.zeros(args.pos_length,dtype=int)
 			mask[i]=np.zeros(args.pos_length)
 			if(args.test==True):
-				posset=self.handler.sequence[batIds[i]]# +[trnPos[i]]
+				posset=self.handler.sequence[batIds[i]]
 			else:
 				posset=self.handler.sequence[batIds[i]][:-1]
 			# posset=self.handler.sequence[batIds[i]]
@@ -903,6 +558,8 @@ class Recommender:
 				# 	print(preds[kk:kk+10])
 				# 	kk+=10
 			'''
+			if(args.uid!=-1):
+				print(preds[args.uid])
 			if(args.test==True):
 				hit, ndcg, hit5, ndcg5, hit20, ndcg20,hit1, ndcg1,  hit15, ndcg15= self.calcRes(np.reshape(preds, [ed-st, args.testSize]), temTst, tstLocs)
 			else:

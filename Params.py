@@ -4,6 +4,7 @@ def parse_args():
 	parser = argparse.ArgumentParser(description='Model Params')
 	parser.add_argument('--lr', default=1e-3, type=float, help='learning rate')
 	parser.add_argument('--batch', default=512, type=int, help='batch size')
+	parser.add_argument('--testbatch', default=64, type=int, help='test batch size')
 	parser.add_argument('--reg', default=1e-5, type=float, help='weight decay regularizer')
 	parser.add_argument('--epoch', default=100, type=int, help='number of epochs')
 	parser.add_argument('--graphNum', default=8, type=int, help='number of graphs based on time series')
@@ -46,6 +47,7 @@ def parse_args():
 	parser.add_argument('--nfs', default=False, type=bool, help='load from nfs')
 	parser.add_argument('--test', default=True, type=bool, help='test or val')
 	parser.add_argument('--ssl', default=True, type=bool, help='use self-supervised learning')
+	parser.add_argument('--uid', default=0, type=int, help='show user score')
 	return parser.parse_args()
 args = parse_args()
 args.decay_step = args.trnNum//args.batch

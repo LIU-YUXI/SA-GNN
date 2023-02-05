@@ -89,8 +89,8 @@ class DataHandler:
 		self.predir = predir
 		self.trnfile = predir + 'trn_mat_time'
 		self.tstfile = predir + 'tst_int'
-		self.trnposfile = predir + 'train_pos'
-		self.neg_sequency_file = predir + 'sort'
+		# self.trnposfile = predir + 'train_pos'
+		# self.neg_sequency_file = predir + 'sort'
 		self.sequencefile=predir+'sequence'
 		self.test_dictfile=predir+'test_dict'
 	def LoadData(self):
@@ -105,11 +105,6 @@ class DataHandler:
 		# test set
 		with open(self.tstfile, 'rb') as fs:
 			tstInt = np.array(pickle.load(fs))
-		with open(self.trnposfile, 'rb') as fs:
-			self.trnPos = np.array(pickle.load(fs))
-		with open(self.neg_sequency_file, 'rb') as fs:
-			self.neg_sequency = pickle.load(fs)
-			print("neg_fre:",len(self.neg_sequency))
 		with open(self.sequencefile, 'rb') as fs:
 			self.sequence = pickle.load(fs)
 		if os.path.isfile(self.test_dictfile):
@@ -120,14 +115,31 @@ class DataHandler:
 		print("tstStat",tstStat,len(tstStat))
 		tstUsrs = np.reshape(np.argwhere(tstStat != False), [-1])
 		print("tstUsrs",tstUsrs,len(tstUsrs))
-		self.trnMat = trnMat[0]
+		# self.trnMat = trnMat[0]
+		def generate_rating_matrix_test(user_seq, num_users, num_items):
+			# three lists are used to construct sparse matrix
+			row = []
+			col = []
+			data = []
+			for user_id, item_list in enumerate(user_seq):
+				for item in item_list:  #
+					row.append(user_id)
+					col.append(item)
+					data.append(1)
+
+			row = np.array(row)
+			col = np.array(col)
+			data = np.array(data)
+			rating_matrix = csr_matrix((data, (row, col)), shape=(num_users, num_items))
+
+			return rating_matrix
+		args.user, args.item = trnMat[0].shape
+		self.trnMat=generate_rating_matrix_test(self.sequence,args.user, args.item)
 		self.subMat = trnMat[1]
 		self.timeMat = trnMat[2]
 		print("trnMat",trnMat[0],trnMat[1],trnMat[2])
-		print(self.neg_sequency)
 		self.tstInt = tstInt
 		self.tstUsrs = tstUsrs
-		args.user, args.item = trnMat[0].shape
 		self.prepareGlobalData()
 
 
@@ -172,9 +184,12 @@ class DataHandler:
 		self.maxTime=1
 		# self.subMat,self.maxTime=self.timeProcess(self.subMat)
 		print(self.subMat[0],self.subMat[-1])
+
 		self.item_with_pop=[]
+		'''				
 		for i in range(len(self.sequence)):
 			self.item_with_pop.extend(self.sequence[i])
+		'''
 		# print(self.item_with_pop)
 		'''
 		tpadj = list()
