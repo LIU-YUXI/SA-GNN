@@ -41,9 +41,6 @@ class ScaledDotProductAttention(object):
                 scores = scores * attn_mask
             # batch_size,head_num, candidate_num, 1
             attn = scores / (tf.expand_dims(tf.reduce_sum(scores, axis=-1),-1) + 1e-8) # 归一化
-            # batch_size,head_num, candidate_num, candidate_num * batch_size,head_num, candidate_num, d_k
-            # batch_size,head_num, candidate_num, d_k
-            # 用每个item和其它item的关系的权重，然后去把它自己，其它item的embedding加权求和，得到这个item新的表征
             context = tf.matmul(attn, V)
             return context, attn
 

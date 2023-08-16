@@ -1,6 +1,4 @@
 import os
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import numpy as np
 from Params import args
 import Utils.TimeLogger as logger
@@ -10,8 +8,6 @@ import tensorflow as tf
 from tensorflow.core.protobuf import config_pb2
 import pickle
 from model import Recommender
-# from model_one_graph import Recommender
-# from model_wo_att import Recommender
 import random
 if __name__ == '__main__':
 	logger.saveDefault = True

@@ -9,14 +9,6 @@ import random
 def transpose(mat):
 	coomat = sp.coo_matrix(mat)
 	return csr_matrix(coomat.transpose())
-'''
-def negSamp_fre(temLabel, sampSize, neg_frequency):
-    negset = np.setdiff1d(neg_frequency,temLabel)
-    print(temLabel)
-    negset = np.concatenate([negset,[neg_frequency[0]]*(args.item-len(negset))],axis=-1)
-    return negset
-
-'''
 
 def negSamp_fre(temLabel, sampSize, neg_frequency,pos_los):
     negset = [None] * sampSize
@@ -160,16 +152,6 @@ class DataHandler:
 		return trnMats, maxTime + 1
 	
 	def prepareGlobalData(self):
-		'''
-		adj0 = self.trnMat
-		adj0 = (adj0 != 0).astype(np.float32)
-		adj0Norm = np.reshape(np.array(np.sum(adj0, axis=1)), [-1])
-		for i in range(adj0.shape[0]):
-			for j in range(adj0.indptr[i], adj0.indptr[i+1]):
-				adj0.data[j] /= adj0Norm[i]
-		self.adj = adj0
-		'''
-		####
 		def tran_to_sym(R):
 			adj_mat = sp.dok_matrix((args.user + args.item, args.user + args.item), dtype=np.float32)
 			adj_mat = adj_mat.tolil()
@@ -186,30 +168,6 @@ class DataHandler:
 		print(self.subMat[0],self.subMat[-1])
 
 		self.item_with_pop=[]
-		'''				
-		for i in range(len(self.sequence)):
-			self.item_with_pop.extend(self.sequence[i])
-		'''
-		# print(self.item_with_pop)
-		'''
-		tpadj = list()
-		adjNorm = list()
-		tpadjNorm = list()
-		for kk in range(args.graphNum):
-			adj[kk] = tran_to_sym((adj[kk] != 0).astype(np.float32))
-			# tpadj.append(tran_to_sym(transpose(adj[kk])))
-			adjNorm.append(np.reshape(np.array(np.sum(adj[kk], axis=1)), [-1]))
-			# tpadjNorm[kk] = np.reshape(np.array(np.sum(tpadj[kk], axis=1)), [-1])
-			for i in range(adj[kk].shape[0]):
-				for j in range(adj[kk].indptr[i], adj[kk].indptr[i+1]):
-					adj[kk].data[j] /= adjNorm[kk][i]
-		'''
-		# self.subadj = adj
-		# self.tpsubAdj = tpadj
-		# print("adj",adj)
-		# self.labelP[i] = np.squeeze(np.array(np.sum(adj, axis=0)))
-		# print("labelP",self.labelP)
-
 	def sampleLargeGraph(self, pckUsrs, pckItms=None, sampDepth=2, sampNum=args.graphSampleN, preSamp=False):
 		adj = self.adj
 		tpadj = self.tpadj
