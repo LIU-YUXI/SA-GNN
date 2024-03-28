@@ -183,7 +183,7 @@ class Recommender:
 			# user_weight.append(tf.squeeze(FC(meta2,1,useBias=True,activation='leakyRelu',reg=True,reuse=True,name="meta3")))
 		user_weight=tf.stack(user_weight,axis=0)	
 		for i in range(args.graphNum):
-			sampNum = tf.shape(self.suids[i])[0] // 2 # pair的数量
+			sampNum = tf.shape(self.suids[i])[0] // 2 # number of pairs
 			pckUlat = tf.nn.embedding_lookup(final_user_vector, self.suids[i])
 			pckIlat = tf.nn.embedding_lookup(final_item_vector, self.siids[i])
 			pckUweight =  tf.nn.embedding_lookup(user_weight[i], self.suids[i])
@@ -477,8 +477,8 @@ class Recommender:
 		ret = dict()
 		ret['HR'] = epochHit / num
 		ret['NDCG'] = epochNdcg / num
-		print("epochNdcg1,epochHit1,epochNdcg5,epochHit5",epochNdcg1/ num,epochHit1/ num,epochNdcg5/ num,epochHit5/ num)
-		print("epochNdcg15,epochHit15,epochNdcg20,epochHit20",epochNdcg15/ num,epochHit15/ num,epochNdcg20/ num,epochHit20/ num)
+		print("epochNdcg1:{},epochHit1:{},epochNdcg5:{},epochHit5:{}".format(epochNdcg1/ num,epochHit1/ num,epochNdcg5/ num,epochHit5/ num))
+		print("epochNdcg15:{},epochHit15:{},epochNdcg20:{},epochHit20:{}".format(epochNdcg15/ num,epochHit15/ num,epochNdcg20/ num,epochHit20/ num))
 		return ret
 
 	def calcRes(self, preds, temTst, tstLocs):
@@ -512,7 +512,7 @@ class Recommender:
 	def saveHistory(self):
 		if args.epoch == 0:
 			return
-		with open('History/' + args.save_path + '4.his', 'wb') as fs:# 上次是5
+		with open('History/' + args.save_path + '.his', 'wb') as fs:
 			pickle.dump(self.metrics, fs)
 
 		saver = tf.train.Saver()

@@ -81,8 +81,6 @@ class DataHandler:
 		self.predir = predir
 		self.trnfile = predir + 'trn_mat_time'
 		self.tstfile = predir + 'tst_int'
-		# self.trnposfile = predir + 'train_pos'
-		# self.neg_sequency_file = predir + 'sort'
 		self.sequencefile=predir+'sequence'
 		self.test_dictfile=predir+'test_dict'
 	def LoadData(self):

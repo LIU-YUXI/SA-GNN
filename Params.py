@@ -43,7 +43,7 @@ def parse_args():
 	parser.add_argument('--pos_length', default=200, type=int, help='max length of a sequence')
 	parser.add_argument('--att_size', default=12000, type=int, help='max size of multi att')
 	parser.add_argument('--att_layer', default=4, type=int, help='layer number of multi att')
-	parser.add_argument('--pred_num', default=3, type=int, help='pred number of train')
+	parser.add_argument('--pred_num', default=5, type=int, help='pred number of train')
 	parser.add_argument('--nfs', default=False, type=bool, help='load from nfs')
 	parser.add_argument('--test', default=True, type=bool, help='test or val')
 	parser.add_argument('--ssl', default=True, type=bool, help='use self-supervised learning')
