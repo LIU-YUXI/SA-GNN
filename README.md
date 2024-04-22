@@ -49,6 +49,15 @@ The datasets are in the `./Dataset` folder:
 |--- tst_int    # users to be test (List)
 ```
 
+### Original Data
+
+The original data of our dataset can be found from following links (thanks to their work):
+
+- Yelp: https://www.yelp.com/dataset
+- Amazon-book: https://cseweb.ucsd.edu/~jmcauley/datasets/amazon/links.html
+- Gowalla: [SNAP: Network datasets: Gowalla (stanford.edu)](https://snap.stanford.edu/data/loc-Gowalla.html)
+- Movielens: [MovieLens 10M Dataset | GroupLens](https://grouplens.org/datasets/movielens/10m/)
+
 ## 🚀 Examples to run the codes
 
 You need to create the `./History/` and the `./Models/` directories. The command to train SA-GNN on the Gowalla/MovieLens/Amazon/Yelp dataset is as follows.
