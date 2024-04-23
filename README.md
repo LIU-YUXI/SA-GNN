@@ -58,6 +58,15 @@ The original data of our dataset can be found from following links (thanks to th
 - Gowalla: [SNAP: Network datasets: Gowalla (stanford.edu)](https://snap.stanford.edu/data/loc-Gowalla.html)
 - Movielens: [MovieLens 10M Dataset | GroupLens](https://grouplens.org/datasets/movielens/10m/)
 
+### Methods for preprocessing original data
+
+If you want to process your data into the several data files required for SA-GNN (i.e., `sequence`,`test_dict`,`trn_mat_time`,`tst_int`), you can refer to the following code for preprocessing the raw data of Amazon-book:
+
+1. Download the original data file (for example, `amazon_ratings_Books.csv` from links for original datasets) and run [preprocess_to_trnmat.ipynb](./preprocess_to_trnmat.ipynb) to get the `trn_mat_time` and `tst_int` files, as well as other intermediate files (`train.csv`,`test.csv`).
+2. Run [preprocess_to_sequece.ipynb](./preprocess_to_sequence.ipynb), which reads in the intermediate files (`train.csv` and `test.csv`) and finally generates the `sequence` and `test_dict` files.
+
+You are welcome to modify the preprocessing code as needed to suit your data.
+
 ## 🚀 Examples to run the codes
 
 You need to create the `./History/` and the `./Models/` directories. The command to train SA-GNN on the Gowalla/MovieLens/Amazon/Yelp dataset is as follows.
